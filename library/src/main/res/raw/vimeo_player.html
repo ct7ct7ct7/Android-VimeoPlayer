@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+    <style type="text/css">
+        html, body {
+            height: 100%;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            background-color: #000000;
+            overflow: hidden;
+            position: fixed;
+        }
+    </style>
+
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <script src="https://player.vimeo.com/api/player.js"></script>
+    </head>
+
+    <body>
+        <div id="player"></div>
+    </body>
+
+
+    <script type="text/javascript">
+
+    var jsBridge = window.JsBridge;
+
+    var w = screen.width;
+    var h = (w * 360 / 640);
+
+    var options = {
+        id: <ID>,
+        autoplay: <AUTOPLAY>,
+        byline: <BYLINE>,
+        loop: <LOOP>,
+        muted: <MUTED>,
+        playsinline: <PLAYSINLINE>,
+        portrait: <PORTRAIT>,
+        speed: <SPEED>,
+        title: <TITLE>,
+        transparent: <TRANSPARENT>,
+        color: '<COLOR>',
+        width: w,
+        height: h
+    };
+    var player = new Vimeo.Player('player', options);
+
+    player.on('timeupdate', function (data) {
+        jsBridge.sendVideoCurrentTime(data.seconds);
+    });
+
+    player.on('play', function (data) {
+        jsBridge.sendPlaying(data.duration);
+    });
+
+    player.on('pause', function (data) {
+        jsBridge.sendPaused(data.seconds);
+    });
+
+    player.on('ended', function (data) {
+        jsBridge.sendEnded(data.duration);
+    });
+
+    player.on('loaded', function (data) {
+        jsBridge.sendLoaded(data.id);
+    });
+
+    player.on('volumechange', function (data) {
+        jsBridge.sendVolumeChange(data.volume);
+    });
+
+    player.on('texttrackchange', function (data) {
+        jsBridge.sendTextTrackChange(data.kind,data.label,data.language);
+    });
+
+    player.on('error', function (data) {
+        jsBridge.sendError(data.message,data.method,data.name);
+    });
+
+    player.ready().then(function() {
+        jsBridge.sendReady();
+    });
+
+
+
+
+
+    function seekTo(startSeconds) {
+        player.setCurrentTime(startSeconds)
+    }
+
+    function pauseVideo() {
+        player.pause()
+    }
+
+    function playVideo() {
+        player.play()
+    }
+
+    function loadVideo(videoId) {
+        player.loadVideo(videoId)
+    }
+
+    function setVolume(volumePercent) {
+        player.setVolume(volumePercent)
+    }
+
+    function destroyPlayer() {
+        player.destroy()
+    }
+
+    function setColor(hexColor) {
+        player.setColor(hexColor)
+    }
+
+    function setLoop(loop) {
+        player.setLoop(loop)
+    }
+
+
+    function setPlaybackRate(playbackRate) {
+        player.setPlaybackRate(playbackRate)
+    }
+
+
+
+
+</script>
+
+</html>
