@@ -78,7 +78,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         loadVideoButton.setOnClickListener {
-            vimeoPlayer.loadVideo(59777392)
+            vimeoPlayer.loadVideo(19231868)
         }
 
         colorButton.setOnClickListener {
