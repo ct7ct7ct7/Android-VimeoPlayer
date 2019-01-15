@@ -1,39 +1,88 @@
 package com.ct7ct7ct7.androidvimeoplayersample
 
+import android.graphics.Color
 import android.os.Bundle
-import android.support.design.widget.Snackbar
-import android.support.v7.app.AppCompatActivity;
-import android.view.Menu
-import android.view.MenuItem
+import android.support.v7.app.AppCompatActivity
+import android.widget.SeekBar
+import android.widget.Toast
+import com.ct7ct7ct7.androidvimeoplayer.listeners.VimeoPlayerStateListener
+
 
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
+        vimeoPlayer.initialize(59777392)
+        lifecycle.addObserver(vimeoPlayer)
+
+        vimeoPlayer.addTimeListener { second ->
+            playerCurrentTimeTextView.text = getString(R.string.player_current_time, second.toString())
         }
-    }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.menu_main, menu)
-        return true
-    }
+        vimeoPlayer.addErrorListener { message, method, name ->
+            Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+        }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        return when (item.itemId) {
-            R.id.action_settings -> true
-            else -> super.onOptionsItemSelected(item)
+        vimeoPlayer.addStateListener(object : VimeoPlayerStateListener {
+            override fun onLoaded(videoId: Int) {
+                playerStateTextView.text = getString(R.string.player_state, "onLoaded")
+            }
+
+            override fun onPlaying(duration: Float) {
+                playerStateTextView.text = getString(R.string.player_state, "onPlaying")
+            }
+
+            override fun onPaused(seconds: Float) {
+                playerStateTextView.text = getString(R.string.player_state, "onPaused")
+            }
+
+            override fun onEnded(duration: Float) {
+                playerStateTextView.text = getString(R.string.player_state, "onEnded")
+            }
+        })
+
+        volumeSeekBar.progress = 100
+        volumeSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                var volume = progress.toFloat() / 100
+                vimeoPlayer.setVolume(volume)
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+            }
+        })
+
+        vimeoPlayer.addVolumeListener { volume ->
+            playerVolumeTextView.text = getString(R.string.player_volume, volume.toString())
+        }
+
+        playButton.setOnClickListener {
+            vimeoPlayer.play()
+        }
+
+        pauseButton.setOnClickListener {
+            vimeoPlayer.pause()
+        }
+
+        getCurrentTimeButton.setOnClickListener {
+            Toast.makeText(this, getString(R.string.player_current_time, vimeoPlayer.currentTimeSeconds.toString()), Toast.LENGTH_LONG).show()
+        }
+
+        loadVideoButton.setOnClickListener {
+            vimeoPlayer.loadVideo(19231868)
+        }
+
+        colorButton.setOnClickListener {
+            vimeoPlayer.setTopicColor(Color.GREEN)
         }
     }
 }

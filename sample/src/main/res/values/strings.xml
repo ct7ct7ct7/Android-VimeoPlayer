@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">VimeoPlayer</string>
-    <string name="action_settings">Settings</string>
+
+    <string name="player_state">player state: %1$s</string>
+    <string name="player_current_time">current time: %1$ss</string>
+    <string name="player_volume">volume: %1$s</string>
 </resources>
