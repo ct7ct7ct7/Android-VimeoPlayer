@@ -8,7 +8,7 @@ apply plugin: 'com.jfrog.bintray'
 
 
 group = "com.ct7ct7ct7.androidvimeoplayer"
-version = "1.0.0"
+version = "1.0.1"
 
 def siteUrl = 'https://github.com/ct7ct7ct7/Android-VimeoPlayer'
 def gitUrl = 'https://github.com/ct7ct7ct7/Android-VimeoPlayer'
@@ -51,7 +51,7 @@ install {
         pom {
             project {
                 packaging 'aar'
-                name 'baseui'
+                name libName
                 url siteUrl
                 licenses {
                     license {
