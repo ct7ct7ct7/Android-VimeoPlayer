@@ -9,7 +9,7 @@ Unofficial Vimeo video player library for Android.
 
 ```
 dependencies {
-    implementation 'com.ct7ct7ct7.androidvimeoplayer:library:1.0.0'
+    implementation 'com.ct7ct7ct7.androidvimeoplayer:library:1.0.1'
 }
 ```
 
@@ -34,6 +34,9 @@ dependencies {
 VimeoPlayerView vimeoPlayer = findViewById(R.id.vimeoPlayer);
 getLifecycle().addObserver(vimeoPlayer);
 vimeoPlayer.initialize(59777392);
+
+//If your video is pirvate.
+//vimeoPlayer.initialize({YourPrivateVideoId}, "YourDomain")
 ```
 
 ### **Properties**
@@ -44,7 +47,7 @@ app:loop           | `false`  | Play the video again when it reaches the end.
 app:muted          | `false`  | Mute this video on load.
 app:showTitle      | `true`   | Show the title on the video.
 app:playSinline    | `true`   | Play video inline on mobile devices, to automatically go fullscreen on playback set this parameter to `false`.
-app:portrait       | `true`   | Show the portrait on the video.
+app:showPortrait   | `true`   | Show the portrait on the video.
 app:showByline     | `true`   | Show the byline on the video.
 app:showSpeed      | `false`  | Show the speed controls in the preferences menu and enable playback rate API (available to PRO and Business)
 app:transparent    | `true`   | The responsive player and transparent background are enabled by default, to disable set this parameter to `false`.
@@ -88,6 +91,11 @@ vimeoPlayer.addStateListener(new VimeoPlayerStateListener() {
 
     @Override
     public void onEnded(float duration) {
+        //TODO
+    }
+    
+    @Override
+    public void onInitFailed() {
         //TODO
     }
 });
