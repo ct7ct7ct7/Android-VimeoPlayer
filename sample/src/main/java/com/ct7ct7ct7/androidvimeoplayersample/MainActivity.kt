@@ -18,6 +18,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
+        //vimeoPlayer.initialize({YourPrivateVideoId}, "YourDomain")
         vimeoPlayer.initialize(59777392)
         lifecycle.addObserver(vimeoPlayer)
 
@@ -44,6 +45,10 @@ class MainActivity : AppCompatActivity() {
 
             override fun onEnded(duration: Float) {
                 playerStateTextView.text = getString(R.string.player_state, "onEnded")
+            }
+
+            override fun onInitFailed() {
+                playerStateTextView.text = getString(R.string.player_state, "onInitFailed")
             }
         })
 

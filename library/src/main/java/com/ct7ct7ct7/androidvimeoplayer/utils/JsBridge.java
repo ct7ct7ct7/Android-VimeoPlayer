@@ -89,6 +89,17 @@ public class JsBridge {
     }
 
     @JavascriptInterface
+    public void sendInitFailed() {
+        mainThreadHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                readyListener.onInitFailed();
+            }
+        });
+    }
+
+
+    @JavascriptInterface
     public void sendPlaying(final float duration) {
         playerState = PlayerState.PLAYING;
         if (stateListener != null) {

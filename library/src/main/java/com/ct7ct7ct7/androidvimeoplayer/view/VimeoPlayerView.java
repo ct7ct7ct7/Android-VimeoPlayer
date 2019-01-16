@@ -6,6 +6,7 @@ import android.arch.lifecycle.OnLifecycleEvent;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
@@ -27,7 +28,7 @@ import com.ct7ct7ct7.androidvimeoplayer.listeners.VimeoPlayerVolumeListener;
 
 public class VimeoPlayerView extends FrameLayout implements LifecycleObserver {
     private JsBridge jsBridge;
-    private WebViewVimeoPlayer webViewVimeoPlayer;
+    private VimeoPlayer vimeoPlayer;
     private ProgressBar progressBar;
     private VimeoOptions defaultOptions;
 
@@ -47,11 +48,16 @@ public class VimeoPlayerView extends FrameLayout implements LifecycleObserver {
             public void onReady() {
                 progressBar.setVisibility(View.GONE);
             }
+
+            @Override
+            public void onInitFailed() {
+                progressBar.setVisibility(View.GONE);
+            }
         });
 
         defaultOptions = generateDefaultVimeoOptions(context, attrs);
-        this.webViewVimeoPlayer = new WebViewVimeoPlayer(context);
-        this.addView(webViewVimeoPlayer, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        this.vimeoPlayer = new VimeoPlayer(context);
+        this.addView(vimeoPlayer, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 
         this.progressBar = new ProgressBar(context);
         FrameLayout.LayoutParams progressLayoutParams = new FrameLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
@@ -90,19 +96,19 @@ public class VimeoPlayerView extends FrameLayout implements LifecycleObserver {
     }
 
     public void loadVideo(int videoId) {
-        webViewVimeoPlayer.loadVideo(videoId);
+        vimeoPlayer.loadVideo(videoId);
     }
 
     public void play() {
-        webViewVimeoPlayer.play();
+        vimeoPlayer.play();
     }
 
     public void pause() {
-        webViewVimeoPlayer.pause();
+        vimeoPlayer.pause();
     }
 
     public void seekTo(float time) {
-        webViewVimeoPlayer.seekTo(time);
+        vimeoPlayer.seekTo(time);
     }
 
     /**
@@ -110,15 +116,15 @@ public class VimeoPlayerView extends FrameLayout implements LifecycleObserver {
      */
     public void setVolume(float volume) {
         if (volume > 1) volume = 1;
-        webViewVimeoPlayer.setVolume(volume);
+        vimeoPlayer.setVolume(volume);
     }
 
     public void setTopicColor(int color) {
-        webViewVimeoPlayer.setTopicColor(Utils.colorToHex(color));
+        vimeoPlayer.setTopicColor(Utils.colorToHex(color));
     }
 
     public void setLoop(boolean loop) {
-        webViewVimeoPlayer.setLoop(loop);
+        vimeoPlayer.setLoop(loop);
     }
 
     /**
@@ -128,7 +134,7 @@ public class VimeoPlayerView extends FrameLayout implements LifecycleObserver {
         if (playbackRate > 2) playbackRate = 2;
         if (playbackRate < 0.5) playbackRate = 0.5f;
 
-        webViewVimeoPlayer.setPlaybackRate(playbackRate);
+        vimeoPlayer.setPlaybackRate(playbackRate);
     }
 
     public float getCurrentTimeSeconds() {
@@ -141,12 +147,12 @@ public class VimeoPlayerView extends FrameLayout implements LifecycleObserver {
 
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     public void onDestroy() {
-        webViewVimeoPlayer.destroyPlayer();
+        vimeoPlayer.destroyPlayer();
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
     public void onStop() {
-        webViewVimeoPlayer.pause();
+        vimeoPlayer.pause();
     }
 
     private VimeoOptions generateDefaultVimeoOptions(Context context, AttributeSet attrs) {
@@ -160,7 +166,7 @@ public class VimeoPlayerView extends FrameLayout implements LifecycleObserver {
             boolean loop = attributes.getBoolean(R.styleable.VimeoPlayerView_loop, false);
             boolean muted = attributes.getBoolean(R.styleable.VimeoPlayerView_muted, false);
             boolean playSinline = attributes.getBoolean(R.styleable.VimeoPlayerView_playSinline, true);
-            boolean portrait = attributes.getBoolean(R.styleable.VimeoPlayerView_portrait, true);
+            boolean portrait = attributes.getBoolean(R.styleable.VimeoPlayerView_showPortrait, true);
             boolean speed = attributes.getBoolean(R.styleable.VimeoPlayerView_showSpeed, false);
             boolean title = attributes.getBoolean(R.styleable.VimeoPlayerView_showTitle, true);
             boolean transparent = attributes.getBoolean(R.styleable.VimeoPlayerView_transparent, true);
@@ -181,7 +187,11 @@ public class VimeoPlayerView extends FrameLayout implements LifecycleObserver {
         return options;
     }
 
+    public void initialize(int videoId, @Nullable String baseUrl) {
+        vimeoPlayer.initialize(jsBridge, defaultOptions, videoId, baseUrl);
+    }
+
     public void initialize(int videoId) {
-        webViewVimeoPlayer.initialize(jsBridge, defaultOptions, videoId);
+        this.initialize(videoId, null);
     }
 }

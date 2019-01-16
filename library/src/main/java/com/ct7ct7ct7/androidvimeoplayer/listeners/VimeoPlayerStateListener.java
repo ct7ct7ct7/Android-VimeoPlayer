@@ -8,4 +8,6 @@ public interface VimeoPlayerStateListener {
     void onPaused(float seconds);
 
     void onEnded(float duration);
+
+    void onInitFailed();
 }

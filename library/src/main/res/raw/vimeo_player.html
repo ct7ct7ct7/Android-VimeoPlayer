@@ -78,8 +78,11 @@
         jsBridge.sendError(data.message,data.method,data.name);
     });
 
-    player.ready().then(function() {
+    player.ready().then(function () {
         jsBridge.sendReady();
+    }).catch(function (error) {
+        jsBridge.sendInitFailed();
+        jsBridge.sendError('Init failed','init','init');
     });
 
 

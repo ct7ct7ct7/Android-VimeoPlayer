@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
@@ -18,18 +19,18 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-public class WebViewVimeoPlayer extends WebView {
+public class VimeoPlayer extends WebView {
     private Handler mainThreadHandler;
 
-    public WebViewVimeoPlayer(Context context) {
+    public VimeoPlayer(Context context) {
         this(context, null);
     }
 
-    public WebViewVimeoPlayer(Context context, AttributeSet attrs) {
+    public VimeoPlayer(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public WebViewVimeoPlayer(Context context, AttributeSet attrs, int defStyleAttr) {
+    public VimeoPlayer(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         this.mainThreadHandler = new Handler(Looper.getMainLooper());
     }
@@ -128,7 +129,7 @@ public class WebViewVimeoPlayer extends WebView {
     }
 
 
-    private void initWebView(JsBridge jsBridge, VimeoOptions vimeoOptions, int videoId) {
+    private void initWebView(JsBridge jsBridge, VimeoOptions vimeoOptions, int videoId, @Nullable String baseUrl) {
         WebSettings settings = this.getSettings();
         settings.setJavaScriptEnabled(true);
         settings.setCacheMode(WebSettings.LOAD_NO_CACHE);
@@ -150,7 +151,7 @@ public class WebViewVimeoPlayer extends WebView {
                 .replace("<COLOR>", Utils.colorToHex(vimeoOptions.color));
 
 
-        this.loadData(formattedString, "text/html", "utf-8");
+        this.loadDataWithBaseURL(baseUrl, formattedString, "text/html", "utf-8", null);
 
         // if the video's thumbnail is not in memory, show a black screen
         this.setWebChromeClient(new WebChromeClient() {
@@ -187,7 +188,7 @@ public class WebViewVimeoPlayer extends WebView {
     }
 
 
-    protected void initialize(JsBridge jsBridge, VimeoOptions vimeoOptions, int videoId) {
-        initWebView(jsBridge, vimeoOptions, videoId);
+    protected void initialize(JsBridge jsBridge, VimeoOptions vimeoOptions, int videoId, @Nullable String baseUrl) {
+        initWebView(jsBridge, vimeoOptions, videoId, baseUrl);
     }
 }
