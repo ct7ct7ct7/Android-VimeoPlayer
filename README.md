@@ -35,8 +35,9 @@ VimeoPlayerView vimeoPlayer = findViewById(R.id.vimeoPlayer);
 getLifecycle().addObserver(vimeoPlayer);
 vimeoPlayer.initialize(59777392);
 
-//If your video is pirvate.
-//vimeoPlayer.initialize({YourPrivateVideoId}, "YourDomain")
+//If video is pirvate.
+//vimeoPlayer.initialize({PrivateVideoId}, "YourUrl")
+
 ```
 
 ### **Properties**
