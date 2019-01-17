@@ -96,6 +96,15 @@ public class JsBridge {
                 readyListener.onInitFailed();
             }
         });
+
+        if (stateListener != null) {
+            mainThreadHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    stateListener.onInitFailed();
+                }
+            });
+        }
     }
 
 
