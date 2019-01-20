@@ -9,7 +9,7 @@ Unofficial Vimeo video player library for Android.
 
 ```
 dependencies {
-    implementation 'com.ct7ct7ct7.androidvimeoplayer:library:1.0.2'
+    implementation 'com.ct7ct7ct7.androidvimeoplayer:library:1.0.3'
 }
 ```
 
@@ -35,8 +35,12 @@ VimeoPlayerView vimeoPlayer = findViewById(R.id.vimeoPlayer);
 getLifecycle().addObserver(vimeoPlayer);
 vimeoPlayer.initialize(59777392);
 
+//If video is open. but limit playing at embedded.
+vimeoPlayer.initialize({YourPrivateVideoId}, "SettingsEmbeddedUrl")
+
 //If video is pirvate.
-//vimeoPlayer.initialize({PrivateVideoId}, "YourUrl")
+vimeoPlayer.initialize({YourPrivateVideoId},"VideoHashKey", "SettingsEmbeddedUrl")
+
 
 ```
 
