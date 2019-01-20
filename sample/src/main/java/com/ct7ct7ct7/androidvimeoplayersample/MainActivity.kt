@@ -19,8 +19,8 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         vimeoPlayer.initialize(59777392)
-        //vimeoPlayer.initialize({YourPrivateVideoId}, "YourDomain")
-        //vimeoPlayer.initialize({YourPrivateVideoId},"VideoHashKey", "YourDomain")
+        //vimeoPlayer.initialize({YourPrivateVideoId}, "SettingsEmbeddedUrl")
+        //vimeoPlayer.initialize({YourPrivateVideoId},"VideoHashKey", "SettingsEmbeddedUrl")
 
         lifecycle.addObserver(vimeoPlayer)
 
