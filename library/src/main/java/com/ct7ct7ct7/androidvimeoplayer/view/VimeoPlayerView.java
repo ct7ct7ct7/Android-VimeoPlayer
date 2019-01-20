@@ -6,7 +6,6 @@ import android.arch.lifecycle.OnLifecycleEvent;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
-import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
@@ -187,11 +186,27 @@ public class VimeoPlayerView extends FrameLayout implements LifecycleObserver {
         return options;
     }
 
-    public void initialize(int videoId, @Nullable String baseUrl) {
-        vimeoPlayer.initialize(jsBridge, defaultOptions, videoId, baseUrl);
+    /**
+     * @param videoId the video id.
+     * @param hashKey if your video is private, you MUST pass the private video hash key.
+     * @param baseUrl settings embedded url. e.g. https://yourdomain
+     * */
+    public void initialize(int videoId, String hashKey, String baseUrl) {
+        vimeoPlayer.initialize(jsBridge, defaultOptions, videoId, hashKey, baseUrl);
     }
 
+    /**
+     * @param videoId the video id.
+     * @param baseUrl settings embedded url. e.g. https://yourdomain
+     * */
+    public void initialize(int videoId, String baseUrl) {
+        vimeoPlayer.initialize(jsBridge, defaultOptions, videoId, null, baseUrl);
+    }
+
+    /**
+     * @param videoId the video id.
+     * */
     public void initialize(int videoId) {
-        this.initialize(videoId, null);
+        this.initialize(videoId, null, null);
     }
 }

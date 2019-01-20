@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
@@ -129,7 +128,7 @@ public class VimeoPlayer extends WebView {
     }
 
 
-    private void initWebView(JsBridge jsBridge, VimeoOptions vimeoOptions, int videoId, @Nullable String baseUrl) {
+    private void initWebView(JsBridge jsBridge, VimeoOptions vimeoOptions, int videoId, String hashKey, String baseUrl) {
         WebSettings settings = this.getSettings();
         settings.setJavaScriptEnabled(true);
         settings.setCacheMode(WebSettings.LOAD_NO_CACHE);
@@ -137,8 +136,13 @@ public class VimeoPlayer extends WebView {
         this.addJavascriptInterface(jsBridge, "JsBridge");
 
         final String unformattedString = readVimeoPlayerHTMLFromFile();
+        String videoUrl = "https://vimeo.com/" + videoId;
+        if (hashKey != null) {
+            videoUrl += "/" + hashKey;
+        }
+
         final String formattedString = unformattedString
-                .replace("<ID>", String.valueOf(videoId))
+                .replace("<VIDEO_URL>", videoUrl)
                 .replace("<AUTOPLAY>", String.valueOf(vimeoOptions.autoPlay))
                 .replace("<BYLINE>", String.valueOf(vimeoOptions.byline))
                 .replace("<LOOP>", String.valueOf(vimeoOptions.loop))
@@ -188,7 +192,7 @@ public class VimeoPlayer extends WebView {
     }
 
 
-    protected void initialize(JsBridge jsBridge, VimeoOptions vimeoOptions, int videoId, @Nullable String baseUrl) {
-        initWebView(jsBridge, vimeoOptions, videoId, baseUrl);
+    protected void initialize(JsBridge jsBridge, VimeoOptions vimeoOptions, int videoId, String hashKey, String baseUrl) {
+        initWebView(jsBridge, vimeoOptions, videoId, hashKey, baseUrl);
     }
 }
