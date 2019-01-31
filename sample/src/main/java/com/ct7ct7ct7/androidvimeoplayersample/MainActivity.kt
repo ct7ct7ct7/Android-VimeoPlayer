@@ -33,10 +33,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         vimeoPlayer.addStateListener(object : VimeoPlayerStateListener {
-            override fun onLoaded(videoId: Int) {
-                playerStateTextView.text = getString(R.string.player_state, "onLoaded")
-            }
-
             override fun onPlaying(duration: Float) {
                 playerStateTextView.text = getString(R.string.player_state, "onPlaying")
             }
@@ -48,11 +44,11 @@ class MainActivity : AppCompatActivity() {
             override fun onEnded(duration: Float) {
                 playerStateTextView.text = getString(R.string.player_state, "onEnded")
             }
-
-            override fun onInitFailed() {
-                playerStateTextView.text = getString(R.string.player_state, "onInitFailed")
-            }
         })
+
+        vimeoPlayer.setFullscreenClickListener {
+            println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>" +123)
+        }
 
         volumeSeekBar.progress = 100
         volumeSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {

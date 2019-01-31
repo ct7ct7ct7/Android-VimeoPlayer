@@ -7,7 +7,7 @@ public class VimeoOptions {
     public boolean byline = true;
     public boolean loop = false;
     public boolean muted = false;
-    public boolean playSinline = true;
+    public boolean originalControls = false;
     public boolean portrait = true;
     public boolean speed = false;
     public boolean title = true;

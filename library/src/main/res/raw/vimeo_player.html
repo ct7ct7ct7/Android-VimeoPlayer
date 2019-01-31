@@ -47,42 +47,48 @@
     var player = new Vimeo.Player('player', options);
 
     player.on('timeupdate', function (data) {
-        jsBridge.sendVideoCurrentTime(data.seconds);
+        jsBridge.sendVideoCurrentTime(data.seconds)
     });
 
     player.on('play', function (data) {
-        jsBridge.sendPlaying(data.duration);
+        jsBridge.sendPlaying(data.duration)
     });
 
     player.on('pause', function (data) {
-        jsBridge.sendPaused(data.seconds);
+        jsBridge.sendPaused(data.seconds)
     });
 
     player.on('ended', function (data) {
-        jsBridge.sendEnded(data.duration);
-    });
-
-    player.on('loaded', function (data) {
-        jsBridge.sendLoaded(data.id);
+        jsBridge.sendEnded(data.duration)
     });
 
     player.on('volumechange', function (data) {
-        jsBridge.sendVolumeChange(data.volume);
+        jsBridge.sendVolumeChange(data.volume)
     });
 
     player.on('texttrackchange', function (data) {
-        jsBridge.sendTextTrackChange(data.kind,data.label,data.language);
+        jsBridge.sendTextTrackChange(data.kind,data.label,data.language)
     });
 
     player.on('error', function (data) {
-        jsBridge.sendError(data.message,data.method,data.name);
+        jsBridge.sendError(data.message,data.method,data.name)
     });
 
     player.ready().then(function () {
-        jsBridge.sendReady();
+        player.getDuration().then(function(duration) {
+            player.getVideoTitle().then(function(title) {
+                jsBridge.sendReady(title,duration)
+            }).catch(function(error) {
+                jsBridge.sendInitFailed()
+                jsBridge.sendError('Init failed','init','init')
+            })
+        }).catch(function(error) {
+            jsBridge.sendInitFailed()
+            jsBridge.sendError('Init failed','init','init')
+        })
     }).catch(function (error) {
-        jsBridge.sendInitFailed();
-        jsBridge.sendError('Init failed','init','init');
+        jsBridge.sendInitFailed()
+        jsBridge.sendError('Init failed','init','init')
     });
 
 
@@ -121,14 +127,21 @@
         player.setLoop(loop)
     }
 
-
     function setPlaybackRate(playbackRate) {
         player.setPlaybackRate(playbackRate)
     }
 
-
-
-
-</script>
+    function playTwoStage() {
+        player.play().then(function() {
+            player.pause().then(function() {
+                player.play()
+            }).catch(function(error) {
+                jsBridge.sendError(data.message,data.method,data.name)
+            })
+        }).catch(function(error) {
+            jsBridge.sendError(data.message,data.method,data.name)
+        })
+    }
+    </script>
 
 </html>

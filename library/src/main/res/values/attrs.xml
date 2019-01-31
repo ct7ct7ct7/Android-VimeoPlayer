@@ -6,7 +6,7 @@
         <attr name="showByline" format="boolean"/>
         <attr name="loop" format="boolean"/>
         <attr name="muted" format="boolean"/>
-        <attr name="playSinline" format="boolean"/>
+        <attr name="showOriginalControls" format="boolean"/>
         <attr name="showPortrait" format="boolean"/>
         <attr name="showSpeed" format="boolean"/>
         <attr name="showTitle" format="boolean"/>
