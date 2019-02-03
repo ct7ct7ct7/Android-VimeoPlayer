@@ -224,6 +224,8 @@ public class VimeoPlayerView extends FrameLayout implements LifecycleObserver {
             boolean originalControls = attributes.getBoolean(R.styleable.VimeoPlayerView_showOriginalControls, false);
             boolean title = attributes.getBoolean(R.styleable.VimeoPlayerView_showTitle, true);
             int color = attributes.getColor(R.styleable.VimeoPlayerView_topicColor, defaultColor);
+            boolean settingsOption = attributes.getBoolean(R.styleable.VimeoPlayerView_showSettingsOption, false);
+            boolean fullscreenOption = attributes.getBoolean(R.styleable.VimeoPlayerView_showFullscreenOption, false);
 
             options.autoPlay = autoPlay;
             options.loop = loop;
@@ -231,6 +233,8 @@ public class VimeoPlayerView extends FrameLayout implements LifecycleObserver {
             options.originalControls = originalControls;
             options.title = title;
             options.color = color;
+            options.settingsOption = settingsOption;
+            options.fullscreenOption = fullscreenOption;
         }
 
         return options;

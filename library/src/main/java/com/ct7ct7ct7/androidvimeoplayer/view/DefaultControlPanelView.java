@@ -160,6 +160,9 @@ public class DefaultControlPanelView {
                 showControls(true);
             }
         });
+
+        vimeoSettingsButton.setVisibility(vimeoPlayerView.defaultOptions.settingsOption ? View.VISIBLE : View.GONE);
+        vimeoFullscreenButton.setVisibility(vimeoPlayerView.defaultOptions.fullscreenOption ? View.VISIBLE : View.GONE);
     }
 
     private final Handler handler = new Handler(Looper.getMainLooper());
