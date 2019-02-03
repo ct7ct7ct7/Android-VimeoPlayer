@@ -203,4 +203,9 @@ public class DefaultControlPanelView {
     public void setSettingsClickListener(final View.OnClickListener onClickListener) {
         vimeoSettingsButton.setOnClickListener(onClickListener);
     }
+
+    public void setTopicColor(int color){
+        vimeoSeekBar.getThumb().setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+        vimeoSeekBar.getProgressDrawable().setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+    }
 }

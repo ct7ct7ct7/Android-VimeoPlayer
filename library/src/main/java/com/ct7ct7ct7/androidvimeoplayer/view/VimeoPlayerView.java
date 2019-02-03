@@ -36,6 +36,10 @@ public class VimeoPlayerView extends FrameLayout implements LifecycleObserver {
     private ProgressBar progressBar;
     private DefaultControlPanelView defaultControlPanelView;
     private String title;
+    private int videoId;
+    private String hashKey;
+    private String baseUrl;
+
 
     public VimeoPlayerView(Context context) {
         this(context, null);
@@ -125,11 +129,16 @@ public class VimeoPlayerView extends FrameLayout implements LifecycleObserver {
     }
 
     public void loadVideo(int videoId) {
+        this.videoId = videoId;
         vimeoPlayer.loadVideo(videoId);
     }
 
     public void play() {
         vimeoPlayer.play();
+    }
+
+    protected void playTwoStage() {
+        vimeoPlayer.playTwoStage();
     }
 
     public void pause() {
@@ -148,17 +157,47 @@ public class VimeoPlayerView extends FrameLayout implements LifecycleObserver {
         vimeoPlayer.setVolume(volume);
     }
 
+    public int getVideoId() {
+        return videoId;
+    }
+
+    public String getBaseUrl() {
+        return baseUrl;
+    }
+
+    public String getHashKey() {
+        return hashKey;
+    }
+
     public String getVideoTitle() {
         return title;
     }
 
     public void setTopicColor(int color) {
+        defaultOptions.color = color;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            progressBar.setIndeterminateTintList(ColorStateList.valueOf(color));
+        }
         vimeoPlayer.setTopicColor(Utils.colorToHex(color));
+        if(defaultControlPanelView!=null){
+            defaultControlPanelView.setTopicColor(color);
+        }
+    }
+
+    public int getTopicColor() {
+        return defaultOptions.color;
     }
 
     public void setLoop(boolean loop) {
+        defaultOptions.loop = loop;
         vimeoPlayer.setLoop(loop);
     }
+
+    public boolean getLoop() {
+        return defaultOptions.loop;
+    }
+
+
 
     public void setFullscreenClickListener(final OnClickListener onClickListener) {
         if (defaultControlPanelView != null) {
@@ -166,8 +205,9 @@ public class VimeoPlayerView extends FrameLayout implements LifecycleObserver {
         }
     }
 
-    public void showFullscreenButton(boolean show) {
+    public void showFullscreenOption(boolean show) {
         if (defaultControlPanelView != null) {
+            defaultOptions.fullscreenOption = show;
             defaultControlPanelView.setFullscreenVisibility(show ? View.VISIBLE : View.GONE);
         }
     }
@@ -178,10 +218,19 @@ public class VimeoPlayerView extends FrameLayout implements LifecycleObserver {
         }
     }
 
-    public void showSettingsButton(boolean show) {
+    public void showSettingsOption(boolean show) {
         if (defaultControlPanelView != null) {
+            defaultOptions.settingsOption = show;
             defaultControlPanelView.setSettingsVisibility(show ? View.VISIBLE : View.GONE);
         }
+    }
+
+    protected boolean getSettingsVisibility(){
+        return defaultOptions.settingsOption;
+    }
+
+    protected boolean getFullscreenVisibility(){
+        return defaultOptions.fullscreenOption;
     }
 
     /**
@@ -246,6 +295,9 @@ public class VimeoPlayerView extends FrameLayout implements LifecycleObserver {
      * @param baseUrl settings embedded url. e.g. https://yourdomain
      */
     public void initialize(int videoId, String hashKey, String baseUrl) {
+        this.videoId = videoId;
+        this.hashKey = hashKey;
+        this.baseUrl = baseUrl;
         vimeoPlayer.initialize(jsBridge, defaultOptions, videoId, hashKey, baseUrl);
     }
 
@@ -254,6 +306,8 @@ public class VimeoPlayerView extends FrameLayout implements LifecycleObserver {
      * @param baseUrl settings embedded url. e.g. https://yourdomain
      */
     public void initialize(int videoId, String baseUrl) {
+        this.videoId = videoId;
+        this.baseUrl = baseUrl;
         vimeoPlayer.initialize(jsBridge, defaultOptions, videoId, null, baseUrl);
     }
 
@@ -261,6 +315,7 @@ public class VimeoPlayerView extends FrameLayout implements LifecycleObserver {
      * @param videoId the video id.
      */
     public void initialize(int videoId) {
+        this.videoId = videoId;
         this.initialize(videoId, null, null);
     }
 }

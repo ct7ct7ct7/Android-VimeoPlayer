@@ -1,17 +1,22 @@
 package com.ct7ct7ct7.androidvimeoplayersample
 
+import android.app.Activity
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.widget.SeekBar
 import android.widget.Toast
 import com.ct7ct7ct7.androidvimeoplayer.listeners.VimeoPlayerStateListener
+import com.ct7ct7ct7.androidvimeoplayer.model.PlayerState
+import com.ct7ct7ct7.androidvimeoplayer.view.VimeoPlayerActivity
 
 
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
+    var REQUEST_CODE = 1234
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,7 +52,8 @@ class MainActivity : AppCompatActivity() {
         })
 
         vimeoPlayer.setFullscreenClickListener {
-            //TODO
+            vimeoPlayer.pause()
+            startActivityForResult(VimeoPlayerActivity.createIntent(this, vimeoPlayer), REQUEST_CODE)
         }
 
         vimeoPlayer.setSettingsClickListener {
@@ -89,7 +95,22 @@ class MainActivity : AppCompatActivity() {
         }
 
         colorButton.setOnClickListener {
-            vimeoPlayer.setTopicColor(Color.GREEN)
+            vimeoPlayer.topicColor = Color.GREEN
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE) {
+            var playAt = data!!.getFloatExtra(VimeoPlayerActivity.RESULT_STATE_VIDEO_PLAY_AT, 0f)
+            vimeoPlayer.seekTo(playAt)
+
+            var playerState = PlayerState.valueOf(data!!.getStringExtra(VimeoPlayerActivity.RESULT_STATE_PLAYER_STATE))
+            when (playerState) {
+                PlayerState.PLAYING -> vimeoPlayer.play()
+                PlayerState.PAUSED -> vimeoPlayer.pause()
+            }
         }
     }
 }
