@@ -47,7 +47,11 @@ class MainActivity : AppCompatActivity() {
         })
 
         vimeoPlayer.setFullscreenClickListener {
-            println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>" +123)
+            //TODO
+        }
+
+        vimeoPlayer.setSettingsClickListener {
+            //TODO
         }
 
         volumeSeekBar.progress = 100

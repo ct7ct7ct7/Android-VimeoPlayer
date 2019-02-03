@@ -9,8 +9,6 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Build;
-import android.os.Handler;
-import android.os.Looper;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
@@ -18,7 +16,6 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 
-import com.ct7ct7ct7.androidvimeoplayer.listeners.ViemoFullscreenClickListener;
 import com.ct7ct7ct7.androidvimeoplayer.listeners.VimeoPlayerErrorListener;
 import com.ct7ct7ct7.androidvimeoplayer.listeners.VimeoPlayerReadyListener;
 import com.ct7ct7ct7.androidvimeoplayer.model.PlayerState;
@@ -57,8 +54,8 @@ public class VimeoPlayerView extends FrameLayout implements LifecycleObserver {
             public void onReady(String t, float duration) {
                 title = t;
                 progressBar.setVisibility(View.GONE);
-                if(!defaultOptions.originalControls){
-                    if(defaultOptions.autoPlay){
+                if (!defaultOptions.originalControls) {
+                    if (defaultOptions.autoPlay) {
                         vimeoPlayer.playTwoStage();
                         defaultControlPanelView.dismissControls(4000);
                     }
@@ -163,8 +160,28 @@ public class VimeoPlayerView extends FrameLayout implements LifecycleObserver {
         vimeoPlayer.setLoop(loop);
     }
 
-    public void setFullscreenClickListener(final ViemoFullscreenClickListener fullscreenClickListener) {
-        defaultControlPanelView.setViemoFullscreenClickListener(fullscreenClickListener);
+    public void setFullscreenClickListener(final OnClickListener onClickListener) {
+        if (defaultControlPanelView != null) {
+            defaultControlPanelView.setFullscreenClickListener(onClickListener);
+        }
+    }
+
+    public void showFullscreenButton(boolean show) {
+        if (defaultControlPanelView != null) {
+            defaultControlPanelView.setFullscreenVisibility(show ? View.VISIBLE : View.GONE);
+        }
+    }
+
+    public void setSettingsClickListener(final OnClickListener onClickListener) {
+        if (defaultControlPanelView != null) {
+            defaultControlPanelView.setSettingsClickListener(onClickListener);
+        }
+    }
+
+    public void showSettingsButton(boolean show) {
+        if (defaultControlPanelView != null) {
+            defaultControlPanelView.setSettingsVisibility(show ? View.VISIBLE : View.GONE);
+        }
     }
 
     /**
@@ -202,25 +219,17 @@ public class VimeoPlayerView extends FrameLayout implements LifecycleObserver {
             TypedArray attributes = context.obtainStyledAttributes(attrs, R.styleable.VimeoPlayerView);
 
             boolean autoPlay = attributes.getBoolean(R.styleable.VimeoPlayerView_autoPlay, false);
-            boolean byline = attributes.getBoolean(R.styleable.VimeoPlayerView_showByline, true);
             boolean loop = attributes.getBoolean(R.styleable.VimeoPlayerView_loop, false);
             boolean muted = attributes.getBoolean(R.styleable.VimeoPlayerView_muted, false);
             boolean originalControls = attributes.getBoolean(R.styleable.VimeoPlayerView_showOriginalControls, false);
-            boolean portrait = attributes.getBoolean(R.styleable.VimeoPlayerView_showPortrait, true);
-            boolean speed = attributes.getBoolean(R.styleable.VimeoPlayerView_showSpeed, false);
             boolean title = attributes.getBoolean(R.styleable.VimeoPlayerView_showTitle, true);
-            boolean transparent = attributes.getBoolean(R.styleable.VimeoPlayerView_transparent, true);
             int color = attributes.getColor(R.styleable.VimeoPlayerView_topicColor, defaultColor);
 
             options.autoPlay = autoPlay;
-            options.byline = byline;
             options.loop = loop;
             options.muted = muted;
             options.originalControls = originalControls;
-            options.portrait = portrait;
-            options.speed = speed;
             options.title = title;
-            options.transparent = transparent;
             options.color = color;
         }
 

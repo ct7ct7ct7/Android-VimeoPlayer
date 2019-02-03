@@ -160,14 +160,10 @@ public class VimeoPlayer extends WebView {
         final String formattedString = unformattedString
                 .replace("<VIDEO_URL>", videoUrl)
                 .replace("<AUTOPLAY>", String.valueOf(autoPlay))
-                .replace("<BYLINE>", String.valueOf(vimeoOptions.byline))
                 .replace("<LOOP>", String.valueOf(vimeoOptions.loop))
                 .replace("<MUTED>", String.valueOf(vimeoOptions.muted))
                 .replace("<PLAYSINLINE>", String.valueOf(vimeoOptions.originalControls))
-                .replace("<PORTRAIT>", String.valueOf(vimeoOptions.portrait))
-                .replace("<SPEED>", String.valueOf(vimeoOptions.speed))
                 .replace("<TITLE>", String.valueOf(vimeoOptions.title))
-                .replace("<TRANSPARENT>", String.valueOf(vimeoOptions.transparent))
                 .replace("<COLOR>", Utils.colorToHex(vimeoOptions.color));
 
 

@@ -1,18 +1,15 @@
 package com.ct7ct7ct7.androidvimeoplayer.view;
 
-import android.animation.Animator;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.View;
-import android.view.ViewPropertyAnimator;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.ct7ct7ct7.androidvimeoplayer.R;
-import com.ct7ct7ct7.androidvimeoplayer.listeners.ViemoFullscreenClickListener;
 import com.ct7ct7ct7.androidvimeoplayer.listeners.VimeoPlayerReadyListener;
 import com.ct7ct7ct7.androidvimeoplayer.listeners.VimeoPlayerStateListener;
 import com.ct7ct7ct7.androidvimeoplayer.listeners.VimeoPlayerTimeListener;
@@ -30,7 +27,6 @@ public class DefaultControlPanelView {
     private ImageView vimeoReplayButton;
     private TextView vimeoTitleTextView;
     private View controlsRootView;
-    private ViewPropertyAnimator animator;
     private boolean ended = false;
 
     public DefaultControlPanelView(final VimeoPlayerView vimeoPlayerView) {
@@ -56,6 +52,7 @@ public class DefaultControlPanelView {
             @Override
             public void onClick(View v) {
                 vimeoPlayerView.pause();
+                dismissControls(4000);
             }
         });
         vimeoPlayButton.setOnClickListener(new View.OnClickListener() {
@@ -113,7 +110,6 @@ public class DefaultControlPanelView {
             public void onPaused(float seconds) {
                 if (ended) {
                     vimeoPanelView.setBackgroundColor(Color.BLACK);
-                    showControls(100, false);
                     vimeoReplayButton.setVisibility(View.VISIBLE);
                     vimeoPauseButton.setVisibility(View.GONE);
                     vimeoPlayButton.setVisibility(View.GONE);
@@ -121,13 +117,13 @@ public class DefaultControlPanelView {
                     vimeoReplayButton.setVisibility(View.GONE);
                     vimeoPauseButton.setVisibility(View.GONE);
                     vimeoPlayButton.setVisibility(View.VISIBLE);
-                    dismissControls(4000);
                 }
             }
 
             @Override
             public void onEnded(float duration) {
                 ended = true;
+                showControls(false);
             }
         });
 
@@ -147,7 +143,7 @@ public class DefaultControlPanelView {
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
                 vimeoPlayerView.pause();
-                showControls(100, false);
+                showControls(false);
             }
 
             @Override
@@ -161,87 +157,47 @@ public class DefaultControlPanelView {
         vimeoPanelView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showControls(300, true);
+                showControls(true);
             }
         });
     }
 
+    private final Handler handler = new Handler(Looper.getMainLooper());
+    private final Runnable dismissRunnable = new Runnable() {
+        @Override
+        public void run() {
+            controlsRootView.setVisibility(View.GONE);
+        }
+    };
 
     public void dismissControls(final int duration) {
-        if (animator != null) {
-            animator.cancel();
-        }
+        handler.removeCallbacks(dismissRunnable);
 
-        animator = controlsRootView.animate()
-                .alpha(0f)
-                .setDuration(duration)
-                .setListener(new Animator.AnimatorListener() {
-                    @Override
-                    public void onAnimationStart(Animator animator) {
-
-                    }
-
-                    @Override
-                    public void onAnimationEnd(Animator animator) {
-                        controlsRootView.setVisibility(View.GONE);
-                    }
-
-                    @Override
-                    public void onAnimationCancel(Animator animator) {
-                        animator.removeAllListeners();
-                    }
-
-                    @Override
-                    public void onAnimationRepeat(Animator animator) {
-                    }
-                });
-        animator.start();
+        handler.postDelayed(dismissRunnable, duration);
     }
 
-    public void showControls(final int duration, final boolean autoMask) {
-        if (animator != null) {
-            animator.cancel();
+    public void showControls(final boolean autoMask) {
+        handler.removeCallbacks(dismissRunnable);
+
+        controlsRootView.setVisibility(View.VISIBLE);
+        if (autoMask) {
+            dismissControls(3000);
         }
-
-        animator = controlsRootView.animate()
-                .alpha(1f)
-                .setDuration(duration)
-                .setListener(new Animator.AnimatorListener() {
-                    @Override
-                    public void onAnimationStart(Animator animator) {
-                        controlsRootView.setVisibility(View.VISIBLE);
-                    }
-
-                    @Override
-                    public void onAnimationEnd(Animator animator) {
-                        if (autoMask) {
-                            new Handler().postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    dismissControls(2000);
-                                }
-                            },3000);
-                        }
-                    }
-
-                    @Override
-                    public void onAnimationCancel(Animator animator) {
-                        animator.removeAllListeners();
-                    }
-
-                    @Override
-                    public void onAnimationRepeat(Animator animator) {
-                    }
-                });
-        animator.start();
     }
 
-    public void setViemoFullscreenClickListener(final ViemoFullscreenClickListener fullscreenClickListener) {
-        vimeoFullscreenButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                fullscreenClickListener.onClick(v);
-            }
-        });
+    public void setFullscreenVisibility(int value) {
+        vimeoFullscreenButton.setVisibility(value);
+    }
+
+    public void setFullscreenClickListener(final View.OnClickListener onClickListener) {
+        vimeoFullscreenButton.setOnClickListener(onClickListener);
+    }
+
+    public void setSettingsVisibility(int value) {
+        vimeoSettingsButton.setVisibility(value);
+    }
+
+    public void setSettingsClickListener(final View.OnClickListener onClickListener) {
+        vimeoSettingsButton.setOnClickListener(onClickListener);
     }
 }
