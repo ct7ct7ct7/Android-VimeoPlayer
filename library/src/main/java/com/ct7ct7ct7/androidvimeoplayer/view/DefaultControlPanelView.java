@@ -18,7 +18,7 @@ import com.ct7ct7ct7.androidvimeoplayer.utils.Utils;
 public class DefaultControlPanelView {
     private View vimeoPanelView;
     private View vimeoShadeView;
-    private ImageView vimeoSettingsButton;
+    private ImageView vimeoMenuButton;
     private ImageView vimeoFullscreenButton;
     private SeekBar vimeoSeekBar;
     private TextView vimeoCurrentTimeTextView;
@@ -33,7 +33,7 @@ public class DefaultControlPanelView {
         View defaultControlPanelView = View.inflate(vimeoPlayerView.getContext(), R.layout.view_default_control_panel, vimeoPlayerView);
         vimeoPanelView = defaultControlPanelView.findViewById(R.id.vimeoPanelView);
         vimeoShadeView = defaultControlPanelView.findViewById(R.id.vimeoShadeView);
-        vimeoSettingsButton = defaultControlPanelView.findViewById(R.id.vimeoSettingsButton);
+        vimeoMenuButton = defaultControlPanelView.findViewById(R.id.vimeoMenuButton);
         vimeoFullscreenButton = defaultControlPanelView.findViewById(R.id.vimeoFullscreenButton);
         vimeoSeekBar = defaultControlPanelView.findViewById(R.id.vimeoSeekBar);
         vimeoCurrentTimeTextView = defaultControlPanelView.findViewById(R.id.vimeoCurrentTimeTextView);
@@ -161,7 +161,7 @@ public class DefaultControlPanelView {
             }
         });
 
-        vimeoSettingsButton.setVisibility(vimeoPlayerView.defaultOptions.settingsOption ? View.VISIBLE : View.GONE);
+        vimeoMenuButton.setVisibility(vimeoPlayerView.defaultOptions.menuOption ? View.VISIBLE : View.GONE);
         vimeoFullscreenButton.setVisibility(vimeoPlayerView.defaultOptions.fullscreenOption ? View.VISIBLE : View.GONE);
     }
 
@@ -196,12 +196,12 @@ public class DefaultControlPanelView {
         vimeoFullscreenButton.setOnClickListener(onClickListener);
     }
 
-    public void setSettingsVisibility(int value) {
-        vimeoSettingsButton.setVisibility(value);
+    public void setMenuVisibility(int value) {
+        vimeoMenuButton.setVisibility(value);
     }
 
-    public void setSettingsClickListener(final View.OnClickListener onClickListener) {
-        vimeoSettingsButton.setOnClickListener(onClickListener);
+    public void setMenuClickListener(final View.OnClickListener onClickListener) {
+        vimeoMenuButton.setOnClickListener(onClickListener);
     }
 
     public void setTopicColor(int color){

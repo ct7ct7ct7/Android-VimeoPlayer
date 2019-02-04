@@ -64,7 +64,7 @@ public class VimeoPlayerActivity extends AppCompatActivity {
         loop = getIntent().getBooleanExtra(EXTRA_LOOP,false);
         settingsOptionVisible = getIntent().getBooleanExtra(EXTRA_SETTINGS_OPTION_VISIBLE,false);
 
-        vimeoPlayerView.showSettingsOption(settingsOptionVisible);
+        vimeoPlayerView.showMenuOption(settingsOptionVisible);
         vimeoPlayerView.setLoop(loop);
         vimeoPlayerView.setTopicColor(topicColor);
         vimeoPlayerView.initialize(videoId, hashKey, baseUrl);

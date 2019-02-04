@@ -8,7 +8,7 @@
         <attr name="topicColor" format="color"/>
         <attr name="showOriginalControls" format="boolean"/>
         <attr name="showTitle" format="boolean"/>
-        <attr name="showSettingsOption" format="boolean"/>
+        <attr name="showMenuOption" format="boolean"/>
         <attr name="showFullscreenOption" format="boolean"/>
     </declare-styleable>
 </resources>

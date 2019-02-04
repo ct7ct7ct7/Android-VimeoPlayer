@@ -9,6 +9,6 @@ public class VimeoOptions {
     public boolean originalControls = false;
     public boolean title = true;
     public int color = Color.rgb(0, 172, 240);
-    public boolean settingsOption = true;
+    public boolean menuOption = true;
     public boolean fullscreenOption = true;
 }

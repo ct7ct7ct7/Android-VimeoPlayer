@@ -212,21 +212,21 @@ public class VimeoPlayerView extends FrameLayout implements LifecycleObserver {
         }
     }
 
-    public void setSettingsClickListener(final OnClickListener onClickListener) {
+    public void setMenuClickListener(final OnClickListener onClickListener) {
         if (defaultControlPanelView != null) {
-            defaultControlPanelView.setSettingsClickListener(onClickListener);
+            defaultControlPanelView.setMenuClickListener(onClickListener);
         }
     }
 
-    public void showSettingsOption(boolean show) {
+    public void showMenuOption(boolean show) {
         if (defaultControlPanelView != null) {
-            defaultOptions.settingsOption = show;
-            defaultControlPanelView.setSettingsVisibility(show ? View.VISIBLE : View.GONE);
+            defaultOptions.menuOption = show;
+            defaultControlPanelView.setMenuVisibility(show ? View.VISIBLE : View.GONE);
         }
     }
 
     protected boolean getSettingsVisibility(){
-        return defaultOptions.settingsOption;
+        return defaultOptions.menuOption;
     }
 
     protected boolean getFullscreenVisibility(){
@@ -273,7 +273,7 @@ public class VimeoPlayerView extends FrameLayout implements LifecycleObserver {
             boolean originalControls = attributes.getBoolean(R.styleable.VimeoPlayerView_showOriginalControls, false);
             boolean title = attributes.getBoolean(R.styleable.VimeoPlayerView_showTitle, true);
             int color = attributes.getColor(R.styleable.VimeoPlayerView_topicColor, defaultColor);
-            boolean settingsOption = attributes.getBoolean(R.styleable.VimeoPlayerView_showSettingsOption, false);
+            boolean menuOption = attributes.getBoolean(R.styleable.VimeoPlayerView_showMenuOption, false);
             boolean fullscreenOption = attributes.getBoolean(R.styleable.VimeoPlayerView_showFullscreenOption, false);
 
             options.autoPlay = autoPlay;
@@ -282,7 +282,7 @@ public class VimeoPlayerView extends FrameLayout implements LifecycleObserver {
             options.originalControls = originalControls;
             options.title = title;
             options.color = color;
-            options.settingsOption = settingsOption;
+            options.menuOption = menuOption;
             options.fullscreenOption = fullscreenOption;
         }
 

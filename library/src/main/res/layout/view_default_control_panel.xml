@@ -73,6 +73,7 @@
 
 
         <LinearLayout
+            android:padding="8dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -82,20 +83,20 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:padding="16dp"
+                android:padding="8dp"
                 android:textColor="@android:color/white"
                 android:maxLines="2"
                 android:textSize="18sp"
                 tools:text="TitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitle"/>
 
             <ImageView
-                android:id="@+id/vimeoSettingsButton"
+                android:id="@+id/vimeoMenuButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
                 android:background="@drawable/bg_item_selected"
                 android:padding="8dp"
-                android:src="@drawable/ic_settings"
+                android:src="@drawable/ic_menu"
                 android:tint="@android:color/white"/>
         </LinearLayout>
 

@@ -56,7 +56,7 @@ class MainActivity : AppCompatActivity() {
             startActivityForResult(VimeoPlayerActivity.createIntent(this, vimeoPlayer), REQUEST_CODE)
         }
 
-        vimeoPlayer.setSettingsClickListener {
+        vimeoPlayer.setMenuClickListener {
             //TODO
         }
 

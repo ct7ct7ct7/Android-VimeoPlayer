@@ -33,7 +33,7 @@
         app:loop="false"
         app:muted="false"
         app:showFullscreenOption="true"
-        app:showSettingsOption="true"
+        app:showMenuOption="true"
         />
 
 
