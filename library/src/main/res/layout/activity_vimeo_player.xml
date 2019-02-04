@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <com.ct7ct7ct7.androidvimeoplayer.view.VimeoPlayerView
+        android:id="@+id/vimeoPlayerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:showTitle="true"
+        app:showOriginalControls="false"
+        app:autoPlay="false"
+        app:loop="false"
+        app:muted="false"
+        app:showFullscreenOption="true"
+        app:showMenuOption="false"
+        />
+</FrameLayout>

@@ -50,6 +50,15 @@ public class VimeoPlayer extends WebView {
     }
 
 
+    public void playTwoStage(){
+        mainThreadHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                loadUrl("javascript:playTwoStage()");
+            }
+        });
+    }
+
     public void play() {
         mainThreadHandler.post(new Runnable() {
             @Override
@@ -141,17 +150,20 @@ public class VimeoPlayer extends WebView {
             videoUrl += "/" + hashKey;
         }
 
+        boolean autoPlay = false;
+        if(!vimeoOptions.originalControls){
+            autoPlay = false;
+        }else {
+            autoPlay = vimeoOptions.autoPlay;
+        }
+
         final String formattedString = unformattedString
                 .replace("<VIDEO_URL>", videoUrl)
-                .replace("<AUTOPLAY>", String.valueOf(vimeoOptions.autoPlay))
-                .replace("<BYLINE>", String.valueOf(vimeoOptions.byline))
+                .replace("<AUTOPLAY>", String.valueOf(autoPlay))
                 .replace("<LOOP>", String.valueOf(vimeoOptions.loop))
                 .replace("<MUTED>", String.valueOf(vimeoOptions.muted))
-                .replace("<PLAYSINLINE>", String.valueOf(vimeoOptions.playSinline))
-                .replace("<PORTRAIT>", String.valueOf(vimeoOptions.portrait))
-                .replace("<SPEED>", String.valueOf(vimeoOptions.speed))
+                .replace("<PLAYSINLINE>", String.valueOf(vimeoOptions.originalControls))
                 .replace("<TITLE>", String.valueOf(vimeoOptions.title))
-                .replace("<TRANSPARENT>", String.valueOf(vimeoOptions.transparent))
                 .replace("<COLOR>", Utils.colorToHex(vimeoOptions.color));
 
 

@@ -4,8 +4,11 @@ import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.LifecycleObserver;
 import android.arch.lifecycle.OnLifecycleEvent;
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.os.Build;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
@@ -24,12 +27,20 @@ import com.ct7ct7ct7.androidvimeoplayer.listeners.VimeoPlayerStateListener;
 import com.ct7ct7ct7.androidvimeoplayer.listeners.VimeoPlayerTextTrackListener;
 import com.ct7ct7ct7.androidvimeoplayer.listeners.VimeoPlayerTimeListener;
 import com.ct7ct7ct7.androidvimeoplayer.listeners.VimeoPlayerVolumeListener;
+import com.ct7ct7ct7.androidvimeoplayer.view.menu.ViemoMenuItem;
 
 public class VimeoPlayerView extends FrameLayout implements LifecycleObserver {
+    public VimeoOptions defaultOptions;
+    public int defaultColor = Color.rgb(0, 172, 240);
     private JsBridge jsBridge;
     private VimeoPlayer vimeoPlayer;
     private ProgressBar progressBar;
-    private VimeoOptions defaultOptions;
+    private DefaultControlPanelView defaultControlPanelView;
+    private String title;
+    private int videoId;
+    private String hashKey;
+    private String baseUrl;
+
 
     public VimeoPlayerView(Context context) {
         this(context, null);
@@ -42,10 +53,18 @@ public class VimeoPlayerView extends FrameLayout implements LifecycleObserver {
     public VimeoPlayerView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
-        this.jsBridge = new JsBridge(new VimeoPlayerReadyListener() {
+        this.jsBridge = new JsBridge();
+        jsBridge.addReadyListener(new VimeoPlayerReadyListener() {
             @Override
-            public void onReady() {
+            public void onReady(String t, float duration) {
+                title = t;
                 progressBar.setVisibility(View.GONE);
+                if (!defaultOptions.originalControls) {
+                    if (defaultOptions.autoPlay) {
+                        vimeoPlayer.playTwoStage();
+                        defaultControlPanelView.dismissControls(4000);
+                    }
+                }
             }
 
             @Override
@@ -56,10 +75,22 @@ public class VimeoPlayerView extends FrameLayout implements LifecycleObserver {
 
         defaultOptions = generateDefaultVimeoOptions(context, attrs);
         this.vimeoPlayer = new VimeoPlayer(context);
-        this.addView(vimeoPlayer, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        this.addView(vimeoPlayer, new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+
+
+        if (!defaultOptions.originalControls) {
+            defaultControlPanelView = new DefaultControlPanelView(this);
+        }
 
         this.progressBar = new ProgressBar(context);
-        FrameLayout.LayoutParams progressLayoutParams = new FrameLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+        if (defaultOptions.color != defaultColor) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                progressBar.setIndeterminate(true);
+                progressBar.setIndeterminateTintMode(PorterDuff.Mode.SRC_ATOP);
+                progressBar.setIndeterminateTintList(ColorStateList.valueOf(defaultOptions.color));
+            }
+        }
+        LayoutParams progressLayoutParams = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
         progressLayoutParams.gravity = Gravity.CENTER;
         this.addView(progressBar, progressLayoutParams);
     }
@@ -72,6 +103,10 @@ public class VimeoPlayerView extends FrameLayout implements LifecycleObserver {
             super.onMeasure(widthMeasureSpec, sixteenNineHeight);
         } else
             super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+    }
+
+    public void addReadyListener(VimeoPlayerReadyListener readyListener) {
+        jsBridge.addReadyListener(readyListener);
     }
 
     public void addStateListener(VimeoPlayerStateListener stateListener) {
@@ -95,11 +130,16 @@ public class VimeoPlayerView extends FrameLayout implements LifecycleObserver {
     }
 
     public void loadVideo(int videoId) {
+        this.videoId = videoId;
         vimeoPlayer.loadVideo(videoId);
     }
 
     public void play() {
         vimeoPlayer.play();
+    }
+
+    protected void playTwoStage() {
+        vimeoPlayer.playTwoStage();
     }
 
     public void pause() {
@@ -118,12 +158,105 @@ public class VimeoPlayerView extends FrameLayout implements LifecycleObserver {
         vimeoPlayer.setVolume(volume);
     }
 
+    public int getVideoId() {
+        return videoId;
+    }
+
+    public String getBaseUrl() {
+        return baseUrl;
+    }
+
+    public String getHashKey() {
+        return hashKey;
+    }
+
+    public String getVideoTitle() {
+        return title;
+    }
+
     public void setTopicColor(int color) {
+        defaultOptions.color = color;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            progressBar.setIndeterminateTintList(ColorStateList.valueOf(color));
+        }
         vimeoPlayer.setTopicColor(Utils.colorToHex(color));
+        if (defaultControlPanelView != null) {
+            defaultControlPanelView.setTopicColor(color);
+        }
+    }
+
+    public int getTopicColor() {
+        return defaultOptions.color;
     }
 
     public void setLoop(boolean loop) {
+        defaultOptions.loop = loop;
         vimeoPlayer.setLoop(loop);
+    }
+
+    public boolean getLoop() {
+        return defaultOptions.loop;
+    }
+
+
+    public void setFullscreenClickListener(final OnClickListener onClickListener) {
+        if (defaultControlPanelView != null) {
+            defaultControlPanelView.setFullscreenClickListener(onClickListener);
+        }
+    }
+
+    public void setFullscreenVisibility(boolean show) {
+        if (defaultControlPanelView != null) {
+            defaultOptions.fullscreenOption = show;
+            defaultControlPanelView.setFullscreenVisibility(show ? View.VISIBLE : View.GONE);
+        }
+    }
+
+    public void setMenuClickListener(final OnClickListener onClickListener) {
+        if (defaultControlPanelView != null) {
+            defaultControlPanelView.setMenuClickListener(onClickListener);
+        }
+    }
+
+    public void setMenuVisibility(boolean show) {
+        if (defaultControlPanelView != null) {
+            defaultOptions.menuOption = show;
+            defaultControlPanelView.setMenuVisibility(show ? View.VISIBLE : View.GONE);
+        }
+    }
+
+    public void addMenuItem(ViemoMenuItem menuItem) {
+        if (defaultControlPanelView != null) {
+            defaultControlPanelView.addMenuItem(menuItem);
+        }
+    }
+
+    public void removeMenuItem(int itemIndex) {
+        if (defaultControlPanelView != null) {
+            defaultControlPanelView.removeMenuItem(itemIndex);
+        }
+    }
+
+    public int getMenuItemCount() {
+        if (defaultControlPanelView != null) {
+            return defaultControlPanelView.getMenuItemCount();
+        } else {
+            return 0;
+        }
+    }
+
+    public void dismissMenuItem() {
+        if (defaultControlPanelView != null) {
+            defaultControlPanelView.dismissMenuItem();
+        }
+    }
+
+    protected boolean getSettingsVisibility() {
+        return defaultOptions.menuOption;
+    }
+
+    protected boolean getFullscreenVisibility() {
+        return defaultOptions.fullscreenOption;
     }
 
     /**
@@ -161,26 +294,22 @@ public class VimeoPlayerView extends FrameLayout implements LifecycleObserver {
             TypedArray attributes = context.obtainStyledAttributes(attrs, R.styleable.VimeoPlayerView);
 
             boolean autoPlay = attributes.getBoolean(R.styleable.VimeoPlayerView_autoPlay, false);
-            boolean byline = attributes.getBoolean(R.styleable.VimeoPlayerView_showByline, true);
             boolean loop = attributes.getBoolean(R.styleable.VimeoPlayerView_loop, false);
             boolean muted = attributes.getBoolean(R.styleable.VimeoPlayerView_muted, false);
-            boolean playSinline = attributes.getBoolean(R.styleable.VimeoPlayerView_playSinline, true);
-            boolean portrait = attributes.getBoolean(R.styleable.VimeoPlayerView_showPortrait, true);
-            boolean speed = attributes.getBoolean(R.styleable.VimeoPlayerView_showSpeed, false);
+            boolean originalControls = attributes.getBoolean(R.styleable.VimeoPlayerView_showOriginalControls, false);
             boolean title = attributes.getBoolean(R.styleable.VimeoPlayerView_showTitle, true);
-            boolean transparent = attributes.getBoolean(R.styleable.VimeoPlayerView_transparent, true);
-            int color = attributes.getColor(R.styleable.VimeoPlayerView_topicColor, Color.rgb(0, 172, 240));
+            int color = attributes.getColor(R.styleable.VimeoPlayerView_topicColor, defaultColor);
+            boolean menuOption = attributes.getBoolean(R.styleable.VimeoPlayerView_showMenuOption, false);
+            boolean fullscreenOption = attributes.getBoolean(R.styleable.VimeoPlayerView_showFullscreenOption, false);
 
             options.autoPlay = autoPlay;
-            options.byline = byline;
             options.loop = loop;
             options.muted = muted;
-            options.playSinline = playSinline;
-            options.portrait = portrait;
-            options.speed = speed;
+            options.originalControls = originalControls;
             options.title = title;
-            options.transparent = transparent;
             options.color = color;
+            options.menuOption = menuOption;
+            options.fullscreenOption = fullscreenOption;
         }
 
         return options;
@@ -190,23 +319,29 @@ public class VimeoPlayerView extends FrameLayout implements LifecycleObserver {
      * @param videoId the video id.
      * @param hashKey if your video is private, you MUST pass the private video hash key.
      * @param baseUrl settings embedded url. e.g. https://yourdomain
-     * */
+     */
     public void initialize(int videoId, String hashKey, String baseUrl) {
+        this.videoId = videoId;
+        this.hashKey = hashKey;
+        this.baseUrl = baseUrl;
         vimeoPlayer.initialize(jsBridge, defaultOptions, videoId, hashKey, baseUrl);
     }
 
     /**
      * @param videoId the video id.
      * @param baseUrl settings embedded url. e.g. https://yourdomain
-     * */
+     */
     public void initialize(int videoId, String baseUrl) {
+        this.videoId = videoId;
+        this.baseUrl = baseUrl;
         vimeoPlayer.initialize(jsBridge, defaultOptions, videoId, null, baseUrl);
     }
 
     /**
      * @param videoId the video id.
-     * */
+     */
     public void initialize(int videoId) {
+        this.videoId = videoId;
         this.initialize(videoId, null, null);
     }
 }
