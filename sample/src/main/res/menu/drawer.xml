@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:tools="http://schemas.android.com/tools"
+      xmlns:android="http://schemas.android.com/apk/res/android"
+      tools:ignore="MissingDefaultResource">
+
+    <item
+        android:id="@+id/fullscreenExampleItem"
+        android:title="@string/example_fullscreen" />
+
+    <item
+        android:id="@+id/menuExampleItem"
+        android:title="@string/example_menu" />
+
+    <item
+        android:id="@+id/originalControlsExampleItem"
+        android:title="@string/example_original_controls" />
+
+</menu>
