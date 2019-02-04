@@ -27,6 +27,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:topicColor="#FFFF00"
+        app:showTitle="true"
+        app:showOriginalControls="false"
+        app:autoPlay="false"
+        app:loop="false"
+        app:muted="false"
+        app:showFullscreenOption="true"
+        app:showMenuOption="true"
         />
 
 
