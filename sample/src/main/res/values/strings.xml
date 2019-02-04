@@ -4,4 +4,8 @@
     <string name="player_state">player state: %1$s</string>
     <string name="player_current_time">current time: %1$ss</string>
     <string name="player_volume">volume: %1$s</string>
+
+    <string name="example_fullscreen">Fullscreen example</string>
+    <string name="example_menu">Menu example</string>
+    <string name="example_original_controls">Original controls example</string>
 </resources>
