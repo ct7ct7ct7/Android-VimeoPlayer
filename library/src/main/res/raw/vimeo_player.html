@@ -108,7 +108,19 @@
     }
 
     function loadVideo(videoId) {
-        player.loadVideo(videoId)
+        player.loadVideo(videoId).then(function(id) {
+            player.getDuration().then(function(duration) {
+                player.getVideoTitle().then(function(title) {
+                    jsBridge.sendReady(title,duration)
+                }).catch(function(error) {
+                    jsBridge.sendInitFailed()
+                    jsBridge.sendError('Init failed','init','init')
+                })
+            }).catch(function(error) {
+                jsBridge.sendInitFailed()
+                jsBridge.sendError('Init failed','init','init')
+            })
+        })
     }
 
     function setVolume(volumePercent) {
