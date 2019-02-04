@@ -39,9 +39,8 @@ dependencies {
 ```
 
 ```
-VimeoPlayerView vimeoPlayer = findViewById(R.id.vimeoPlayer);
-getLifecycle().addObserver(vimeoPlayer);
-vimeoPlayer.initialize(59777392);
+lifecycle.addObserver(vimeoPlayer)
+vimeoPlayer.initialize(59777392)
 
 //If video is open. but limit playing at embedded.
 vimeoPlayer.initialize({YourPrivateVideoId}, "SettingsEmbeddedUrl")
