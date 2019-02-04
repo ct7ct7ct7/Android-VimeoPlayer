@@ -75,7 +75,7 @@ vimeoPlayer.addMenuItem(ViemoMenuItem("Item 1",R.drawable.icon, View.OnClickList
     vimeoPlayer.dismissMenuItem()
 }))
 
-//overrite menu click listener
+//override menu click listener
 vimeoPlayer.setMenuClickListener { 
     //TODO
 }
