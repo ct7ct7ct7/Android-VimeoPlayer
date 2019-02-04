@@ -88,6 +88,7 @@ vimeoPlayer.setMenuClickListener {
 vimeoPlayer.setFullscreenVisibility(true)
 
 
+
 var REQUEST_CODE = 1234
 .
 .
@@ -103,14 +104,14 @@ vimeoPlayer.setFullscreenClickListener {
 //handle return behavior
 override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
     super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE) {
-            var playAt = data!!.getFloatExtra(VimeoPlayerActivity.RESULT_STATE_VIDEO_PLAY_AT, 0f)
-            vimeoPlayer.seekTo(playAt)
+    if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE) {
+        var playAt = data!!.getFloatExtra(VimeoPlayerActivity.RESULT_STATE_VIDEO_PLAY_AT, 0f)
+        vimeoPlayer.seekTo(playAt)
 
-            var playerState = PlayerState.valueOf(data!!.getStringExtra(VimeoPlayerActivity.RESULT_STATE_PLAYER_STATE))
-            when (playerState) {
-                PlayerState.PLAYING -> vimeoPlayer.play()
-                PlayerState.PAUSED -> vimeoPlayer.pause()
+        var playerState = PlayerState.valueOf(data!!.getStringExtra(VimeoPlayerActivity.RESULT_STATE_PLAYER_STATE))
+        when (playerState) {
+            PlayerState.PLAYING -> vimeoPlayer.play()
+            PlayerState.PAUSED -> vimeoPlayer.pause()
         }
     }
 }
