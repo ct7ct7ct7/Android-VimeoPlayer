@@ -15,6 +15,6 @@
         app:loop="false"
         app:muted="false"
         app:showFullscreenOption="true"
-        app:showMenuOption="true"
+        app:showMenuOption="false"
         />
 </FrameLayout>

@@ -5,11 +5,13 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.view.View
 import android.widget.SeekBar
 import android.widget.Toast
 import com.ct7ct7ct7.androidvimeoplayer.listeners.VimeoPlayerStateListener
 import com.ct7ct7ct7.androidvimeoplayer.model.PlayerState
 import com.ct7ct7ct7.androidvimeoplayer.view.VimeoPlayerActivity
+import com.ct7ct7ct7.androidvimeoplayer.view.menu.ViemoMenuItem
 
 
 import kotlinx.android.synthetic.main.activity_main.*
@@ -56,9 +58,15 @@ class MainActivity : AppCompatActivity() {
             startActivityForResult(VimeoPlayerActivity.createIntent(this, vimeoPlayer), REQUEST_CODE)
         }
 
-        vimeoPlayer.setMenuClickListener {
-            //TODO
-        }
+        vimeoPlayer.addMenuItem(ViemoMenuItem("settings",R.drawable.ic_settings, View.OnClickListener {
+            Toast.makeText(this,"settings clicked",Toast.LENGTH_SHORT).show()
+            vimeoPlayer.dismissMenuItem()
+        }))
+
+        vimeoPlayer.addMenuItem(ViemoMenuItem("star",R.drawable.ic_star, View.OnClickListener {
+            Toast.makeText(this,"star clicked",Toast.LENGTH_SHORT).show()
+            vimeoPlayer.dismissMenuItem()
+        }))
 
         volumeSeekBar.progress = 100
         volumeSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {

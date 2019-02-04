@@ -27,6 +27,7 @@ import com.ct7ct7ct7.androidvimeoplayer.listeners.VimeoPlayerStateListener;
 import com.ct7ct7ct7.androidvimeoplayer.listeners.VimeoPlayerTextTrackListener;
 import com.ct7ct7ct7.androidvimeoplayer.listeners.VimeoPlayerTimeListener;
 import com.ct7ct7ct7.androidvimeoplayer.listeners.VimeoPlayerVolumeListener;
+import com.ct7ct7ct7.androidvimeoplayer.view.menu.ViemoMenuItem;
 
 public class VimeoPlayerView extends FrameLayout implements LifecycleObserver {
     public VimeoOptions defaultOptions;
@@ -179,7 +180,7 @@ public class VimeoPlayerView extends FrameLayout implements LifecycleObserver {
             progressBar.setIndeterminateTintList(ColorStateList.valueOf(color));
         }
         vimeoPlayer.setTopicColor(Utils.colorToHex(color));
-        if(defaultControlPanelView!=null){
+        if (defaultControlPanelView != null) {
             defaultControlPanelView.setTopicColor(color);
         }
     }
@@ -198,14 +199,13 @@ public class VimeoPlayerView extends FrameLayout implements LifecycleObserver {
     }
 
 
-
     public void setFullscreenClickListener(final OnClickListener onClickListener) {
         if (defaultControlPanelView != null) {
             defaultControlPanelView.setFullscreenClickListener(onClickListener);
         }
     }
 
-    public void showFullscreenOption(boolean show) {
+    public void setFullscreenVisibility(boolean show) {
         if (defaultControlPanelView != null) {
             defaultOptions.fullscreenOption = show;
             defaultControlPanelView.setFullscreenVisibility(show ? View.VISIBLE : View.GONE);
@@ -218,18 +218,44 @@ public class VimeoPlayerView extends FrameLayout implements LifecycleObserver {
         }
     }
 
-    public void showMenuOption(boolean show) {
+    public void setMenuVisibility(boolean show) {
         if (defaultControlPanelView != null) {
             defaultOptions.menuOption = show;
             defaultControlPanelView.setMenuVisibility(show ? View.VISIBLE : View.GONE);
         }
     }
 
-    protected boolean getSettingsVisibility(){
+    public void addMenuItem(ViemoMenuItem menuItem) {
+        if (defaultControlPanelView != null) {
+            defaultControlPanelView.addMenuItem(menuItem);
+        }
+    }
+
+    public void removeMenuItem(int itemIndex) {
+        if (defaultControlPanelView != null) {
+            defaultControlPanelView.removeMenuItem(itemIndex);
+        }
+    }
+
+    public int getMenuItemCount() {
+        if (defaultControlPanelView != null) {
+            return defaultControlPanelView.getMenuItemCount();
+        } else {
+            return 0;
+        }
+    }
+
+    public void dismissMenuItem() {
+        if (defaultControlPanelView != null) {
+            defaultControlPanelView.dismissMenuItem();
+        }
+    }
+
+    protected boolean getSettingsVisibility() {
         return defaultOptions.menuOption;
     }
 
-    protected boolean getFullscreenVisibility(){
+    protected boolean getFullscreenVisibility() {
         return defaultOptions.fullscreenOption;
     }
 

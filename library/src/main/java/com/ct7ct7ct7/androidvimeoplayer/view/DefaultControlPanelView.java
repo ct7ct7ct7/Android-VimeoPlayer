@@ -14,6 +14,8 @@ import com.ct7ct7ct7.androidvimeoplayer.listeners.VimeoPlayerReadyListener;
 import com.ct7ct7ct7.androidvimeoplayer.listeners.VimeoPlayerStateListener;
 import com.ct7ct7ct7.androidvimeoplayer.listeners.VimeoPlayerTimeListener;
 import com.ct7ct7ct7.androidvimeoplayer.utils.Utils;
+import com.ct7ct7ct7.androidvimeoplayer.view.menu.ViemoMenuItem;
+import com.ct7ct7ct7.androidvimeoplayer.view.menu.ViemoPlayerMenu;
 
 public class DefaultControlPanelView {
     private View vimeoPanelView;
@@ -28,6 +30,7 @@ public class DefaultControlPanelView {
     private TextView vimeoTitleTextView;
     private View controlsRootView;
     private boolean ended = false;
+    private ViemoPlayerMenu vimeoPlayerMenu;
 
     public DefaultControlPanelView(final VimeoPlayerView vimeoPlayerView) {
         View defaultControlPanelView = View.inflate(vimeoPlayerView.getContext(), R.layout.view_default_control_panel, vimeoPlayerView);
@@ -42,6 +45,7 @@ public class DefaultControlPanelView {
         vimeoReplayButton = defaultControlPanelView.findViewById(R.id.vimeoReplayButton);
         vimeoTitleTextView = defaultControlPanelView.findViewById(R.id.vimeoTitleTextView);
         controlsRootView = defaultControlPanelView.findViewById(R.id.controlsRootView);
+        vimeoPlayerMenu = new ViemoPlayerMenu(vimeoPlayerView.getContext());
 
         vimeoSeekBar.setVisibility(View.INVISIBLE);
         vimeoPanelView.setVisibility(View.VISIBLE);
@@ -163,6 +167,14 @@ public class DefaultControlPanelView {
 
         vimeoMenuButton.setVisibility(vimeoPlayerView.defaultOptions.menuOption ? View.VISIBLE : View.GONE);
         vimeoFullscreenButton.setVisibility(vimeoPlayerView.defaultOptions.fullscreenOption ? View.VISIBLE : View.GONE);
+
+
+        vimeoMenuButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                vimeoPlayerMenu.show(vimeoMenuButton);
+            }
+        });
     }
 
     private final Handler handler = new Handler(Looper.getMainLooper());
@@ -198,6 +210,22 @@ public class DefaultControlPanelView {
 
     public void setMenuVisibility(int value) {
         vimeoMenuButton.setVisibility(value);
+    }
+
+    public void addMenuItem(ViemoMenuItem menuItem) {
+        vimeoPlayerMenu.addItem(menuItem);
+    }
+
+    public void removeMenuItem(int itemIndex) {
+        vimeoPlayerMenu.removeItem(itemIndex);
+    }
+
+    public int getMenuItemCount() {
+        return vimeoPlayerMenu.getItemCount();
+    }
+
+    public void dismissMenuItem() {
+        vimeoPlayerMenu.dismiss();
     }
 
     public void setMenuClickListener(final View.OnClickListener onClickListener) {

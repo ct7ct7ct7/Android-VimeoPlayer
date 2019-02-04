@@ -25,7 +25,6 @@ public class VimeoPlayerActivity extends AppCompatActivity {
     private static final String EXTRA_END_AT = "EXTRA_END_AT";
     private static final String EXTRA_TOPIC_COLOR = "EXTRA_TOPIC_COLOR";
     private static final String EXTRA_LOOP = "EXTRA_LOOP";
-    private static final String EXTRA_SETTINGS_OPTION_VISIBLE = "EXTRA_SETTINGS_OPTION_VISIBLE";
 
     private VimeoPlayerView vimeoPlayerView;
     private int videoId;
@@ -35,7 +34,6 @@ public class VimeoPlayerActivity extends AppCompatActivity {
     private float endAt;
     private int topicColor;
     private boolean loop;
-    private boolean settingsOptionVisible;
 
     public static Intent createIntent(Context context, VimeoPlayerView vimeoPlayerView) {
         Intent intent = new Intent(context, VimeoPlayerActivity.class);
@@ -45,7 +43,6 @@ public class VimeoPlayerActivity extends AppCompatActivity {
         intent.putExtra(EXTRA_START_AT, vimeoPlayerView.getCurrentTimeSeconds());
         intent.putExtra(EXTRA_TOPIC_COLOR, vimeoPlayerView.getTopicColor());
         intent.putExtra(EXTRA_LOOP, vimeoPlayerView.getLoop());
-        intent.putExtra(EXTRA_SETTINGS_OPTION_VISIBLE, vimeoPlayerView.getSettingsVisibility());
         return intent;
     }
 
@@ -62,9 +59,7 @@ public class VimeoPlayerActivity extends AppCompatActivity {
         endAt = getIntent().getFloatExtra(EXTRA_END_AT, Float.MAX_VALUE);
         topicColor = getIntent().getIntExtra(EXTRA_TOPIC_COLOR, Color.rgb(0, 172, 240));
         loop = getIntent().getBooleanExtra(EXTRA_LOOP,false);
-        settingsOptionVisible = getIntent().getBooleanExtra(EXTRA_SETTINGS_OPTION_VISIBLE,false);
 
-        vimeoPlayerView.showMenuOption(settingsOptionVisible);
         vimeoPlayerView.setLoop(loop);
         vimeoPlayerView.setTopicColor(topicColor);
         vimeoPlayerView.initialize(videoId, hashKey, baseUrl);
