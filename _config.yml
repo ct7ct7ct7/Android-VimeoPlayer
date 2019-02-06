@@ -1,7 +1,8 @@
 theme: jekyll-theme-cayman
 
 plugins:
-  - jekyll-seo-tag
+ - "jekyll-seo-tag"
+ - "jekyll-github-metadata"
 
 description: Unofficial Vimeo video player library for Android.
 author:Anson Chen
