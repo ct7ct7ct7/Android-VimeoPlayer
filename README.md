@@ -52,16 +52,16 @@ vimeoPlayer.initialize({YourPrivateVideoId},"VideoHashKey", "SettingsEmbeddedUrl
 ```
 
 ### **Properties**
-name                    | default  | description
-------------------------| -------- | -----------
-app:topicColor          | `00adef` | Specify the color of the video controls.
-app:autoPlay            | `false`  | Automatically start playback of the video. 
-app:loop                | `false`  | Play the video again when it reaches the end.
-app:muted               | `false`  | Mute this video on load.
-app:showTitle           | `true`   | Show the title on the video.
-app:showOriginalControls| `false`  | Show vimeo js original controls.
-app:showFullscreenOption| `false`  | Show the fullscreen button on the native controls.
-app:showMenuOption      | `false`  | Show the menu button on the native controls.
+
+* `app:topicColor` (default : 00adef) Specify the color of the video controls.
+* `app:autoPlay` (default : false) Automatically start playback of the video. 
+* `app:loop` (default : false) Play the video again when it reaches the end.
+* `app:muted` (default : false) Mute this video on load.
+* `app:showTitle` (default : true) Show the title on the video.
+* `app:showOriginalControls` (default : false) Show vimeo js original controls.
+* `app:showFullscreenOption` (default : false) Show the fullscreen button on the native controls.
+* `app:showMenuOption` (default : false) Show the menu button on the native controls.
+
 
 
 ### **Menu options**
