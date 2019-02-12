@@ -9,6 +9,15 @@
             background-color: #000000;
             overflow: hidden;
             position: fixed;
+            position: relative;
+        }
+
+        .flexbox {
+            height: 100%;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
     </style>
 
@@ -18,7 +27,9 @@
     </head>
 
     <body>
-        <div id="player"></div>
+        <div class="flexbox">
+            <div id="player"></div>
+        </div>
     </body>
 
 
@@ -26,7 +37,7 @@
 
     var jsBridge = window.JsBridge;
 
-    var w = screen.width;
+    var w = document.body.clientWidth;
     var h = (w * 360 / 640);
 
     var options = {

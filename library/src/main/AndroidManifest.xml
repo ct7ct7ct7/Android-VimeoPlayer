@@ -7,7 +7,7 @@
     <application>
         <activity
             android:name=".view.VimeoPlayerActivity"
-            android:screenOrientation="landscape"
+            android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@style/Theme.AppCompat.NoActionBar">
         </activity>
     </application>

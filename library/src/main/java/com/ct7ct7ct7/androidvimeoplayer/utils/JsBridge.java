@@ -39,10 +39,13 @@ public class JsBridge {
         this.mainThreadHandler = new Handler(Looper.getMainLooper());
     }
 
+    public void removeLastReadyListener(VimeoPlayerReadyListener readyListener) {
+        this.readyListeners.remove(readyListener);
+    }
+
     public void addReadyListener(VimeoPlayerReadyListener readyListener) {
         this.readyListeners.add(readyListener);
     }
-
 
     public void addStateListener(VimeoPlayerStateListener stateListener) {
         this.stateListeners.add(stateListener);

@@ -9,7 +9,7 @@ import com.ct7ct7ct7.androidvimeoplayer.view.VimeoPlayerActivity
 import com.ct7ct7ct7.androidvimeoplayersample.R
 import kotlinx.android.synthetic.main.activity_fullscreen.*
 
-class FullscreenActivity : AppCompatActivity(){
+class FullscreenActivity : AppCompatActivity() {
     var REQUEST_CODE = 1234
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,11 +29,11 @@ class FullscreenActivity : AppCompatActivity(){
     private fun setupView() {
         lifecycle.addObserver(vimeoPlayer)
         vimeoPlayer.initialize(59777392)
-
         vimeoPlayer.setFullscreenVisibility(true)
+
         vimeoPlayer.setFullscreenClickListener {
-            vimeoPlayer.pause()
-            startActivityForResult(VimeoPlayerActivity.createIntent(this, vimeoPlayer), REQUEST_CODE)
+            var requestOrientation = VimeoPlayerActivity.REQUEST_ORIENTATION_AUTO
+            startActivityForResult(VimeoPlayerActivity.createIntent(this, requestOrientation, vimeoPlayer), REQUEST_CODE)
         }
     }
 
