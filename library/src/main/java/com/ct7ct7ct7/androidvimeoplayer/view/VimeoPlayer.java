@@ -9,6 +9,8 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 
+import com.ct7ct7ct7.androidvimeoplayer.listeners.VimeoPlayerReadyListener;
+import com.ct7ct7ct7.androidvimeoplayer.model.PlayerState;
 import com.ct7ct7ct7.androidvimeoplayer.utils.JsBridge;
 import com.ct7ct7ct7.androidvimeoplayer.R;
 import com.ct7ct7ct7.androidvimeoplayer.utils.Utils;
@@ -20,6 +22,12 @@ import java.io.InputStreamReader;
 
 public class VimeoPlayer extends WebView {
     private Handler mainThreadHandler;
+    private int videoId;
+    private String hashKey;
+    private String baseUrl;
+    private JsBridge jsBridge;
+    private VimeoOptions vimeoOptions;
+    private VimeoPlayerReadyListener resetReadyListener;
 
     public VimeoPlayer(Context context) {
         this(context, null);
@@ -49,8 +57,7 @@ public class VimeoPlayer extends WebView {
         });
     }
 
-
-    public void playTwoStage(){
+    public void playTwoStage() {
         mainThreadHandler.post(new Runnable() {
             @Override
             public void run() {
@@ -151,9 +158,9 @@ public class VimeoPlayer extends WebView {
         }
 
         boolean autoPlay = false;
-        if(!vimeoOptions.originalControls){
+        if (!vimeoOptions.originalControls) {
             autoPlay = false;
-        }else {
+        } else {
             autoPlay = vimeoOptions.autoPlay;
         }
 
@@ -203,8 +210,41 @@ public class VimeoPlayer extends WebView {
         }
     }
 
+    public void reset(final PlayerState playerState, final float playAt) {
+        switch (playerState) {
+            case PLAYING: {
+                vimeoOptions.autoPlay = true;
+            }
+            default: {
+                vimeoOptions.autoPlay = false;
+            }
+        }
+
+        if (resetReadyListener != null) {
+            jsBridge.removeLastReadyListener(resetReadyListener);
+        }
+        resetReadyListener = new VimeoPlayerReadyListener() {
+            @Override
+            public void onReady(String title, float duration) {
+                seekTo(playAt);
+            }
+
+            @Override
+            public void onInitFailed() {
+
+            }
+        };
+        jsBridge.addReadyListener(resetReadyListener);
+
+        initWebView(jsBridge, vimeoOptions, videoId, hashKey, baseUrl);
+    }
 
     protected void initialize(JsBridge jsBridge, VimeoOptions vimeoOptions, int videoId, String hashKey, String baseUrl) {
+        this.jsBridge = jsBridge;
+        this.vimeoOptions = vimeoOptions;
+        this.videoId = videoId;
+        this.hashKey = hashKey;
+        this.baseUrl = baseUrl;
         initWebView(jsBridge, vimeoOptions, videoId, hashKey, baseUrl);
     }
 }

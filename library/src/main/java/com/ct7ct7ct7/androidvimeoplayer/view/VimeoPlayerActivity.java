@@ -3,6 +3,8 @@ package com.ct7ct7ct7.androidvimeoplayer.view;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -18,6 +20,11 @@ public class VimeoPlayerActivity extends AppCompatActivity {
     public static final String RESULT_STATE_VIDEO_PLAY_AT = "RESULT_STATE_VIDEO_PLAY_AT";
     public static final String RESULT_STATE_PLAYER_STATE = "RESULT_STATE_PLAYER_STATE";
 
+    public static final String REQUEST_ORIENTATION_AUTO = "REQUEST_ORIENTATION_AUTO";
+    public static final String REQUEST_ORIENTATION_PORTRAIT = "REQUEST_ORIENTATION_PORTRAIT";
+    public static final String REQUEST_ORIENTATION_LANDSCAPE = "REQUEST_ORIENTATION_LANDSCAPE";
+
+    private static final String EXTRA_ORIENTATION = "EXTRA_ORIENTATION";
     private static final String EXTRA_VIDEO_ID = "EXTRA_VIDEO_ID";
     private static final String EXTRA_HASH_KEY = "EXTRA_HASH_KEY";
     private static final String EXTRA_BASE_URL = "EXTRA_BASE_URL";
@@ -34,9 +41,11 @@ public class VimeoPlayerActivity extends AppCompatActivity {
     private float endAt;
     private int topicColor;
     private boolean loop;
+    private String orientation;
 
-    public static Intent createIntent(Context context, VimeoPlayerView vimeoPlayerView) {
+    public static Intent createIntent(Context context, String orientation, VimeoPlayerView vimeoPlayerView) {
         Intent intent = new Intent(context, VimeoPlayerActivity.class);
+        intent.putExtra(EXTRA_ORIENTATION, orientation);
         intent.putExtra(EXTRA_VIDEO_ID, vimeoPlayerView.getVideoId());
         intent.putExtra(EXTRA_HASH_KEY, vimeoPlayerView.getHashKey());
         intent.putExtra(EXTRA_BASE_URL, vimeoPlayerView.getBaseUrl());
@@ -50,6 +59,13 @@ public class VimeoPlayerActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        orientation = getIntent().getStringExtra(EXTRA_ORIENTATION);
+        if (REQUEST_ORIENTATION_PORTRAIT.equals(orientation)) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        } else if (REQUEST_ORIENTATION_LANDSCAPE.equals(orientation)) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        }
+
         setContentView(R.layout.activity_vimeo_player);
         vimeoPlayerView = findViewById(R.id.vimeoPlayerView);
         videoId = getIntent().getIntExtra(EXTRA_VIDEO_ID, 0);
@@ -58,7 +74,7 @@ public class VimeoPlayerActivity extends AppCompatActivity {
         startAt = getIntent().getFloatExtra(EXTRA_START_AT, 0f);
         endAt = getIntent().getFloatExtra(EXTRA_END_AT, Float.MAX_VALUE);
         topicColor = getIntent().getIntExtra(EXTRA_TOPIC_COLOR, Color.rgb(0, 172, 240));
-        loop = getIntent().getBooleanExtra(EXTRA_LOOP,false);
+        loop = getIntent().getBooleanExtra(EXTRA_LOOP, false);
 
         vimeoPlayerView.setLoop(loop);
         vimeoPlayerView.setTopicColor(topicColor);
@@ -99,5 +115,13 @@ public class VimeoPlayerActivity extends AppCompatActivity {
         intent.putExtra(RESULT_STATE_PLAYER_STATE, vimeoPlayerView.getPlayerState().name());
         setResult(Activity.RESULT_OK, intent);
         finish();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        if (REQUEST_ORIENTATION_AUTO.equals(orientation)) {
+            vimeoPlayerView.reset();
+        }
     }
 }

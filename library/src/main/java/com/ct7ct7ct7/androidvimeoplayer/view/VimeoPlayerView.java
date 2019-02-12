@@ -75,7 +75,7 @@ public class VimeoPlayerView extends FrameLayout implements LifecycleObserver {
 
         defaultOptions = generateDefaultVimeoOptions(context, attrs);
         this.vimeoPlayer = new VimeoPlayer(context);
-        this.addView(vimeoPlayer, new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        this.addView(vimeoPlayer, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 
 
         if (!defaultOptions.originalControls) {
@@ -90,7 +90,7 @@ public class VimeoPlayerView extends FrameLayout implements LifecycleObserver {
                 progressBar.setIndeterminateTintList(ColorStateList.valueOf(defaultOptions.color));
             }
         }
-        LayoutParams progressLayoutParams = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+        LayoutParams progressLayoutParams = new FrameLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
         progressLayoutParams.gravity = Gravity.CENTER;
         this.addView(progressBar, progressLayoutParams);
     }
@@ -148,6 +148,13 @@ public class VimeoPlayerView extends FrameLayout implements LifecycleObserver {
 
     public void seekTo(float time) {
         vimeoPlayer.seekTo(time);
+    }
+
+    public void reset() {
+        PlayerState playerState = getPlayerState();
+        vimeoPlayer.destroyPlayer();
+        progressBar.setVisibility(VISIBLE);
+        vimeoPlayer.reset(playerState,getCurrentTimeSeconds());
     }
 
     /**

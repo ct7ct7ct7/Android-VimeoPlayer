@@ -12,6 +12,7 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -20,9 +21,18 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".examples.FullscreenActivity" android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".examples.MenuActivity" android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".examples.OriginalControlsActivity" android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".examples.FullscreenActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".examples.MenuActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".examples.OriginalControlsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>
