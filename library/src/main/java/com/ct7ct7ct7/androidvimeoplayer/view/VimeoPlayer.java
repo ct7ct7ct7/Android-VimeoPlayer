@@ -134,7 +134,7 @@ public class VimeoPlayer extends WebView {
     }
 
 
-    public void destroyPlayer() {
+    protected void destroyPlayer() {
         mainThreadHandler.post(new Runnable() {
             @Override
             public void run() {
@@ -246,5 +246,12 @@ public class VimeoPlayer extends WebView {
         this.hashKey = hashKey;
         this.baseUrl = baseUrl;
         initWebView(jsBridge, vimeoOptions, videoId, hashKey, baseUrl);
+    }
+
+    public void recycle(){
+        destroyPlayer();
+        this.setTag(null);
+        this.clearHistory();
+        this.destroy();
     }
 }
