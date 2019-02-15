@@ -32,6 +32,7 @@ import com.ct7ct7ct7.androidvimeoplayer.view.menu.ViemoMenuItem;
 public class VimeoPlayerView extends FrameLayout implements LifecycleObserver {
     public VimeoOptions defaultOptions;
     public int defaultColor = Color.rgb(0, 172, 240);
+    public float defaultAspectRatio = 16f/9;
     private JsBridge jsBridge;
     private VimeoPlayer vimeoPlayer;
     private ProgressBar progressBar;
@@ -99,7 +100,7 @@ public class VimeoPlayerView extends FrameLayout implements LifecycleObserver {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         //16:9
         if (getLayoutParams().height == ViewGroup.LayoutParams.WRAP_CONTENT) {
-            int sixteenNineHeight = MeasureSpec.makeMeasureSpec(MeasureSpec.getSize(widthMeasureSpec) * 9 / 16, MeasureSpec.EXACTLY);
+            int sixteenNineHeight = MeasureSpec.makeMeasureSpec((int)(MeasureSpec.getSize(widthMeasureSpec) / defaultOptions.aspectRatio), MeasureSpec.EXACTLY);
             super.onMeasure(widthMeasureSpec, sixteenNineHeight);
         } else
             super.onMeasure(widthMeasureSpec, heightMeasureSpec);
@@ -308,6 +309,7 @@ public class VimeoPlayerView extends FrameLayout implements LifecycleObserver {
             int color = attributes.getColor(R.styleable.VimeoPlayerView_topicColor, defaultColor);
             boolean menuOption = attributes.getBoolean(R.styleable.VimeoPlayerView_showMenuOption, false);
             boolean fullscreenOption = attributes.getBoolean(R.styleable.VimeoPlayerView_showFullscreenOption, false);
+            float aspectRatio = attributes.getFloat(R.styleable.VimeoPlayerView_aspectRatio, defaultAspectRatio);
 
             options.autoPlay = autoPlay;
             options.loop = loop;
@@ -317,6 +319,7 @@ public class VimeoPlayerView extends FrameLayout implements LifecycleObserver {
             options.color = color;
             options.menuOption = menuOption;
             options.fullscreenOption = fullscreenOption;
+            options.aspectRatio = aspectRatio;
         }
 
         return options;
