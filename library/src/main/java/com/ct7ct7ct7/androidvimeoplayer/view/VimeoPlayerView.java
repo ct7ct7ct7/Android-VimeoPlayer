@@ -206,6 +206,10 @@ public class VimeoPlayerView extends FrameLayout implements LifecycleObserver {
         return defaultOptions.loop;
     }
 
+    public void recycle(){
+        vimeoPlayer.recycle();
+    }
+
 
     public void setFullscreenClickListener(final OnClickListener onClickListener) {
         if (defaultControlPanelView != null) {
@@ -287,7 +291,7 @@ public class VimeoPlayerView extends FrameLayout implements LifecycleObserver {
 
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     public void onDestroy() {
-        vimeoPlayer.destroyPlayer();
+        recycle();
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
