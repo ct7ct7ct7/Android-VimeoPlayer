@@ -9,7 +9,7 @@ Unofficial Vimeo video player library for Android.
 
 ```
 dependencies {
-    implementation 'com.ct7ct7ct7.androidvimeoplayer:library:1.0.6'
+    implementation 'com.ct7ct7ct7.androidvimeoplayer:library:1.0.7'
 }
 ```
 
@@ -95,8 +95,11 @@ var REQUEST_CODE = 1234
 .
 //go to fullscreen page
 vimeoPlayer.setFullscreenClickListener {
-    vimeoPlayer.pause()
-    startActivityForResult(VimeoPlayerActivity.createIntent(this, vimeoPlayer), REQUEST_CODE)
+
+    //define the orientation
+    var requestOrientation = VimeoPlayerActivity.REQUEST_ORIENTATION_AUTO
+    
+    startActivityForResult(VimeoPlayerActivity.createIntent(this, requestOrientation, vimeoPlayer), REQUEST_CODE)
 }
 .
 .
