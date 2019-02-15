@@ -9,7 +9,7 @@ Unofficial Vimeo video player library for Android.
 
 ```
 dependencies {
-    implementation 'com.ct7ct7ct7.androidvimeoplayer:library:1.0.7'
+    implementation 'com.ct7ct7ct7.androidvimeoplayer:library:1.0.8'
 }
 ```
 
@@ -34,6 +34,7 @@ dependencies {
             app:showOriginalControls="false"
             app:showTitle="true"
             app:topicColor="#FFFF00"
+            app:aspectRatio="1.778"
             />
 </LinearLayout>
 ```
@@ -61,6 +62,8 @@ vimeoPlayer.initialize({YourPrivateVideoId},"VideoHashKey", "SettingsEmbeddedUrl
 * `app:showOriginalControls` (default : false) Show vimeo js original controls.
 * `app:showFullscreenOption` (default : false) Show the fullscreen button on the native controls.
 * `app:showMenuOption` (default : false) Show the menu button on the native controls.
+* `app:aspectRatio` (default : 1.777..) Assign aspect ratio. default is 16/9.
+
 
 
 
@@ -136,6 +139,7 @@ vimeoPlayer.setPlaybackRate(0.5f)
 vimeoPlayer.play()
 vimeoPlayer.pause()
 vimeoPlayer.loadVideo(19231868)
+vimeoPlayer.recycle()
 ```
 
 
