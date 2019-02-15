@@ -171,7 +171,8 @@ public class VimeoPlayer extends WebView {
                 .replace("<MUTED>", String.valueOf(vimeoOptions.muted))
                 .replace("<PLAYSINLINE>", String.valueOf(vimeoOptions.originalControls))
                 .replace("<TITLE>", String.valueOf(vimeoOptions.title))
-                .replace("<COLOR>", Utils.colorToHex(vimeoOptions.color));
+                .replace("<COLOR>", Utils.colorToHex(vimeoOptions.color))
+                .replace("<ASPECTRATIO>", String.valueOf(vimeoOptions.aspectRatio));
 
 
         this.loadDataWithBaseURL(baseUrl, formattedString, "text/html", "utf-8", null);

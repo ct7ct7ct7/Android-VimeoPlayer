@@ -11,4 +11,5 @@ public class VimeoOptions {
     public int color = Color.rgb(0, 172, 240);
     public boolean menuOption = true;
     public boolean fullscreenOption = true;
+    public float aspectRatio = 16f/9;
 }
