@@ -76,7 +76,9 @@ public class VimeoPlayerView extends FrameLayout implements LifecycleObserver {
 
         defaultOptions = generateDefaultVimeoOptions(context, attrs);
         this.vimeoPlayer = new VimeoPlayer(context);
-        this.addView(vimeoPlayer, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        FrameLayout.LayoutParams vimeoPlayerLp = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        vimeoPlayerLp.gravity = Gravity.CENTER;
+        this.addView(vimeoPlayer, vimeoPlayerLp);
 
 
         if (!defaultOptions.originalControls) {
@@ -98,12 +100,12 @@ public class VimeoPlayerView extends FrameLayout implements LifecycleObserver {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        //16:9
         if (getLayoutParams().height == ViewGroup.LayoutParams.WRAP_CONTENT) {
-            int sixteenNineHeight = MeasureSpec.makeMeasureSpec((int)(MeasureSpec.getSize(widthMeasureSpec) / defaultOptions.aspectRatio), MeasureSpec.EXACTLY);
-            super.onMeasure(widthMeasureSpec, sixteenNineHeight);
-        } else
+            int heightByRatio = MeasureSpec.makeMeasureSpec((int)(MeasureSpec.getSize(widthMeasureSpec) / defaultOptions.aspectRatio), MeasureSpec.EXACTLY);
+            super.onMeasure(widthMeasureSpec, heightByRatio);
+        } else {
             super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        }
     }
 
     public void addReadyListener(VimeoPlayerReadyListener readyListener) {

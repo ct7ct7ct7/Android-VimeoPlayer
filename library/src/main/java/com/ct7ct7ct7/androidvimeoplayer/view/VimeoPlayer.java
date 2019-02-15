@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.AttributeSet;
+import android.view.ViewGroup;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -92,6 +93,22 @@ public class VimeoPlayer extends WebView {
                 loadUrl("javascript:seekTo(" + time + ")");
             }
         });
+    }
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        ViewGroup.LayoutParams parentLp = ((ViewGroup) getParent()).getLayoutParams();
+        if(parentLp.width == ViewGroup.LayoutParams.MATCH_PARENT && parentLp.height == ViewGroup.LayoutParams.MATCH_PARENT){
+            if(widthMeasureSpec < heightMeasureSpec){
+                int heightByRatio = MeasureSpec.makeMeasureSpec((int)(MeasureSpec.getSize(widthMeasureSpec) * vimeoOptions.aspectRatio), MeasureSpec.EXACTLY);
+                super.onMeasure(widthMeasureSpec, heightByRatio);
+            }else{
+                int widthByRatio = MeasureSpec.makeMeasureSpec((int)(MeasureSpec.getSize(heightMeasureSpec) * vimeoOptions.aspectRatio), MeasureSpec.EXACTLY);
+                super.onMeasure(widthByRatio, heightMeasureSpec);
+            }
+        }else{
+            super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        }
     }
 
     public void setVolume(final float volume) {
