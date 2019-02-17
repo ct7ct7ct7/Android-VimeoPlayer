@@ -4,6 +4,7 @@ Unofficial Vimeo video player library for Android.
 *Inspired by [android-youtube-player](https://github.com/PierfrancescoSoffritti/android-youtube-player).*
 
 [![](https://api.bintray.com/packages/ct7ct7ct7/maven/AndroidVimeoPlayer/images/download.svg)](https://bintray.com/ct7ct7ct7/maven/AndroidVimeoPlayer/_latestVersion)
+[![website](https://img.shields.io/badge/-website-brightgreen.svg)](https://ct7ct7ct7.github.io/Android-VimeoPlayer/)
 
 ![screenshot](/screenshot.gif)
 
