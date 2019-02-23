@@ -12,6 +12,10 @@
         android:title="@string/example_menu" />
 
     <item
+        android:id="@+id/recyclerViewExampleItem"
+        android:title="@string/example_recycler_view" />
+
+    <item
         android:id="@+id/originalControlsExampleItem"
         android:title="@string/example_original_controls" />
 

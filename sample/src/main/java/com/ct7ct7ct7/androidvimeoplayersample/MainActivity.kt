@@ -11,6 +11,7 @@ import com.ct7ct7ct7.androidvimeoplayer.listeners.VimeoPlayerStateListener
 import com.ct7ct7ct7.androidvimeoplayersample.examples.FullscreenActivity
 import com.ct7ct7ct7.androidvimeoplayersample.examples.MenuActivity
 import com.ct7ct7ct7.androidvimeoplayersample.examples.OriginalControlsActivity
+import com.ct7ct7ct7.androidvimeoplayersample.examples.RecyclerViewActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -41,6 +42,10 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.menuExampleItem -> {
                     startActivity(Intent(this@MainActivity, MenuActivity::class.java))
+                    true
+                }
+                R.id.recyclerViewExampleItem -> {
+                    startActivity(Intent(this@MainActivity, RecyclerViewActivity::class.java))
                     true
                 }
                 R.id.originalControlsExampleItem -> {
