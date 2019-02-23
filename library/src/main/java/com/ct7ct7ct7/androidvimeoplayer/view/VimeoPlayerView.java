@@ -32,7 +32,7 @@ import com.ct7ct7ct7.androidvimeoplayer.view.menu.ViemoMenuItem;
 public class VimeoPlayerView extends FrameLayout implements LifecycleObserver {
     public VimeoOptions defaultOptions;
     public int defaultColor = Color.rgb(0, 172, 240);
-    public float defaultAspectRatio = 16f/9;
+    public float defaultAspectRatio = 16f / 9;
     private JsBridge jsBridge;
     private VimeoPlayer vimeoPlayer;
     private ProgressBar progressBar;
@@ -41,6 +41,7 @@ public class VimeoPlayerView extends FrameLayout implements LifecycleObserver {
     private int videoId;
     private String hashKey;
     private String baseUrl;
+    private boolean played = false;
 
 
     public VimeoPlayerView(Context context) {
@@ -101,7 +102,7 @@ public class VimeoPlayerView extends FrameLayout implements LifecycleObserver {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         if (getLayoutParams().height == ViewGroup.LayoutParams.WRAP_CONTENT) {
-            int heightByRatio = MeasureSpec.makeMeasureSpec((int)(MeasureSpec.getSize(widthMeasureSpec) / defaultOptions.aspectRatio), MeasureSpec.EXACTLY);
+            int heightByRatio = MeasureSpec.makeMeasureSpec((int) (MeasureSpec.getSize(widthMeasureSpec) / defaultOptions.aspectRatio), MeasureSpec.EXACTLY);
             super.onMeasure(widthMeasureSpec, heightByRatio);
         } else {
             super.onMeasure(widthMeasureSpec, heightMeasureSpec);
@@ -138,7 +139,12 @@ public class VimeoPlayerView extends FrameLayout implements LifecycleObserver {
     }
 
     public void play() {
-        vimeoPlayer.play();
+        if (!played) {
+            vimeoPlayer.playTwoStage();
+            played = true;
+        } else {
+            vimeoPlayer.play();
+        }
     }
 
     protected void playTwoStage() {
@@ -157,7 +163,7 @@ public class VimeoPlayerView extends FrameLayout implements LifecycleObserver {
         PlayerState playerState = getPlayerState();
         vimeoPlayer.destroyPlayer();
         progressBar.setVisibility(VISIBLE);
-        vimeoPlayer.reset(playerState,getCurrentTimeSeconds());
+        vimeoPlayer.reset(playerState, getCurrentTimeSeconds());
     }
 
     /**
@@ -208,7 +214,7 @@ public class VimeoPlayerView extends FrameLayout implements LifecycleObserver {
         return defaultOptions.loop;
     }
 
-    public void recycle(){
+    public void recycle() {
         vimeoPlayer.recycle();
     }
 
