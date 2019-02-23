@@ -40,6 +40,7 @@
             app:showOriginalControls="false"
             app:showTitle="true"
             app:topicColor="#FFFF00"
+            app:quality="auto"
             />
 
 

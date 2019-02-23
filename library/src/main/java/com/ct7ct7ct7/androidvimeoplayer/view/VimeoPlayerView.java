@@ -318,6 +318,8 @@ public class VimeoPlayerView extends FrameLayout implements LifecycleObserver {
             boolean muted = attributes.getBoolean(R.styleable.VimeoPlayerView_muted, false);
             boolean originalControls = attributes.getBoolean(R.styleable.VimeoPlayerView_showOriginalControls, false);
             boolean title = attributes.getBoolean(R.styleable.VimeoPlayerView_showTitle, true);
+            String quality = attributes.getString(R.styleable.VimeoPlayerView_quality);
+            if(quality==null) quality = "Auto";
             int color = attributes.getColor(R.styleable.VimeoPlayerView_topicColor, defaultColor);
             boolean menuOption = attributes.getBoolean(R.styleable.VimeoPlayerView_showMenuOption, false);
             boolean fullscreenOption = attributes.getBoolean(R.styleable.VimeoPlayerView_showFullscreenOption, false);
@@ -328,6 +330,7 @@ public class VimeoPlayerView extends FrameLayout implements LifecycleObserver {
             options.muted = muted;
             options.originalControls = originalControls;
             options.title = title;
+            options.quality = quality;
             options.color = color;
             options.menuOption = menuOption;
             options.fullscreenOption = fullscreenOption;
