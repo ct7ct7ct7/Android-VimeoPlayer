@@ -8,6 +8,7 @@ import android.widget.SeekBar
 import android.widget.Toast
 import com.ct7ct7ct7.androidvimeoplayer.listeners.VimeoPlayerReadyListener
 import com.ct7ct7ct7.androidvimeoplayer.listeners.VimeoPlayerStateListener
+import com.ct7ct7ct7.androidvimeoplayer.model.TextTrack
 import com.ct7ct7ct7.androidvimeoplayersample.examples.FullscreenActivity
 import com.ct7ct7ct7.androidvimeoplayersample.examples.MenuActivity
 import com.ct7ct7ct7.androidvimeoplayersample.examples.OriginalControlsActivity
@@ -72,7 +73,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         vimeoPlayer.addReadyListener(object : VimeoPlayerReadyListener {
-            override fun onReady(title: String?, duration: Float) {
+            override fun onReady(title: String?, duration: Float, textTrackArray: Array<TextTrack>) {
                 playerStateTextView.text = getString(R.string.player_state, "onReady")
             }
 

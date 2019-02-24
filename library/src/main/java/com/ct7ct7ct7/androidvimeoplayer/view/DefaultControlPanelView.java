@@ -13,6 +13,7 @@ import com.ct7ct7ct7.androidvimeoplayer.R;
 import com.ct7ct7ct7.androidvimeoplayer.listeners.VimeoPlayerReadyListener;
 import com.ct7ct7ct7.androidvimeoplayer.listeners.VimeoPlayerStateListener;
 import com.ct7ct7ct7.androidvimeoplayer.listeners.VimeoPlayerTimeListener;
+import com.ct7ct7ct7.androidvimeoplayer.model.TextTrack;
 import com.ct7ct7ct7.androidvimeoplayer.utils.Utils;
 import com.ct7ct7ct7.androidvimeoplayer.view.menu.ViemoMenuItem;
 import com.ct7ct7ct7.androidvimeoplayer.view.menu.ViemoPlayerMenu;
@@ -84,7 +85,7 @@ public class DefaultControlPanelView {
 
         vimeoPlayerView.addReadyListener(new VimeoPlayerReadyListener() {
             @Override
-            public void onReady(String title, float duration) {
+            public void onReady(String title, float duration, TextTrack[] textTrackArray) {
                 vimeoSeekBar.setMax((int) duration);
                 vimeoTitleTextView.setText(title);
                 vimeoPanelView.setVisibility(View.VISIBLE);

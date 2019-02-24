@@ -19,6 +19,7 @@ import android.widget.ProgressBar;
 import com.ct7ct7ct7.androidvimeoplayer.listeners.VimeoPlayerErrorListener;
 import com.ct7ct7ct7.androidvimeoplayer.listeners.VimeoPlayerReadyListener;
 import com.ct7ct7ct7.androidvimeoplayer.model.PlayerState;
+import com.ct7ct7ct7.androidvimeoplayer.model.TextTrack;
 import com.ct7ct7ct7.androidvimeoplayer.utils.JsBridge;
 import com.ct7ct7ct7.androidvimeoplayer.R;
 import com.ct7ct7ct7.androidvimeoplayer.utils.Utils;
@@ -42,6 +43,7 @@ public class VimeoPlayerView extends FrameLayout implements LifecycleObserver {
     private String hashKey;
     private String baseUrl;
     private boolean played = false;
+    private TextTrack[] textTracks;
 
 
     public VimeoPlayerView(Context context) {
@@ -58,8 +60,9 @@ public class VimeoPlayerView extends FrameLayout implements LifecycleObserver {
         this.jsBridge = new JsBridge();
         jsBridge.addReadyListener(new VimeoPlayerReadyListener() {
             @Override
-            public void onReady(String t, float duration) {
+            public void onReady(String t, float duration, TextTrack[] textTrackArray) {
                 title = t;
+                textTracks = textTrackArray;
                 progressBar.setVisibility(View.GONE);
                 if (!defaultOptions.originalControls) {
                     if (defaultOptions.autoPlay) {
@@ -68,7 +71,6 @@ public class VimeoPlayerView extends FrameLayout implements LifecycleObserver {
                     }
                 }
             }
-
             @Override
             public void onInitFailed() {
                 progressBar.setVisibility(View.GONE);
@@ -214,6 +216,10 @@ public class VimeoPlayerView extends FrameLayout implements LifecycleObserver {
         return defaultOptions.loop;
     }
 
+    public TextTrack[] getTextTracks() {
+        return textTracks;
+    }
+
     public void recycle() {
         vimeoPlayer.recycle();
     }
@@ -291,6 +297,14 @@ public class VimeoPlayerView extends FrameLayout implements LifecycleObserver {
 
     public float getCurrentTimeSeconds() {
         return jsBridge.currentTimeSeconds;
+    }
+
+    public void setCaptions(String language) {
+        vimeoPlayer.setCaptions(language);
+    }
+
+    public void disableCaptions() {
+        vimeoPlayer.disableCaptions();
     }
 
     public PlayerState getPlayerState() {
