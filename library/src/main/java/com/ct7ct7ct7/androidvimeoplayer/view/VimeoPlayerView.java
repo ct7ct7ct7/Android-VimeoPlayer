@@ -19,6 +19,7 @@ import android.widget.ProgressBar;
 import com.ct7ct7ct7.androidvimeoplayer.listeners.VimeoPlayerErrorListener;
 import com.ct7ct7ct7.androidvimeoplayer.listeners.VimeoPlayerReadyListener;
 import com.ct7ct7ct7.androidvimeoplayer.model.PlayerState;
+import com.ct7ct7ct7.androidvimeoplayer.model.TextTrack;
 import com.ct7ct7ct7.androidvimeoplayer.utils.JsBridge;
 import com.ct7ct7ct7.androidvimeoplayer.R;
 import com.ct7ct7ct7.androidvimeoplayer.utils.Utils;
@@ -32,7 +33,7 @@ import com.ct7ct7ct7.androidvimeoplayer.view.menu.ViemoMenuItem;
 public class VimeoPlayerView extends FrameLayout implements LifecycleObserver {
     public VimeoOptions defaultOptions;
     public int defaultColor = Color.rgb(0, 172, 240);
-    public float defaultAspectRatio = 16f/9;
+    public float defaultAspectRatio = 16f / 9;
     private JsBridge jsBridge;
     private VimeoPlayer vimeoPlayer;
     private ProgressBar progressBar;
@@ -41,6 +42,8 @@ public class VimeoPlayerView extends FrameLayout implements LifecycleObserver {
     private int videoId;
     private String hashKey;
     private String baseUrl;
+    private boolean played = false;
+    private TextTrack[] textTracks;
 
 
     public VimeoPlayerView(Context context) {
@@ -57,8 +60,9 @@ public class VimeoPlayerView extends FrameLayout implements LifecycleObserver {
         this.jsBridge = new JsBridge();
         jsBridge.addReadyListener(new VimeoPlayerReadyListener() {
             @Override
-            public void onReady(String t, float duration) {
+            public void onReady(String t, float duration, TextTrack[] textTrackArray) {
                 title = t;
+                textTracks = textTrackArray;
                 progressBar.setVisibility(View.GONE);
                 if (!defaultOptions.originalControls) {
                     if (defaultOptions.autoPlay) {
@@ -67,7 +71,6 @@ public class VimeoPlayerView extends FrameLayout implements LifecycleObserver {
                     }
                 }
             }
-
             @Override
             public void onInitFailed() {
                 progressBar.setVisibility(View.GONE);
@@ -101,7 +104,7 @@ public class VimeoPlayerView extends FrameLayout implements LifecycleObserver {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         if (getLayoutParams().height == ViewGroup.LayoutParams.WRAP_CONTENT) {
-            int heightByRatio = MeasureSpec.makeMeasureSpec((int)(MeasureSpec.getSize(widthMeasureSpec) / defaultOptions.aspectRatio), MeasureSpec.EXACTLY);
+            int heightByRatio = MeasureSpec.makeMeasureSpec((int) (MeasureSpec.getSize(widthMeasureSpec) / defaultOptions.aspectRatio), MeasureSpec.EXACTLY);
             super.onMeasure(widthMeasureSpec, heightByRatio);
         } else {
             super.onMeasure(widthMeasureSpec, heightMeasureSpec);
@@ -138,7 +141,12 @@ public class VimeoPlayerView extends FrameLayout implements LifecycleObserver {
     }
 
     public void play() {
-        vimeoPlayer.play();
+        if (!played) {
+            vimeoPlayer.playTwoStage();
+            played = true;
+        } else {
+            vimeoPlayer.play();
+        }
     }
 
     protected void playTwoStage() {
@@ -157,7 +165,7 @@ public class VimeoPlayerView extends FrameLayout implements LifecycleObserver {
         PlayerState playerState = getPlayerState();
         vimeoPlayer.destroyPlayer();
         progressBar.setVisibility(VISIBLE);
-        vimeoPlayer.reset(playerState,getCurrentTimeSeconds());
+        vimeoPlayer.reset(playerState, getCurrentTimeSeconds());
     }
 
     /**
@@ -208,7 +216,11 @@ public class VimeoPlayerView extends FrameLayout implements LifecycleObserver {
         return defaultOptions.loop;
     }
 
-    public void recycle(){
+    public TextTrack[] getTextTracks() {
+        return textTracks;
+    }
+
+    public void recycle() {
         vimeoPlayer.recycle();
     }
 
@@ -287,6 +299,14 @@ public class VimeoPlayerView extends FrameLayout implements LifecycleObserver {
         return jsBridge.currentTimeSeconds;
     }
 
+    public void setCaptions(String language) {
+        vimeoPlayer.setCaptions(language);
+    }
+
+    public void disableCaptions() {
+        vimeoPlayer.disableCaptions();
+    }
+
     public PlayerState getPlayerState() {
         return jsBridge.playerState;
     }
@@ -312,16 +332,51 @@ public class VimeoPlayerView extends FrameLayout implements LifecycleObserver {
             boolean muted = attributes.getBoolean(R.styleable.VimeoPlayerView_muted, false);
             boolean originalControls = attributes.getBoolean(R.styleable.VimeoPlayerView_showOriginalControls, false);
             boolean title = attributes.getBoolean(R.styleable.VimeoPlayerView_showTitle, true);
+            String quality = attributes.getString(R.styleable.VimeoPlayerView_quality);
+            if(quality==null) quality = "Auto";
             int color = attributes.getColor(R.styleable.VimeoPlayerView_topicColor, defaultColor);
             boolean menuOption = attributes.getBoolean(R.styleable.VimeoPlayerView_showMenuOption, false);
             boolean fullscreenOption = attributes.getBoolean(R.styleable.VimeoPlayerView_showFullscreenOption, false);
             float aspectRatio = attributes.getFloat(R.styleable.VimeoPlayerView_aspectRatio, defaultAspectRatio);
+
+            switch (quality){
+                case "4K":
+                case "4k":
+                    quality = "4K";
+                    break;
+                case "2K":
+                case "2k":
+                    quality = "2K";
+                    break;
+                case "1080p":
+                case "1080P":
+                    quality = "1080p";
+                    break;
+                case "720p":
+                case "720P":
+                    quality = "720p";
+                    break;
+                case "540p":
+                case "540P":
+                    quality = "540p";
+                    break;
+                case "360p":
+                case "360P":
+                    quality = "360p";
+                    break;
+                case "auto":
+                case "Auto":
+                default:
+                    quality = "Auto";
+                    break;
+            }
 
             options.autoPlay = autoPlay;
             options.loop = loop;
             options.muted = muted;
             options.originalControls = originalControls;
             options.title = title;
+            options.quality = quality;
             options.color = color;
             options.menuOption = menuOption;
             options.fullscreenOption = fullscreenOption;

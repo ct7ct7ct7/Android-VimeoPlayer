@@ -8,6 +8,7 @@ public class VimeoOptions {
     public boolean muted = false;
     public boolean originalControls = false;
     public boolean title = true;
+    public String quality = "Auto";
     public int color = Color.rgb(0, 172, 240);
     public boolean menuOption = true;
     public boolean fullscreenOption = true;

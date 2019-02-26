@@ -11,6 +11,8 @@ import com.ct7ct7ct7.androidvimeoplayer.listeners.VimeoPlayerTextTrackListener;
 import com.ct7ct7ct7.androidvimeoplayer.listeners.VimeoPlayerTimeListener;
 import com.ct7ct7ct7.androidvimeoplayer.listeners.VimeoPlayerVolumeListener;
 import com.ct7ct7ct7.androidvimeoplayer.model.PlayerState;
+import com.ct7ct7ct7.androidvimeoplayer.model.TextTrack;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
@@ -95,13 +97,14 @@ public class JsBridge {
 
 
     @JavascriptInterface
-    public void sendReady(final String title, final float duration) {
+    public void sendReady(final String title, final float duration, final String tracksJson) {
         this.playerState = PlayerState.READY;
+        final TextTrack[] textTrackArray = new Gson().fromJson(tracksJson, TextTrack[].class);
         for (final VimeoPlayerReadyListener readyListener : readyListeners) {
             mainThreadHandler.post(new Runnable() {
                 @Override
                 public void run() {
-                    readyListener.onReady(title, duration);
+                    readyListener.onReady(title, duration, textTrackArray);
                 }
             });
         }

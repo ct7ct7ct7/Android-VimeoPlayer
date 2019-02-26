@@ -48,6 +48,7 @@
         muted: <MUTED>,
         loop: <LOOP>,
         title: <TITLE>,
+        quality: '<QUALITY>',
         portrait: true,
         byline: true,
         speed: true,
@@ -88,7 +89,13 @@
     player.ready().then(function () {
         player.getDuration().then(function(duration) {
             player.getVideoTitle().then(function(title) {
-                jsBridge.sendReady(title,duration)
+                player.getTextTracks().then(function(tracks) {
+                    var tracksJSON = JSON.stringify(tracks);
+                    jsBridge.sendReady(title,duration,tracksJSON)
+                }).catch(function(error) {
+                    jsBridge.sendInitFailed()
+                    jsBridge.sendError('Init failed','init','init')
+                })
             }).catch(function(error) {
                 jsBridge.sendInitFailed()
                 jsBridge.sendError('Init failed','init','init')
@@ -164,6 +171,19 @@
         }).catch(function(error) {
             jsBridge.sendError(data.message,data.method,data.name)
         })
+    }
+
+    function setCaptions(language) {
+        player.enableTextTrack(language).then(function(track) {
+            track.language = language
+            track.kind = 'captions'
+        }).catch(function(error) {
+            jsBridge.sendError(error.name,error.name,error.name)
+        })
+    }
+
+    function disableCaptions() {
+        player.disableTextTrack()
     }
     </script>
 

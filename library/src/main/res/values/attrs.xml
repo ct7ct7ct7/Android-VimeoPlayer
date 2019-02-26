@@ -11,5 +11,6 @@
         <attr name="showMenuOption" format="boolean"/>
         <attr name="showFullscreenOption" format="boolean"/>
         <attr name="aspectRatio" format="float"/>
+        <attr name="quality" format="string"/>
     </declare-styleable>
 </resources>

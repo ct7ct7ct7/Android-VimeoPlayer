@@ -14,6 +14,7 @@ import android.view.View;
 import com.ct7ct7ct7.androidvimeoplayer.R;
 import com.ct7ct7ct7.androidvimeoplayer.listeners.VimeoPlayerReadyListener;
 import com.ct7ct7ct7.androidvimeoplayer.listeners.VimeoPlayerTimeListener;
+import com.ct7ct7ct7.androidvimeoplayer.model.TextTrack;
 
 public class VimeoPlayerActivity extends AppCompatActivity {
     public static final String RESULT_STATE_VIDEO_ID = "RESULT_STATE_VIDEO_ID";
@@ -86,7 +87,7 @@ public class VimeoPlayerActivity extends AppCompatActivity {
         vimeoPlayerView.initialize(videoId, hashKey, baseUrl);
         vimeoPlayerView.addReadyListener(new VimeoPlayerReadyListener() {
             @Override
-            public void onReady(String title, float duration) {
+            public void onReady(String title, float duration, TextTrack[] textTrackArray) {
                 vimeoPlayerView.seekTo(startAt);
                 vimeoPlayerView.playTwoStage();
             }

@@ -12,6 +12,7 @@ import android.webkit.WebView;
 
 import com.ct7ct7ct7.androidvimeoplayer.listeners.VimeoPlayerReadyListener;
 import com.ct7ct7ct7.androidvimeoplayer.model.PlayerState;
+import com.ct7ct7ct7.androidvimeoplayer.model.TextTrack;
 import com.ct7ct7ct7.androidvimeoplayer.utils.JsBridge;
 import com.ct7ct7ct7.androidvimeoplayer.R;
 import com.ct7ct7ct7.androidvimeoplayer.utils.Utils;
@@ -151,6 +152,26 @@ public class VimeoPlayer extends WebView {
     }
 
 
+    public void setCaptions(final String language) {
+        mainThreadHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                loadUrl("javascript:setCaptions('" + language + "')");
+            }
+        });
+    }
+
+    public void disableCaptions() {
+        mainThreadHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                loadUrl("javascript:disableCaptions()");
+            }
+        });
+    }
+
+
+
     protected void destroyPlayer() {
         mainThreadHandler.post(new Runnable() {
             @Override
@@ -189,6 +210,7 @@ public class VimeoPlayer extends WebView {
                 .replace("<PLAYSINLINE>", String.valueOf(vimeoOptions.originalControls))
                 .replace("<TITLE>", String.valueOf(vimeoOptions.title))
                 .replace("<COLOR>", Utils.colorToHex(vimeoOptions.color))
+                .replace("<QUALITY>",vimeoOptions.quality)
                 .replace("<ASPECTRATIO>", String.valueOf(vimeoOptions.aspectRatio));
 
 
@@ -243,7 +265,7 @@ public class VimeoPlayer extends WebView {
         }
         resetReadyListener = new VimeoPlayerReadyListener() {
             @Override
-            public void onReady(String title, float duration) {
+            public void onReady(String title, float duration, TextTrack[] textTrackArray) {
                 seekTo(playAt);
             }
 
