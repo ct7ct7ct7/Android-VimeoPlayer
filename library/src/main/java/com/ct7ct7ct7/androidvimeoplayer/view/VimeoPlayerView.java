@@ -339,6 +339,38 @@ public class VimeoPlayerView extends FrameLayout implements LifecycleObserver {
             boolean fullscreenOption = attributes.getBoolean(R.styleable.VimeoPlayerView_showFullscreenOption, false);
             float aspectRatio = attributes.getFloat(R.styleable.VimeoPlayerView_aspectRatio, defaultAspectRatio);
 
+            switch (quality){
+                case "4K":
+                case "4k":
+                    quality = "4K";
+                    break;
+                case "2K":
+                case "2k":
+                    quality = "2K";
+                    break;
+                case "1080p":
+                case "1080P":
+                    quality = "1080p";
+                    break;
+                case "720p":
+                case "720P":
+                    quality = "720p";
+                    break;
+                case "540p":
+                case "540P":
+                    quality = "540p";
+                    break;
+                case "360p":
+                case "360P":
+                    quality = "360p";
+                    break;
+                case "auto":
+                case "Auto":
+                default:
+                    quality = "Auto";
+                    break;
+            }
+
             options.autoPlay = autoPlay;
             options.loop = loop;
             options.muted = muted;
