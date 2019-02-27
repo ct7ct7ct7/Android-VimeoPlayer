@@ -10,6 +10,7 @@ public class VimeoOptions {
     public boolean title = true;
     public String quality = "Auto";
     public int color = Color.rgb(0, 172, 240);
+    public int backgroundColor = Color.BLACK;
     public boolean menuOption = true;
     public boolean fullscreenOption = true;
     public float aspectRatio = 16f/9;
