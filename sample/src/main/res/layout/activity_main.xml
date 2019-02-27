@@ -41,6 +41,7 @@
             app:showTitle="true"
             app:topicColor="#FFFF00"
             app:quality="auto"
+            app:backgroundColor="#00FFFF"
             />
 
 

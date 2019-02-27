@@ -335,6 +335,7 @@ public class VimeoPlayerView extends FrameLayout implements LifecycleObserver {
             String quality = attributes.getString(R.styleable.VimeoPlayerView_quality);
             if(quality==null) quality = "Auto";
             int color = attributes.getColor(R.styleable.VimeoPlayerView_topicColor, defaultColor);
+            int backgroundColor = attributes.getColor(R.styleable.VimeoPlayerView_backgroundColor, Color.BLACK);
             boolean menuOption = attributes.getBoolean(R.styleable.VimeoPlayerView_showMenuOption, false);
             boolean fullscreenOption = attributes.getBoolean(R.styleable.VimeoPlayerView_showFullscreenOption, false);
             float aspectRatio = attributes.getFloat(R.styleable.VimeoPlayerView_aspectRatio, defaultAspectRatio);
@@ -378,6 +379,7 @@ public class VimeoPlayerView extends FrameLayout implements LifecycleObserver {
             options.title = title;
             options.quality = quality;
             options.color = color;
+            options.backgroundColor = backgroundColor;
             options.menuOption = menuOption;
             options.fullscreenOption = fullscreenOption;
             options.aspectRatio = aspectRatio;

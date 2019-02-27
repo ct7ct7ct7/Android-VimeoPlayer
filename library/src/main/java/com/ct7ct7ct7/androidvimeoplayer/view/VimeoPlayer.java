@@ -210,6 +210,7 @@ public class VimeoPlayer extends WebView {
                 .replace("<PLAYSINLINE>", String.valueOf(vimeoOptions.originalControls))
                 .replace("<TITLE>", String.valueOf(vimeoOptions.title))
                 .replace("<COLOR>", Utils.colorToHex(vimeoOptions.color))
+                .replace("<BACKGROUND_COLOR>", Utils.colorToHex(vimeoOptions.backgroundColor))
                 .replace("<QUALITY>",vimeoOptions.quality)
                 .replace("<ASPECTRATIO>", String.valueOf(vimeoOptions.aspectRatio));
 

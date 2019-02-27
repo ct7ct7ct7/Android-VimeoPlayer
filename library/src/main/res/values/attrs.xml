@@ -6,6 +6,7 @@
         <attr name="loop" format="boolean"/>
         <attr name="muted" format="boolean"/>
         <attr name="topicColor" format="color"/>
+        <attr name="backgroundColor" format="color"/>
         <attr name="showOriginalControls" format="boolean"/>
         <attr name="showTitle" format="boolean"/>
         <attr name="showMenuOption" format="boolean"/>
