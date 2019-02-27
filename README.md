@@ -12,7 +12,7 @@ Unofficial Vimeo video player library for Android.
 
 ```
 dependencies {
-    implementation 'com.ct7ct7ct7.androidvimeoplayer:library:1.1.0'
+    implementation 'com.ct7ct7ct7.androidvimeoplayer:library:1.1.1'
 }
 ```
 
@@ -38,6 +38,7 @@ dependencies {
             app:showTitle="true"
             app:topicColor="#FFFF00"
             app:aspectRatio="1.778"
+            app:backgroundColor="#00FFFF"
             />
 </LinearLayout>
 ```
@@ -58,6 +59,7 @@ vimeoPlayer.initialize({YourPrivateVideoId},"VideoHashKey", "SettingsEmbeddedUrl
 ### **Properties**
 
 * `app:topicColor` (default : 00adef) Specify the color of the video controls.
+* `app:backgroundColor` (default : 000000) Specify the color of the video background.
 * `app:autoPlay` (default : false) Automatically start playback of the video. 
 * `app:loop` (default : false) Play the video again when it reaches the end.
 * `app:muted` (default : false) Mute this video on load.
