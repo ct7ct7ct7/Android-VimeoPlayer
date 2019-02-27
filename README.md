@@ -12,7 +12,7 @@ Unofficial Vimeo video player library for Android.
 
 ```
 dependencies {
-    implementation 'com.ct7ct7ct7.androidvimeoplayer:library:1.0.9'
+    implementation 'com.ct7ct7ct7.androidvimeoplayer:library:1.1.0'
 }
 ```
 
@@ -66,7 +66,7 @@ vimeoPlayer.initialize({YourPrivateVideoId},"VideoHashKey", "SettingsEmbeddedUrl
 * `app:showFullscreenOption` (default : false) Show the fullscreen button on the native controls.
 * `app:showMenuOption` (default : false) Show the menu button on the native controls.
 * `app:aspectRatio` (default : 1.777..) Assign aspect ratio. default is 16/9.
-
+* `app:quality` (default : "auto") Vimeo Plus, PRO, and Business members can set this config. Possible values:Auto, 4K, 2K, 1080p, 720p, 540p, 360p 
 
 
 
@@ -134,6 +134,8 @@ val baseUrl: String? = vimeoPlayer.baseUrl
 val hashKey: String? = vimeoPlayer.hashKey
 val playerState: PlayerState = vimeoPlayer.playerState
 val currentTime: Float = vimeoPlayer.currentTimeSeconds
+vimeoPlayer.setCaptions("en") //only supported original controls.
+vimeoPlayer.disableCaptions() //only supported original controls.
 vimeoPlayer.seekTo(0.0f)
 vimeoPlayer.loop = true
 vimeoPlayer.topicColor = Color.RED
@@ -156,7 +158,7 @@ vimeoPlayer.recycle()
 
 ```
 vimeoPlayer.addReadyListener(object : VimeoPlayerReadyListener {
-    override fun onReady(title: String?, duration: Float) {
+    override fun onReady(title: String?, duration: Float, textTrackArray: Array<TextTrack>) {
         //TODO
     }
 
