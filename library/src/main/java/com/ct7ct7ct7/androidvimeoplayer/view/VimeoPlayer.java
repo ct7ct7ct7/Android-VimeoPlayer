@@ -309,7 +309,6 @@ public class VimeoPlayer extends WebView {
     public void recycle(){
         destroyPlayer();
         this.setTag(null);
-        this.clearHistory();
         this.destroy();
     }
 }
