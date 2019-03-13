@@ -23,7 +23,8 @@
 
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-        <script src="https://player.vimeo.com/api/player.js"></script>
+
+        <script src="file:///android_res/raw/vimeoplayer.js"></script>
     </head>
 
     <body>
@@ -33,65 +34,71 @@
     </body>
 
 
+
     <script type="text/javascript">
-
     var jsBridge = window.JsBridge;
+    var player = null;
 
-    var w = document.body.clientWidth;
-    var h = (w / <ASPECTRATIO>);
+    function initVimeoPlayer(){
+        var w = document.body.clientWidth;
+        var h = document.body.clientHeight;
 
-    var options = {
-        url: '<VIDEO_URL>',
-        autoplay: <AUTOPLAY>,
-        playsinline: <PLAYSINLINE>,
-        color: '<COLOR>',
-        muted: <MUTED>,
-        loop: <LOOP>,
-        title: <TITLE>,
-        quality: '<QUALITY>',
-        portrait: true,
-        byline: true,
-        speed: true,
-        transparent: true,
-        width: w,
-        height: h
-    };
-    var player = new Vimeo.Player('player', options);
+        var options = {
+            url: '<VIDEO_URL>',
+            autoplay: <AUTOPLAY>,
+            playsinline: <PLAYSINLINE>,
+            color: '<COLOR>',
+            muted: <MUTED>,
+            loop: <LOOP>,
+            title: <TITLE>,
+            quality: '<QUALITY>',
+            portrait: true,
+            byline: true,
+            speed: true,
+            transparent: true,
+            width: w,
+            height: h
+        };
+        player = new Vimeo.Player('player', options);
 
-    player.on('timeupdate', function (data) {
-        jsBridge.sendVideoCurrentTime(data.seconds)
-    });
+        player.on('timeupdate', function (data) {
+            jsBridge.sendVideoCurrentTime(data.seconds)
+        });
 
-    player.on('play', function (data) {
-        jsBridge.sendPlaying(data.duration)
-    });
+        player.on('play', function (data) {
+            jsBridge.sendPlaying(data.duration)
+        });
 
-    player.on('pause', function (data) {
-        jsBridge.sendPaused(data.seconds)
-    });
+        player.on('pause', function (data) {
+            jsBridge.sendPaused(data.seconds)
+        });
 
-    player.on('ended', function (data) {
-        jsBridge.sendEnded(data.duration)
-    });
+        player.on('ended', function (data) {
+            jsBridge.sendEnded(data.duration)
+        });
 
-    player.on('volumechange', function (data) {
-        jsBridge.sendVolumeChange(data.volume)
-    });
+        player.on('volumechange', function (data) {
+            jsBridge.sendVolumeChange(data.volume)
+        });
 
-    player.on('texttrackchange', function (data) {
-        jsBridge.sendTextTrackChange(data.kind,data.label,data.language)
-    });
+        player.on('texttrackchange', function (data) {
+            jsBridge.sendTextTrackChange(data.kind,data.label,data.language)
+        });
 
-    player.on('error', function (data) {
-        jsBridge.sendError(data.message,data.method,data.name)
-    });
+        player.on('error', function (data) {
+            jsBridge.sendError(data.message,data.method,data.name)
+        });
 
-    player.ready().then(function () {
-        player.getDuration().then(function(duration) {
-            player.getVideoTitle().then(function(title) {
-                player.getTextTracks().then(function(tracks) {
-                    var tracksJSON = JSON.stringify(tracks);
-                    jsBridge.sendReady(title,duration,tracksJSON)
+        player.ready().then(function () {
+            player.getDuration().then(function(duration) {
+                player.getVideoTitle().then(function(title) {
+                    player.getTextTracks().then(function(tracks) {
+                        var tracksJSON = JSON.stringify(tracks);
+                        jsBridge.sendReady(title,duration,tracksJSON)
+                    }).catch(function(error) {
+                        jsBridge.sendInitFailed()
+                        jsBridge.sendError('Init failed','init','init')
+                    })
                 }).catch(function(error) {
                     jsBridge.sendInitFailed()
                     jsBridge.sendError('Init failed','init','init')
@@ -100,18 +107,11 @@
                 jsBridge.sendInitFailed()
                 jsBridge.sendError('Init failed','init','init')
             })
-        }).catch(function(error) {
+        }).catch(function (error) {
             jsBridge.sendInitFailed()
             jsBridge.sendError('Init failed','init','init')
-        })
-    }).catch(function (error) {
-        jsBridge.sendInitFailed()
-        jsBridge.sendError('Init failed','init','init')
-    });
-
-
-
-
+        });
+    }
 
     function seekTo(startSeconds) {
         player.setCurrentTime(startSeconds)
@@ -185,6 +185,7 @@
     function disableCaptions() {
         player.disableTextTrack()
     }
+
     </script>
 
 </html>
