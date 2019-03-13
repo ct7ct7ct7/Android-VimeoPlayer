@@ -8,7 +8,7 @@
         <activity
             android:name=".view.VimeoPlayerActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:theme="@style/Theme.AppCompat.NoActionBar">
+            android:theme="@style/AppTheme_Fullscreen">
         </activity>
     </application>
 </manifest>

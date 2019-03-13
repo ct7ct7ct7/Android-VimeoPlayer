@@ -1,5 +1,6 @@
 package com.ct7ct7ct7.androidvimeoplayer.view;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Handler;
@@ -182,6 +183,7 @@ public class VimeoPlayer extends WebView {
     }
 
 
+    @SuppressLint("SetJavaScriptEnabled")
     private void initWebView(JsBridge jsBridge, VimeoOptions vimeoOptions, int videoId, String hashKey, String baseUrl) {
         WebSettings settings = this.getSettings();
         settings.setJavaScriptEnabled(true);
@@ -211,8 +213,7 @@ public class VimeoPlayer extends WebView {
                 .replace("<TITLE>", String.valueOf(vimeoOptions.title))
                 .replace("<COLOR>", Utils.colorToHex(vimeoOptions.color))
                 .replace("<BACKGROUND_COLOR>", Utils.colorToHex(vimeoOptions.backgroundColor))
-                .replace("<QUALITY>",vimeoOptions.quality)
-                .replace("<ASPECTRATIO>", String.valueOf(vimeoOptions.aspectRatio));
+                .replace("<QUALITY>",vimeoOptions.quality);
 
 
         this.loadDataWithBaseURL(baseUrl, formattedString, "text/html", "utf-8", null);
@@ -229,7 +230,23 @@ public class VimeoPlayer extends WebView {
                     return result;
             }
         });
+
+
+        post(new Runnable() {
+            @Override
+            public void run() {
+                mainThreadHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        loadUrl("javascript:initVimeoPlayer()");
+                    }
+                },250);
+            }
+        });
+
     }
+
+
 
     private String readVimeoPlayerHTMLFromFile() {
         try {
