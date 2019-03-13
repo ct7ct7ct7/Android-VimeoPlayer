@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 import com.ct7ct7ct7.androidvimeoplayer.listeners.VimeoPlayerReadyListener;
 import com.ct7ct7ct7.androidvimeoplayer.model.PlayerState;
@@ -231,19 +232,18 @@ public class VimeoPlayer extends WebView {
             }
         });
 
-
-        post(new Runnable() {
+        WebViewClient webViewClient = new WebViewClient() {
             @Override
-            public void run() {
-                mainThreadHandler.postDelayed(new Runnable() {
+            public void onPageFinished(WebView view, String url) {
+                mainThreadHandler.post(new Runnable() {
                     @Override
                     public void run() {
                         loadUrl("javascript:initVimeoPlayer()");
                     }
-                },250);
+                });
             }
-        });
-
+        };
+        setWebViewClient(webViewClient);
     }
 
 
