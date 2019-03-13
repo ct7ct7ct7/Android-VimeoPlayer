@@ -232,17 +232,17 @@ public class VimeoPlayer extends WebView {
         });
 
 
-        postDelayed(new Runnable() {
+        post(new Runnable() {
             @Override
             public void run() {
-                mainThreadHandler.post(new Runnable() {
+                mainThreadHandler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         loadUrl("javascript:initVimeoPlayer()");
                     }
-                });
+                },250);
             }
-        },250);
+        });
 
     }
 
