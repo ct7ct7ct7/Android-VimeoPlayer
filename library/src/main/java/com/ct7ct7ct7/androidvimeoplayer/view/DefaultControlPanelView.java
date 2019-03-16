@@ -1,22 +1,36 @@
 package com.ct7ct7ct7.androidvimeoplayer.view;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.Priority;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.ct7ct7ct7.androidvimeoplayer.R;
 import com.ct7ct7ct7.androidvimeoplayer.listeners.VimeoPlayerReadyListener;
 import com.ct7ct7ct7.androidvimeoplayer.listeners.VimeoPlayerStateListener;
 import com.ct7ct7ct7.androidvimeoplayer.listeners.VimeoPlayerTimeListener;
 import com.ct7ct7ct7.androidvimeoplayer.model.TextTrack;
+import com.ct7ct7ct7.androidvimeoplayer.model.VimeoThumbnail;
 import com.ct7ct7ct7.androidvimeoplayer.utils.Utils;
 import com.ct7ct7ct7.androidvimeoplayer.view.menu.ViemoMenuItem;
 import com.ct7ct7ct7.androidvimeoplayer.view.menu.ViemoPlayerMenu;
+import com.google.gson.Gson;
+
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class DefaultControlPanelView {
     private View vimeoPanelView;
@@ -25,6 +39,7 @@ public class DefaultControlPanelView {
     private ImageView vimeoFullscreenButton;
     private SeekBar vimeoSeekBar;
     private TextView vimeoCurrentTimeTextView;
+    private ImageView vimeoThumbnailImageView;
     private ImageView vimeoPlayButton;
     private ImageView vimeoPauseButton;
     private ImageView vimeoReplayButton;
@@ -41,6 +56,7 @@ public class DefaultControlPanelView {
         vimeoFullscreenButton = defaultControlPanelView.findViewById(R.id.vimeoFullscreenButton);
         vimeoSeekBar = defaultControlPanelView.findViewById(R.id.vimeoSeekBar);
         vimeoCurrentTimeTextView = defaultControlPanelView.findViewById(R.id.vimeoCurrentTimeTextView);
+        vimeoThumbnailImageView = defaultControlPanelView.findViewById(R.id.vimeoThumbnailImageView);
         vimeoPlayButton = defaultControlPanelView.findViewById(R.id.vimeoPlayButton);
         vimeoPauseButton = defaultControlPanelView.findViewById(R.id.vimeoPauseButton);
         vimeoReplayButton = defaultControlPanelView.findViewById(R.id.vimeoReplayButton);
@@ -51,6 +67,7 @@ public class DefaultControlPanelView {
         vimeoSeekBar.setVisibility(View.INVISIBLE);
         vimeoPanelView.setVisibility(View.VISIBLE);
         vimeoShadeView.setVisibility(View.VISIBLE);
+        vimeoThumbnailImageView.setVisibility(View.VISIBLE);
         controlsRootView.setVisibility(View.GONE);
 
         vimeoPauseButton.setOnClickListener(new View.OnClickListener() {
@@ -108,6 +125,7 @@ public class DefaultControlPanelView {
                 vimeoPauseButton.setVisibility(View.VISIBLE);
                 vimeoPlayButton.setVisibility(View.GONE);
                 vimeoReplayButton.setVisibility(View.GONE);
+                vimeoThumbnailImageView.setVisibility(View.GONE);
                 dismissControls(4000);
             }
 
@@ -128,6 +146,7 @@ public class DefaultControlPanelView {
             @Override
             public void onEnded(float duration) {
                 ended = true;
+                vimeoThumbnailImageView.setVisibility(View.VISIBLE);
                 showControls(false);
             }
         });
@@ -233,8 +252,43 @@ public class DefaultControlPanelView {
         vimeoMenuButton.setOnClickListener(onClickListener);
     }
 
-    public void setTopicColor(int color){
+    public void setTopicColor(int color) {
         vimeoSeekBar.getThumb().setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         vimeoSeekBar.getProgressDrawable().setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    protected void fetchThumbnail(final Context context, final int videoId) {
+        new AsyncTask<Void, Void, VimeoThumbnail>() {
+            @Override
+            protected VimeoThumbnail doInBackground(Void... voids) {
+                String url = "https://vimeo.com/api/oembed.json?url=https://player.vimeo.com/video/" + videoId;
+                OkHttpClient client = new OkHttpClient();
+                Request request = new Request.Builder().url(url).build();
+                VimeoThumbnail vimeoThumbnail = null;
+                try {
+                    Response response = client.newCall(request).execute();
+                    vimeoThumbnail = new Gson().fromJson(response.body().string(), VimeoThumbnail.class);
+                } catch (Exception e) {
+                    Log.e(context.getPackageName(), e.toString());
+                }
+                return vimeoThumbnail;
+            }
+
+            @Override
+            protected void onPostExecute(VimeoThumbnail vimeoThumbnail) {
+                super.onPostExecute(vimeoThumbnail);
+                if (vimeoThumbnail != null && vimeoThumbnail.thumbnailUrl != null) {
+                    RequestOptions options = new RequestOptions()
+                            .priority(Priority.NORMAL)
+                            .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
+
+                    Glide.with(context)
+                            .load(vimeoThumbnail.thumbnailUrl)
+                            .apply(options)
+                            .into(vimeoThumbnailImageView);
+                }
+            }
+        }.execute();
     }
 }

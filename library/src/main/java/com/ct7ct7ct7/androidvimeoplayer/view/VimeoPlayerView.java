@@ -71,6 +71,7 @@ public class VimeoPlayerView extends FrameLayout implements LifecycleObserver {
                     }
                 }
             }
+
             @Override
             public void onInitFailed() {
                 progressBar.setVisibility(View.GONE);
@@ -333,14 +334,14 @@ public class VimeoPlayerView extends FrameLayout implements LifecycleObserver {
             boolean originalControls = attributes.getBoolean(R.styleable.VimeoPlayerView_showOriginalControls, false);
             boolean title = attributes.getBoolean(R.styleable.VimeoPlayerView_showTitle, true);
             String quality = attributes.getString(R.styleable.VimeoPlayerView_quality);
-            if(quality==null) quality = "Auto";
+            if (quality == null) quality = "Auto";
             int color = attributes.getColor(R.styleable.VimeoPlayerView_topicColor, defaultColor);
             int backgroundColor = attributes.getColor(R.styleable.VimeoPlayerView_backgroundColor, Color.BLACK);
             boolean menuOption = attributes.getBoolean(R.styleable.VimeoPlayerView_showMenuOption, false);
             boolean fullscreenOption = attributes.getBoolean(R.styleable.VimeoPlayerView_showFullscreenOption, false);
             float aspectRatio = attributes.getFloat(R.styleable.VimeoPlayerView_aspectRatio, defaultAspectRatio);
 
-            switch (quality){
+            switch (quality) {
                 case "4K":
                 case "4k":
                     quality = "4K";
@@ -398,6 +399,9 @@ public class VimeoPlayerView extends FrameLayout implements LifecycleObserver {
         this.hashKey = hashKey;
         this.baseUrl = baseUrl;
         vimeoPlayer.initialize(jsBridge, defaultOptions, videoId, hashKey, baseUrl);
+        if (defaultControlPanelView != null) {
+            defaultControlPanelView.fetchThumbnail(getContext(), videoId);
+        }
     }
 
     /**
