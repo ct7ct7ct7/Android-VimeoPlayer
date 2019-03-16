@@ -14,6 +14,11 @@
         android:focusable="true"
         />
 
+    <ImageView
+        android:id="@+id/vimeoThumbnailImageView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
     <FrameLayout
         android:id="@+id/controlsRootView"
         android:layout_width="match_parent"
@@ -21,16 +26,16 @@
         >
 
         <View
-            android:layout_gravity="top"
             android:layout_width="match_parent"
             android:layout_height="64dp"
-            android:background="@drawable/drop_shadow_top" />
+            android:layout_gravity="top"
+            android:background="@drawable/drop_shadow_top"/>
 
         <View
-            android:layout_gravity="bottom"
             android:layout_width="match_parent"
             android:layout_height="64dp"
-            android:background="@drawable/drop_shadow_bottom" />
+            android:layout_gravity="bottom"
+            android:background="@drawable/drop_shadow_bottom"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -73,20 +78,20 @@
 
 
         <LinearLayout
-            android:padding="8dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:padding="8dp">
 
             <TextView
-                android:textStyle="bold"
                 android:id="@+id/vimeoTitleTextView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:maxLines="2"
                 android:padding="8dp"
                 android:textColor="@android:color/white"
-                android:maxLines="2"
                 android:textSize="18sp"
+                android:textStyle="bold"
                 tools:text="TitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitle"/>
 
             <ImageView
@@ -143,12 +148,12 @@
 
 
     <View
-        android:clickable="true"
-        android:focusable="true"
         android:id="@+id/vimeoShadeView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@android:color/black"
+        android:clickable="true"
+        android:focusable="true"
         android:visibility="visible"
         tools:visibility="gone"/>
 </FrameLayout>
