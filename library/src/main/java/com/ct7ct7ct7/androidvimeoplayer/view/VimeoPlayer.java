@@ -3,10 +3,9 @@ package com.ct7ct7ct7.androidvimeoplayer.view;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.os.Handler;
-import android.os.Looper;
 import android.util.AttributeSet;
 import android.view.ViewGroup;
+import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -25,7 +24,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 public class VimeoPlayer extends WebView {
-    private Handler mainThreadHandler;
     private int videoId;
     private String hashKey;
     private String baseUrl;
@@ -43,57 +41,54 @@ public class VimeoPlayer extends WebView {
 
     public VimeoPlayer(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        this.mainThreadHandler = new Handler(Looper.getMainLooper());
     }
 
-    @Override
-    public void destroy() {
-        mainThreadHandler.removeCallbacksAndMessages(null);
-        super.destroy();
-    }
+
 
     public void loadVideo(final int videoId) {
-        mainThreadHandler.post(new Runnable() {
+        String script = "javascript:loadVideo('" + videoId + "')";
+        evaluateJavascript(script,new ValueCallback<String>() {
             @Override
-            public void run() {
-                loadUrl("javascript:loadVideo('" + videoId + "')");
+            public void onReceiveValue(String value) {
+
             }
         });
     }
 
     public void playTwoStage() {
-        mainThreadHandler.post(new Runnable() {
+        evaluateJavascript("javascript:playTwoStage()",new ValueCallback<String>() {
             @Override
-            public void run() {
-                loadUrl("javascript:playTwoStage()");
+            public void onReceiveValue(String value) {
+
             }
         });
     }
 
     public void play() {
-        mainThreadHandler.post(new Runnable() {
+        evaluateJavascript("javascript:playVideo()",new ValueCallback<String>() {
             @Override
-            public void run() {
-                loadUrl("javascript:playVideo()");
+            public void onReceiveValue(String value) {
+
             }
         });
     }
 
     public void pause() {
-        mainThreadHandler.post(new Runnable() {
+        evaluateJavascript("javascript:pauseVideo()",new ValueCallback<String>() {
             @Override
-            public void run() {
-                loadUrl("javascript:pauseVideo()");
+            public void onReceiveValue(String value) {
+
             }
         });
     }
 
 
     public void seekTo(final float time) {
-        mainThreadHandler.post(new Runnable() {
+        String script = "javascript:seekTo(" + time + ")";
+        evaluateJavascript(script,new ValueCallback<String>() {
             @Override
-            public void run() {
-                loadUrl("javascript:seekTo(" + time + ")");
+            public void onReceiveValue(String value) {
+
             }
         });
     }
@@ -115,59 +110,63 @@ public class VimeoPlayer extends WebView {
     }
 
     public void setVolume(final float volume) {
-        mainThreadHandler.post(new Runnable() {
+        String script = "javascript:setVolume(" + volume + ")";
+        evaluateJavascript(script,new ValueCallback<String>() {
             @Override
-            public void run() {
-                loadUrl("javascript:setVolume(" + volume + ")");
+            public void onReceiveValue(String value) {
+
             }
         });
     }
 
 
     public void setTopicColor(final String hexColor) {
-        mainThreadHandler.post(new Runnable() {
+        String script = "javascript:setColor('" + hexColor + "')";
+        evaluateJavascript(script,new ValueCallback<String>() {
             @Override
-            public void run() {
-                loadUrl("javascript:setColor('" + hexColor + "')");
+            public void onReceiveValue(String value) {
+
             }
         });
     }
 
 
     public void setLoop(final boolean loop) {
-        mainThreadHandler.post(new Runnable() {
+        String script = "javascript:setLoop(" + loop + ")";
+        evaluateJavascript(script,new ValueCallback<String>() {
             @Override
-            public void run() {
-                loadUrl("javascript:setLoop(" + loop + ")");
+            public void onReceiveValue(String value) {
+
             }
         });
     }
 
 
     public void setPlaybackRate(final float playbackRate) {
-        mainThreadHandler.post(new Runnable() {
+        String script = "javascript:setPlaybackRate(" + playbackRate + ")";
+        evaluateJavascript(script,new ValueCallback<String>() {
             @Override
-            public void run() {
-                loadUrl("javascript:setPlaybackRate(" + playbackRate + ")");
+            public void onReceiveValue(String value) {
+
             }
         });
     }
 
 
     public void setCaptions(final String language) {
-        mainThreadHandler.post(new Runnable() {
+        evaluateJavascript("javascript:setCaptions()",new ValueCallback<String>() {
             @Override
-            public void run() {
-                loadUrl("javascript:setCaptions('" + language + "')");
+            public void onReceiveValue(String value) {
+
             }
         });
     }
 
     public void disableCaptions() {
-        mainThreadHandler.post(new Runnable() {
+        evaluateJavascript("javascript:disableCaptions()",new ValueCallback<String>() {
             @Override
-            public void run() {
-                loadUrl("javascript:disableCaptions()");
+            public void onReceiveValue(String value) {
+
             }
         });
     }
@@ -175,10 +174,10 @@ public class VimeoPlayer extends WebView {
 
 
     protected void destroyPlayer() {
-        mainThreadHandler.post(new Runnable() {
+        evaluateJavascript("javascript:destroyPlayer()",new ValueCallback<String>() {
             @Override
-            public void run() {
-                loadUrl("javascript:destroyPlayer()");
+            public void onReceiveValue(String value) {
+
             }
         });
     }
@@ -234,11 +233,11 @@ public class VimeoPlayer extends WebView {
 
         WebViewClient webViewClient = new WebViewClient() {
             @Override
-            public void onPageFinished(WebView view, String url) {
-                mainThreadHandler.post(new Runnable() {
+            public void onPageFinished(WebView webView, String url) {
+                webView.evaluateJavascript("javascript:initVimeoPlayer()",new ValueCallback<String>() {
                     @Override
-                    public void run() {
-                        loadUrl("javascript:initVimeoPlayer()");
+                    public void onReceiveValue(String value) {
+
                     }
                 });
             }
