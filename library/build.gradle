@@ -3,8 +3,6 @@ apply plugin: 'com.android.library'
 android {
     compileSdkVersion compileSdk
 
-
-
     defaultConfig {
         minSdkVersion minSdk
         targetSdkVersion targetSdk
