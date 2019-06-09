@@ -154,7 +154,7 @@ public class VimeoPlayer extends WebView {
 
 
     public void setCaptions(final String language) {
-        evaluateJavascript("javascript:setCaptions()",new ValueCallback<String>() {
+        evaluateJavascript("javascript:setCaptions('" + language + "')",new ValueCallback<String>() {
             @Override
             public void onReceiveValue(String value) {
 
