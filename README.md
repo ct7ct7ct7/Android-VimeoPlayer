@@ -12,7 +12,7 @@ Unofficial Vimeo video player library for Android.
 
 ```
 dependencies {
-    implementation 'com.ct7ct7ct7.androidvimeoplayer:library:1.1.9'
+    implementation 'com.ct7ct7ct7.androidvimeoplayer:library:{latest version}'
 }
 ```
 
