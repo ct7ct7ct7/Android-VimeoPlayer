@@ -314,6 +314,5 @@ public class VimeoPlayer extends WebView {
         clearWebViewCache();
         destroyPlayer();
         this.setTag(null);
-        this.destroy();
     }
 }
