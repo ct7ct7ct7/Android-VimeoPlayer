@@ -44,10 +44,9 @@ public class VimeoPlayer extends WebView {
     }
 
 
-
     public void loadVideo(final int videoId) {
         String script = "javascript:loadVideo('" + videoId + "')";
-        evaluateJavascript(script,new ValueCallback<String>() {
+        evaluateJavascript(script, new ValueCallback<String>() {
             @Override
             public void onReceiveValue(String value) {
 
@@ -56,7 +55,7 @@ public class VimeoPlayer extends WebView {
     }
 
     public void playTwoStage() {
-        evaluateJavascript("javascript:playTwoStage()",new ValueCallback<String>() {
+        evaluateJavascript("javascript:playTwoStage()", new ValueCallback<String>() {
             @Override
             public void onReceiveValue(String value) {
 
@@ -65,7 +64,7 @@ public class VimeoPlayer extends WebView {
     }
 
     public void play() {
-        evaluateJavascript("javascript:playVideo()",new ValueCallback<String>() {
+        evaluateJavascript("javascript:playVideo()", new ValueCallback<String>() {
             @Override
             public void onReceiveValue(String value) {
 
@@ -74,7 +73,7 @@ public class VimeoPlayer extends WebView {
     }
 
     public void pause() {
-        evaluateJavascript("javascript:pauseVideo()",new ValueCallback<String>() {
+        evaluateJavascript("javascript:pauseVideo()", new ValueCallback<String>() {
             @Override
             public void onReceiveValue(String value) {
 
@@ -85,7 +84,7 @@ public class VimeoPlayer extends WebView {
 
     public void seekTo(final float time) {
         String script = "javascript:seekTo(" + time + ")";
-        evaluateJavascript(script,new ValueCallback<String>() {
+        evaluateJavascript(script, new ValueCallback<String>() {
             @Override
             public void onReceiveValue(String value) {
 
@@ -96,22 +95,22 @@ public class VimeoPlayer extends WebView {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         ViewGroup.LayoutParams parentLp = ((ViewGroup) getParent()).getLayoutParams();
-        if(parentLp.width == ViewGroup.LayoutParams.MATCH_PARENT && parentLp.height == ViewGroup.LayoutParams.MATCH_PARENT){
-            if(widthMeasureSpec < heightMeasureSpec){
-                int heightByRatio = MeasureSpec.makeMeasureSpec((int)(MeasureSpec.getSize(widthMeasureSpec) * vimeoOptions.aspectRatio), MeasureSpec.EXACTLY);
+        if (parentLp.width == ViewGroup.LayoutParams.MATCH_PARENT && parentLp.height == ViewGroup.LayoutParams.MATCH_PARENT) {
+            if (widthMeasureSpec < heightMeasureSpec) {
+                int heightByRatio = MeasureSpec.makeMeasureSpec((int) (MeasureSpec.getSize(widthMeasureSpec) * vimeoOptions.aspectRatio), MeasureSpec.EXACTLY);
                 super.onMeasure(widthMeasureSpec, heightByRatio);
-            }else{
-                int widthByRatio = MeasureSpec.makeMeasureSpec((int)(MeasureSpec.getSize(heightMeasureSpec) * vimeoOptions.aspectRatio), MeasureSpec.EXACTLY);
+            } else {
+                int widthByRatio = MeasureSpec.makeMeasureSpec((int) (MeasureSpec.getSize(heightMeasureSpec) * vimeoOptions.aspectRatio), MeasureSpec.EXACTLY);
                 super.onMeasure(widthByRatio, heightMeasureSpec);
             }
-        }else{
+        } else {
             super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         }
     }
 
     public void setVolume(final float volume) {
         String script = "javascript:setVolume(" + volume + ")";
-        evaluateJavascript(script,new ValueCallback<String>() {
+        evaluateJavascript(script, new ValueCallback<String>() {
             @Override
             public void onReceiveValue(String value) {
 
@@ -122,7 +121,7 @@ public class VimeoPlayer extends WebView {
 
     public void setTopicColor(final String hexColor) {
         String script = "javascript:setColor('" + hexColor + "')";
-        evaluateJavascript(script,new ValueCallback<String>() {
+        evaluateJavascript(script, new ValueCallback<String>() {
             @Override
             public void onReceiveValue(String value) {
 
@@ -133,7 +132,7 @@ public class VimeoPlayer extends WebView {
 
     public void setLoop(final boolean loop) {
         String script = "javascript:setLoop(" + loop + ")";
-        evaluateJavascript(script,new ValueCallback<String>() {
+        evaluateJavascript(script, new ValueCallback<String>() {
             @Override
             public void onReceiveValue(String value) {
 
@@ -144,7 +143,7 @@ public class VimeoPlayer extends WebView {
 
     public void setPlaybackRate(final float playbackRate) {
         String script = "javascript:setPlaybackRate(" + playbackRate + ")";
-        evaluateJavascript(script,new ValueCallback<String>() {
+        evaluateJavascript(script, new ValueCallback<String>() {
             @Override
             public void onReceiveValue(String value) {
 
@@ -154,7 +153,7 @@ public class VimeoPlayer extends WebView {
 
 
     public void setCaptions(final String language) {
-        evaluateJavascript("javascript:setCaptions('" + language + "')",new ValueCallback<String>() {
+        evaluateJavascript("javascript:setCaptions('" + language + "')", new ValueCallback<String>() {
             @Override
             public void onReceiveValue(String value) {
 
@@ -163,7 +162,7 @@ public class VimeoPlayer extends WebView {
     }
 
     public void disableCaptions() {
-        evaluateJavascript("javascript:disableCaptions()",new ValueCallback<String>() {
+        evaluateJavascript("javascript:disableCaptions()", new ValueCallback<String>() {
             @Override
             public void onReceiveValue(String value) {
 
@@ -172,9 +171,8 @@ public class VimeoPlayer extends WebView {
     }
 
 
-
     protected void destroyPlayer() {
-        evaluateJavascript("javascript:destroyPlayer()",new ValueCallback<String>() {
+        evaluateJavascript("javascript:destroyPlayer()", new ValueCallback<String>() {
             @Override
             public void onReceiveValue(String value) {
 
@@ -185,12 +183,15 @@ public class VimeoPlayer extends WebView {
 
     @SuppressLint("SetJavaScriptEnabled")
     private void initWebView(JsBridge jsBridge, VimeoOptions vimeoOptions, int videoId, String hashKey, String baseUrl) {
-        WebSettings settings = this.getSettings();
-        settings.setJavaScriptEnabled(true);
-        settings.setCacheMode(WebSettings.LOAD_NO_CACHE);
-        settings.setMediaPlaybackRequiresUserGesture(false);
-        this.addJavascriptInterface(jsBridge, "JsBridge");
+        clearWebViewCache();
 
+        this.getSettings().setJavaScriptEnabled(true);
+        this.getSettings().setSupportMultipleWindows(false);
+        this.getSettings().setAppCacheEnabled(false);
+        this.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
+        this.getSettings().setMediaPlaybackRequiresUserGesture(false);
+
+        this.addJavascriptInterface(jsBridge, "JsBridge");
         final String unformattedString = readVimeoPlayerHTMLFromFile();
         String videoUrl = "https://vimeo.com/" + videoId;
         if (hashKey != null) {
@@ -213,7 +214,7 @@ public class VimeoPlayer extends WebView {
                 .replace("<TITLE>", String.valueOf(vimeoOptions.title))
                 .replace("<COLOR>", Utils.colorToHex(vimeoOptions.color))
                 .replace("<BACKGROUND_COLOR>", Utils.colorToHex(vimeoOptions.backgroundColor))
-                .replace("<QUALITY>",vimeoOptions.quality);
+                .replace("<QUALITY>", vimeoOptions.quality);
 
 
         this.loadDataWithBaseURL(baseUrl, formattedString, "text/html", "utf-8", null);
@@ -234,7 +235,7 @@ public class VimeoPlayer extends WebView {
         WebViewClient webViewClient = new WebViewClient() {
             @Override
             public void onPageFinished(WebView webView, String url) {
-                webView.evaluateJavascript("javascript:initVimeoPlayer()",new ValueCallback<String>() {
+                webView.evaluateJavascript("javascript:initVimeoPlayer()", new ValueCallback<String>() {
                     @Override
                     public void onReceiveValue(String value) {
 
@@ -245,6 +246,10 @@ public class VimeoPlayer extends WebView {
         setWebViewClient(webViewClient);
     }
 
+
+    private void clearWebViewCache() {
+        clearCache(true);
+    }
 
 
     private String readVimeoPlayerHTMLFromFile() {
@@ -305,7 +310,8 @@ public class VimeoPlayer extends WebView {
         initWebView(jsBridge, vimeoOptions, videoId, hashKey, baseUrl);
     }
 
-    public void recycle(){
+    public void recycle() {
+        clearWebViewCache();
         destroyPlayer();
         this.setTag(null);
         this.destroy();
