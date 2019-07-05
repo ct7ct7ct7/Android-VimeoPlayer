@@ -5,7 +5,7 @@ import android.support.v7.app.AppCompatActivity
 import com.ct7ct7ct7.androidvimeoplayersample.R
 import kotlinx.android.synthetic.main.activity_original_controls.*
 
-class OriginalControlsActivity  : AppCompatActivity(){
+class OriginalControlsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,6 +23,6 @@ class OriginalControlsActivity  : AppCompatActivity(){
 
     private fun setupView() {
         lifecycle.addObserver(vimeoPlayer)
-        vimeoPlayer.initialize(59777392)
+        vimeoPlayer.initialize(true, 59777392)
     }
 }

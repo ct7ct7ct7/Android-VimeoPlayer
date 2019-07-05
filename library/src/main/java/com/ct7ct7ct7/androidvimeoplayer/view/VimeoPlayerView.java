@@ -221,6 +221,11 @@ public class VimeoPlayerView extends FrameLayout implements LifecycleObserver {
         return textTracks;
     }
 
+    public void clearCache() {
+        vimeoPlayer.clearCache(true);
+    }
+
+
     public void recycle() {
         vimeoPlayer.recycle();
     }
@@ -394,11 +399,11 @@ public class VimeoPlayerView extends FrameLayout implements LifecycleObserver {
      * @param hashKey if your video is private, you MUST pass the private video hash key.
      * @param baseUrl settings embedded url. e.g. https://yourdomain
      */
-    public void initialize(int videoId, String hashKey, String baseUrl) {
+    public void initialize(boolean enabledCache, int videoId, String hashKey, String baseUrl) {
         this.videoId = videoId;
         this.hashKey = hashKey;
         this.baseUrl = baseUrl;
-        vimeoPlayer.initialize(jsBridge, defaultOptions, videoId, hashKey, baseUrl);
+        vimeoPlayer.initialize(enabledCache, jsBridge, defaultOptions, videoId, hashKey, baseUrl);
         if (defaultControlPanelView != null) {
             defaultControlPanelView.fetchThumbnail(getContext(), videoId);
         }
@@ -408,17 +413,17 @@ public class VimeoPlayerView extends FrameLayout implements LifecycleObserver {
      * @param videoId the video id.
      * @param baseUrl settings embedded url. e.g. https://yourdomain
      */
-    public void initialize(int videoId, String baseUrl) {
+    public void initialize(boolean enabledCache, int videoId, String baseUrl) {
         this.videoId = videoId;
         this.baseUrl = baseUrl;
-        vimeoPlayer.initialize(jsBridge, defaultOptions, videoId, null, baseUrl);
+        vimeoPlayer.initialize(enabledCache, jsBridge, defaultOptions, videoId, null, baseUrl);
     }
 
     /**
      * @param videoId the video id.
      */
-    public void initialize(int videoId) {
+    public void initialize(boolean enabledCache, int videoId) {
         this.videoId = videoId;
-        this.initialize(videoId, null, null);
+        this.initialize(enabledCache, videoId, null, null);
     }
 }

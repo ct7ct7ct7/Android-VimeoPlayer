@@ -79,12 +79,12 @@ public class VimeoPlayerActivity extends AppCompatActivity {
         endAt = getIntent().getFloatExtra(EXTRA_END_AT, Float.MAX_VALUE);
         topicColor = getIntent().getIntExtra(EXTRA_TOPIC_COLOR, Color.rgb(0, 172, 240));
         loop = getIntent().getBooleanExtra(EXTRA_LOOP, false);
-        aspectRatio = getIntent().getFloatExtra(EXTRA_ASPECT_RATIO, 16f/9);
+        aspectRatio = getIntent().getFloatExtra(EXTRA_ASPECT_RATIO, 16f / 9);
 
         vimeoPlayerView.defaultOptions.aspectRatio = aspectRatio;
         vimeoPlayerView.setLoop(loop);
         vimeoPlayerView.setTopicColor(topicColor);
-        vimeoPlayerView.initialize(videoId, hashKey, baseUrl);
+        vimeoPlayerView.initialize(true, videoId, hashKey, baseUrl);
         vimeoPlayerView.addReadyListener(new VimeoPlayerReadyListener() {
             @Override
             public void onReady(String title, float duration, TextTrack[] textTrackArray) {

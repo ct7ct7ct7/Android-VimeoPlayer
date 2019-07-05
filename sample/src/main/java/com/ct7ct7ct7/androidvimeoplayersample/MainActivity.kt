@@ -57,12 +57,12 @@ class MainActivity : AppCompatActivity() {
             false
         }
     }
-    
-    private fun setupView(){
+
+    private fun setupView() {
         lifecycle.addObserver(vimeoPlayer)
-        vimeoPlayer.initialize(59777392)
-        //vimeoPlayer.initialize({YourPrivateVideoId}, "SettingsEmbeddedUrl")
-        //vimeoPlayer.initialize({YourPrivateVideoId},"VideoHashKey", "SettingsEmbeddedUrl")
+        vimeoPlayer.initialize(true, 59777392)
+        //vimeoPlayer.initialize(true, {YourPrivateVideoId}, "SettingsEmbeddedUrl")
+        //vimeoPlayer.initialize(true, {YourPrivateVideoId},"VideoHashKey", "SettingsEmbeddedUrl")
 
         vimeoPlayer.addTimeListener { second ->
             playerCurrentTimeTextView.text = getString(R.string.player_current_time, second.toString())

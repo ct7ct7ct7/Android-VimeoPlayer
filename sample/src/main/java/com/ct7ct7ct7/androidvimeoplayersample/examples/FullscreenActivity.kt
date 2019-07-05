@@ -28,7 +28,7 @@ class FullscreenActivity : AppCompatActivity() {
 
     private fun setupView() {
         lifecycle.addObserver(vimeoPlayer)
-        vimeoPlayer.initialize(59777392)
+        vimeoPlayer.initialize(true, 59777392)
         vimeoPlayer.setFullscreenVisibility(true)
 
         vimeoPlayer.setFullscreenClickListener {

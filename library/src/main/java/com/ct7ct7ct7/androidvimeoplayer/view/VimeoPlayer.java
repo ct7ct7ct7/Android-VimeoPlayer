@@ -29,6 +29,7 @@ public class VimeoPlayer extends WebView {
     private String baseUrl;
     private JsBridge jsBridge;
     private VimeoOptions vimeoOptions;
+    private boolean enabledCache;
     private VimeoPlayerReadyListener resetReadyListener;
 
     public VimeoPlayer(Context context) {
@@ -182,14 +183,25 @@ public class VimeoPlayer extends WebView {
 
 
     @SuppressLint("SetJavaScriptEnabled")
-    private void initWebView(JsBridge jsBridge, VimeoOptions vimeoOptions, int videoId, String hashKey, String baseUrl) {
-        clearWebViewCache();
-
+    private void initWebView(boolean enabledCache, JsBridge jsBridge, VimeoOptions vimeoOptions, int videoId, String hashKey, String baseUrl) {
         this.getSettings().setJavaScriptEnabled(true);
         this.getSettings().setSupportMultipleWindows(false);
-        this.getSettings().setAppCacheEnabled(false);
-        this.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
         this.getSettings().setMediaPlaybackRequiresUserGesture(false);
+
+        if (enabledCache) {
+            this.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+            this.getSettings().setDatabaseEnabled(true);
+            this.getSettings().setDomStorageEnabled(true);
+            this.getSettings().setAllowFileAccess(true);
+            this.getSettings().setAppCacheEnabled(true);
+            this.getSettings().setAppCachePath(this.getContext().getCacheDir().getAbsolutePath());
+        } else {
+            this.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
+            this.getSettings().setDatabaseEnabled(false);
+            this.getSettings().setDomStorageEnabled(false);
+            this.getSettings().setAllowFileAccess(false);
+            this.getSettings().setAppCacheEnabled(false);
+        }
 
         this.addJavascriptInterface(jsBridge, "JsBridge");
         final String unformattedString = readVimeoPlayerHTMLFromFile();
@@ -247,11 +259,6 @@ public class VimeoPlayer extends WebView {
     }
 
 
-    private void clearWebViewCache() {
-        clearCache(true);
-    }
-
-
     private String readVimeoPlayerHTMLFromFile() {
         try {
             InputStream inputStream = getResources().openRawResource(R.raw.vimeo_player);
@@ -298,20 +305,20 @@ public class VimeoPlayer extends WebView {
         };
         jsBridge.addReadyListener(resetReadyListener);
 
-        initWebView(jsBridge, vimeoOptions, videoId, hashKey, baseUrl);
+        initWebView(enabledCache, jsBridge, vimeoOptions, videoId, hashKey, baseUrl);
     }
 
-    protected void initialize(JsBridge jsBridge, VimeoOptions vimeoOptions, int videoId, String hashKey, String baseUrl) {
+    protected void initialize(boolean enabledCache, JsBridge jsBridge, VimeoOptions vimeoOptions, int videoId, String hashKey, String baseUrl) {
         this.jsBridge = jsBridge;
         this.vimeoOptions = vimeoOptions;
         this.videoId = videoId;
         this.hashKey = hashKey;
         this.baseUrl = baseUrl;
-        initWebView(jsBridge, vimeoOptions, videoId, hashKey, baseUrl);
+        this.enabledCache = enabledCache;
+        initWebView(enabledCache, jsBridge, vimeoOptions, videoId, hashKey, baseUrl);
     }
 
     public void recycle() {
-        clearWebViewCache();
         destroyPlayer();
         this.setTag(null);
     }
