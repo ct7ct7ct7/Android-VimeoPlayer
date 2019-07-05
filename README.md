@@ -45,13 +45,13 @@ dependencies {
 
 ```
 lifecycle.addObserver(vimeoPlayer)
-vimeoPlayer.initialize(59777392)
+vimeoPlayer.initialize(true, 59777392)
 
 //If video is open. but limit playing at embedded.
-vimeoPlayer.initialize({YourPrivateVideoId}, "SettingsEmbeddedUrl")
+vimeoPlayer.initialize(true, {YourPrivateVideoId}, "SettingsEmbeddedUrl")
 
 //If video is pirvate.
-vimeoPlayer.initialize({YourPrivateVideoId},"VideoHashKey", "SettingsEmbeddedUrl")
+vimeoPlayer.initialize(true, {YourPrivateVideoId},"VideoHashKey", "SettingsEmbeddedUrl")
 
 
 ```
@@ -147,6 +147,7 @@ vimeoPlayer.play()
 vimeoPlayer.pause()
 vimeoPlayer.loadVideo(19231868)
 vimeoPlayer.recycle()
+vimeoPlayer.clearCache()
 ```
 
 
