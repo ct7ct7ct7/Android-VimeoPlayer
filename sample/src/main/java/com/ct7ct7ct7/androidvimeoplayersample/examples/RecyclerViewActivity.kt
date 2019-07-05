@@ -49,7 +49,7 @@ class RecyclerViewActivity : AppCompatActivity() {
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             var id = items[position]
-            holder.vimeoPlayer.initialize(id)
+            holder.vimeoPlayer.initialize(true, id)
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
