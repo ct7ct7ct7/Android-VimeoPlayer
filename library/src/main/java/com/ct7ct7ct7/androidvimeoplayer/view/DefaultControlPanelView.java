@@ -140,6 +140,7 @@ public class DefaultControlPanelView {
                     vimeoReplayButton.setVisibility(View.GONE);
                     vimeoPauseButton.setVisibility(View.GONE);
                     vimeoPlayButton.setVisibility(View.VISIBLE);
+                    //Log.d("TAG","OnPauseCall");
                 }
             }
 

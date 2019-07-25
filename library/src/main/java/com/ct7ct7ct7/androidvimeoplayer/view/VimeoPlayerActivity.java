@@ -9,7 +9,9 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.ct7ct7ct7.androidvimeoplayer.R;
 import com.ct7ct7ct7.androidvimeoplayer.listeners.VimeoPlayerReadyListener;
@@ -45,6 +47,7 @@ public class VimeoPlayerActivity extends AppCompatActivity {
     private boolean loop;
     private float aspectRatio;
     private String orientation;
+    private static Float currentTime;
 
     public static Intent createIntent(Context context, String orientation, VimeoPlayerView vimeoPlayerView) {
         Intent intent = new Intent(context, VimeoPlayerActivity.class);
@@ -56,17 +59,22 @@ public class VimeoPlayerActivity extends AppCompatActivity {
         intent.putExtra(EXTRA_TOPIC_COLOR, vimeoPlayerView.getTopicColor());
         intent.putExtra(EXTRA_LOOP, vimeoPlayerView.getLoop());
         intent.putExtra(EXTRA_ASPECT_RATIO, vimeoPlayerView.defaultOptions.aspectRatio);
+        currentTime=vimeoPlayerView.getCurrentTimeSeconds();
         return intent;
     }
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //Log.d("CurrentTime:-","LandscapeMode:-"+currentTime);
         orientation = getIntent().getStringExtra(EXTRA_ORIENTATION);
         if (REQUEST_ORIENTATION_PORTRAIT.equals(orientation)) {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         } else if (REQUEST_ORIENTATION_LANDSCAPE.equals(orientation)) {
+//            Log.e("CurrentTime:-",vimeoPlayerView.getCurrentTimeSeconds()+"");
+
+            //Toast.makeText(this, "LandscapeMode", Toast.LENGTH_SHORT).show();
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         }
 
@@ -88,8 +96,9 @@ public class VimeoPlayerActivity extends AppCompatActivity {
         vimeoPlayerView.addReadyListener(new VimeoPlayerReadyListener() {
             @Override
             public void onReady(String title, float duration, TextTrack[] textTrackArray) {
+                //Log.d("VimeoPlayerActivity",startAt+"");
                 vimeoPlayerView.seekTo(startAt);
-                vimeoPlayerView.playTwoStage();
+                //vimeoPlayerView.playTwoStage();
             }
 
             @Override
@@ -108,6 +117,7 @@ public class VimeoPlayerActivity extends AppCompatActivity {
         vimeoPlayerView.setFullscreenClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+             //   Log.d("TAG","fullScreenClicked");
                 onBackPressed();
             }
         });
@@ -126,7 +136,13 @@ public class VimeoPlayerActivity extends AppCompatActivity {
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        if (REQUEST_ORIENTATION_AUTO.equals(orientation)) {
+
+        Float a=vimeoPlayerView.getCurrentTimeSeconds();
+
+        if (REQUEST_ORIENTATION_LANDSCAPE.equals(orientation)) {
+            vimeoPlayerView.seekTo(currentTime);
+            vimeoPlayerView.play();
+       //      Toast.makeText(this, "currentTime:-"+a, Toast.LENGTH_SHORT).show();
             vimeoPlayerView.reset();
         }
     }

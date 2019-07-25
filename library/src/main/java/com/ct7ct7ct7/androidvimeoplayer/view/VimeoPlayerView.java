@@ -9,6 +9,7 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Build;
+import android.os.Handler;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
@@ -44,6 +45,7 @@ public class VimeoPlayerView extends FrameLayout implements LifecycleObserver {
     private String baseUrl;
     private boolean played = false;
     private TextTrack[] textTracks;
+    private Handler handler = new Handler();
 
 
     public VimeoPlayerView(Context context) {
@@ -63,7 +65,13 @@ public class VimeoPlayerView extends FrameLayout implements LifecycleObserver {
             public void onReady(String t, float duration, TextTrack[] textTrackArray) {
                 title = t;
                 textTracks = textTrackArray;
-                progressBar.setVisibility(View.GONE);
+
+                handler.postDelayed(new Runnable() {
+                    public void run() {
+                        progressBar.setVisibility(View.GONE);
+                    }
+                }, 5000);
+
                 if (!defaultOptions.originalControls) {
                     if (defaultOptions.autoPlay) {
                         vimeoPlayer.playTwoStage();
