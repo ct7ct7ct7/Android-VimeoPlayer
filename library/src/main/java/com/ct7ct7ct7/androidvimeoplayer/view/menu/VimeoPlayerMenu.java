@@ -1,10 +1,11 @@
 package com.ct7ct7ct7.androidvimeoplayer.view.menu;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,14 +19,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class ViemoPlayerMenu {
+public class VimeoPlayerMenu {
 
     private final Context context;
-    private final List<ViemoMenuItem> menuItems;
+    private final List<VimeoMenuItem> menuItems;
 
     @Nullable private PopupWindow popupWindow;
 
-    public ViemoPlayerMenu(@NonNull Context context) {
+    public VimeoPlayerMenu(@NonNull Context context) {
         this.context = context;
 
         this.menuItems = new ArrayList<>();
@@ -41,7 +42,7 @@ public class ViemoPlayerMenu {
             popupWindow.dismiss();
     }
 
-    public void addItem(ViemoMenuItem menuItem) {
+    public void addItem(VimeoMenuItem menuItem) {
         menuItems.add(menuItem);
     }
 
@@ -54,6 +55,7 @@ public class ViemoPlayerMenu {
     }
 
     @NonNull
+    @SuppressLint("InflateParams")
     private PopupWindow createPopupWindow() {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 

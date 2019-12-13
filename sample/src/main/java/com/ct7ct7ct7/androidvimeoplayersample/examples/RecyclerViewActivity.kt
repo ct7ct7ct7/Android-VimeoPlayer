@@ -1,10 +1,10 @@
 package com.ct7ct7ct7.androidvimeoplayersample.examples
 
-import android.arch.lifecycle.Lifecycle
+import androidx.lifecycle.Lifecycle
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -48,7 +48,7 @@ class RecyclerViewActivity : AppCompatActivity() {
     private class TestRecyclerViewAdapter(val lifecycle: Lifecycle, val items: ArrayList<Int>) : RecyclerView.Adapter<TestRecyclerViewAdapter.ViewHolder>() {
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-            var id = items[position]
+            val id = items[position]
             holder.vimeoPlayer.initialize(true, id)
         }
 

@@ -1,8 +1,9 @@
 package com.ct7ct7ct7.androidvimeoplayer.view;
 
-import android.arch.lifecycle.Lifecycle;
-import android.arch.lifecycle.LifecycleObserver;
-import android.arch.lifecycle.OnLifecycleEvent;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.LifecycleObserver;
+import androidx.lifecycle.OnLifecycleEvent;
+
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
@@ -28,7 +29,7 @@ import com.ct7ct7ct7.androidvimeoplayer.listeners.VimeoPlayerStateListener;
 import com.ct7ct7ct7.androidvimeoplayer.listeners.VimeoPlayerTextTrackListener;
 import com.ct7ct7ct7.androidvimeoplayer.listeners.VimeoPlayerTimeListener;
 import com.ct7ct7ct7.androidvimeoplayer.listeners.VimeoPlayerVolumeListener;
-import com.ct7ct7ct7.androidvimeoplayer.view.menu.ViemoMenuItem;
+import com.ct7ct7ct7.androidvimeoplayer.view.menu.VimeoMenuItem;
 
 public class VimeoPlayerView extends FrameLayout implements LifecycleObserver {
     public VimeoOptions defaultOptions;
@@ -257,7 +258,7 @@ public class VimeoPlayerView extends FrameLayout implements LifecycleObserver {
         }
     }
 
-    public void addMenuItem(ViemoMenuItem menuItem) {
+    public void addMenuItem(VimeoMenuItem menuItem) {
         if (defaultControlPanelView != null) {
             defaultControlPanelView.addMenuItem(menuItem);
         }
@@ -389,6 +390,7 @@ public class VimeoPlayerView extends FrameLayout implements LifecycleObserver {
             options.menuOption = menuOption;
             options.fullscreenOption = fullscreenOption;
             options.aspectRatio = aspectRatio;
+            attributes.recycle();
         }
 
         return options;
