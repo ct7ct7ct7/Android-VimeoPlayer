@@ -3,13 +3,14 @@ package com.ct7ct7ct7.androidvimeoplayer.view.menu;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 
 import com.ct7ct7ct7.androidvimeoplayer.R;
 
+@SuppressWarnings("WeakerAccess")
 public class VimeoDividerItemDecoration extends RecyclerView.ItemDecoration {
     private Drawable mDivider;
 

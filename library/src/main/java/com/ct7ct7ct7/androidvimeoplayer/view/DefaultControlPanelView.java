@@ -24,14 +24,15 @@ import com.ct7ct7ct7.androidvimeoplayer.listeners.VimeoPlayerTimeListener;
 import com.ct7ct7ct7.androidvimeoplayer.model.TextTrack;
 import com.ct7ct7ct7.androidvimeoplayer.model.VimeoThumbnail;
 import com.ct7ct7ct7.androidvimeoplayer.utils.Utils;
-import com.ct7ct7ct7.androidvimeoplayer.view.menu.ViemoMenuItem;
-import com.ct7ct7ct7.androidvimeoplayer.view.menu.ViemoPlayerMenu;
+import com.ct7ct7ct7.androidvimeoplayer.view.menu.VimeoMenuItem;
+import com.ct7ct7ct7.androidvimeoplayer.view.menu.VimeoPlayerMenu;
 import com.google.gson.Gson;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+@SuppressWarnings("WeakerAccess")
 public class DefaultControlPanelView {
     private View vimeoPanelView;
     private View vimeoShadeView;
@@ -46,7 +47,7 @@ public class DefaultControlPanelView {
     private TextView vimeoTitleTextView;
     private View controlsRootView;
     private boolean ended = false;
-    private ViemoPlayerMenu vimeoPlayerMenu;
+    private VimeoPlayerMenu vimeoPlayerMenu;
 
     public DefaultControlPanelView(final VimeoPlayerView vimeoPlayerView) {
         View defaultControlPanelView = View.inflate(vimeoPlayerView.getContext(), R.layout.view_default_control_panel, vimeoPlayerView);
@@ -62,7 +63,7 @@ public class DefaultControlPanelView {
         vimeoReplayButton = defaultControlPanelView.findViewById(R.id.vimeoReplayButton);
         vimeoTitleTextView = defaultControlPanelView.findViewById(R.id.vimeoTitleTextView);
         controlsRootView = defaultControlPanelView.findViewById(R.id.controlsRootView);
-        vimeoPlayerMenu = new ViemoPlayerMenu(vimeoPlayerView.getContext());
+        vimeoPlayerMenu = new VimeoPlayerMenu(vimeoPlayerView.getContext());
 
         vimeoSeekBar.setVisibility(View.INVISIBLE);
         vimeoPanelView.setVisibility(View.VISIBLE);
@@ -232,7 +233,7 @@ public class DefaultControlPanelView {
         vimeoMenuButton.setVisibility(value);
     }
 
-    public void addMenuItem(ViemoMenuItem menuItem) {
+    public void addMenuItem(VimeoMenuItem menuItem) {
         vimeoPlayerMenu.addItem(menuItem);
     }
 
@@ -268,7 +269,9 @@ public class DefaultControlPanelView {
                 VimeoThumbnail vimeoThumbnail = null;
                 try {
                     Response response = client.newCall(request).execute();
-                    vimeoThumbnail = new Gson().fromJson(response.body().string(), VimeoThumbnail.class);
+                    if (response.body() != null) {
+                        vimeoThumbnail = new Gson().fromJson(response.body().string(), VimeoThumbnail.class);
+                    }
                 } catch (Exception e) {
                     Log.e(context.getPackageName(), e.toString());
                 }

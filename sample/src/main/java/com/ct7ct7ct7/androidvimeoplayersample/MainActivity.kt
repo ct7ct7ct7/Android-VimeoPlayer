@@ -3,7 +3,7 @@ package com.ct7ct7ct7.androidvimeoplayersample
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.widget.SeekBar
 import android.widget.Toast
 import com.ct7ct7ct7.androidvimeoplayer.listeners.VimeoPlayerReadyListener
@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupToolbar() {
         toolbar.setNavigationIcon(R.drawable.ic_menu_white)
-        toolbar.setNavigationOnClickListener { v ->
+        toolbar.setNavigationOnClickListener {
             if (drawerLayout.isDrawerOpen(navigationView)) {
                 drawerLayout.closeDrawers()
             } else {
@@ -39,19 +39,15 @@ class MainActivity : AppCompatActivity() {
             when (menuItem.itemId) {
                 R.id.fullscreenExampleItem -> {
                     startActivity(Intent(this@MainActivity, FullscreenActivity::class.java))
-                    true
                 }
                 R.id.menuExampleItem -> {
                     startActivity(Intent(this@MainActivity, MenuActivity::class.java))
-                    true
                 }
                 R.id.recyclerViewExampleItem -> {
                     startActivity(Intent(this@MainActivity, RecyclerViewActivity::class.java))
-                    true
                 }
                 R.id.originalControlsExampleItem -> {
                     startActivity(Intent(this@MainActivity, OriginalControlsActivity::class.java))
-                    true
                 }
             }
             false
@@ -68,7 +64,7 @@ class MainActivity : AppCompatActivity() {
             playerCurrentTimeTextView.text = getString(R.string.player_current_time, second.toString())
         }
 
-        vimeoPlayer.addErrorListener { message, method, name ->
+        vimeoPlayer.addErrorListener { message, _, _ ->
             Toast.makeText(this, message, Toast.LENGTH_LONG).show()
         }
 
@@ -99,7 +95,7 @@ class MainActivity : AppCompatActivity() {
         volumeSeekBar.progress = 100
         volumeSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                var volume = progress.toFloat() / 100
+                val volume = progress.toFloat() / 100
                 vimeoPlayer.setVolume(volume)
             }
 

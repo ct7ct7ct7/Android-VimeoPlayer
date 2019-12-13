@@ -1,18 +1,19 @@
 package com.ct7ct7ct7.androidvimeoplayer.view.menu;
 
-import android.support.annotation.DrawableRes;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.DrawableRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import android.view.View;
 
 
-public class ViemoMenuItem {
+@SuppressWarnings("WeakerAccess")
+public class VimeoMenuItem {
 
     private final String text;
     @DrawableRes private final int icon;
     private final View.OnClickListener onClickListener;
 
-    public ViemoMenuItem(@NonNull String text, @DrawableRes final int icon, @Nullable View.OnClickListener onClickListener) {
+    public VimeoMenuItem(@NonNull String text, @DrawableRes final int icon, @Nullable View.OnClickListener onClickListener) {
         this.text = text;
         this.icon = icon;
         this.onClickListener = onClickListener;
@@ -37,7 +38,7 @@ public class ViemoMenuItem {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        ViemoMenuItem menuItem = (ViemoMenuItem) o;
+        VimeoMenuItem menuItem = (VimeoMenuItem) o;
 
         return icon == menuItem.icon && text.equals(menuItem.text);
     }

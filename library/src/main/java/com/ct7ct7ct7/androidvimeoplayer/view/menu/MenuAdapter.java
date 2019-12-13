@@ -1,9 +1,9 @@
 package com.ct7ct7ct7.androidvimeoplayer.view.menu;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,9 +17,9 @@ import java.util.List;
 
 class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
     @NonNull private final Context context;
-    @NonNull private final List<ViemoMenuItem> menuItems;
+    @NonNull private final List<VimeoMenuItem> menuItems;
 
-    MenuAdapter(@NonNull Context context, @NonNull List<ViemoMenuItem> menuItems) {
+    MenuAdapter(@NonNull Context context, @NonNull List<VimeoMenuItem> menuItems) {
         this.context = context;
         this.menuItems = menuItems;
     }

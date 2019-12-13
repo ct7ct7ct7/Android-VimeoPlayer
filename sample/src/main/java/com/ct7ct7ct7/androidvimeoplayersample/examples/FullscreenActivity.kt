@@ -3,7 +3,7 @@ package com.ct7ct7ct7.androidvimeoplayersample.examples
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import com.ct7ct7ct7.androidvimeoplayer.model.PlayerState
 import com.ct7ct7ct7.androidvimeoplayer.view.VimeoPlayerActivity
 import com.ct7ct7ct7.androidvimeoplayersample.R
@@ -32,7 +32,7 @@ class FullscreenActivity : AppCompatActivity() {
         vimeoPlayer.setFullscreenVisibility(true)
 
         vimeoPlayer.setFullscreenClickListener {
-            var requestOrientation = VimeoPlayerActivity.REQUEST_ORIENTATION_AUTO
+            val requestOrientation = VimeoPlayerActivity.REQUEST_ORIENTATION_AUTO
             startActivityForResult(VimeoPlayerActivity.createIntent(this, requestOrientation, vimeoPlayer), REQUEST_CODE)
         }
     }
@@ -41,13 +41,14 @@ class FullscreenActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE) {
-            var playAt = data!!.getFloatExtra(VimeoPlayerActivity.RESULT_STATE_VIDEO_PLAY_AT, 0f)
+            val playAt = data!!.getFloatExtra(VimeoPlayerActivity.RESULT_STATE_VIDEO_PLAY_AT, 0f)
             vimeoPlayer.seekTo(playAt)
 
-            var playerState = PlayerState.valueOf(data!!.getStringExtra(VimeoPlayerActivity.RESULT_STATE_PLAYER_STATE))
-            when (playerState) {
+            when (PlayerState.valueOf(data.getStringExtra(VimeoPlayerActivity.RESULT_STATE_PLAYER_STATE))) {
                 PlayerState.PLAYING -> vimeoPlayer.play()
                 PlayerState.PAUSED -> vimeoPlayer.pause()
+                else -> {
+                }
             }
         }
     }
