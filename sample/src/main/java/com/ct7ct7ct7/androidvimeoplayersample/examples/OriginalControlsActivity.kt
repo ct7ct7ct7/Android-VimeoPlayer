@@ -26,7 +26,7 @@ class OriginalControlsActivity : AppCompatActivity() {
     }
 
     private fun setupView() {
-        lifecycle.addObserver(binding.vimeoPlayer)
-        binding.vimeoPlayer.initialize(true, 59777392)
+        lifecycle.addObserver(binding.vimeoPlayerView)
+        binding.vimeoPlayerView.initialize(true, 59777392)
     }
 }

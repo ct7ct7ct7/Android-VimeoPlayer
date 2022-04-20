@@ -41,19 +41,15 @@ class MainActivity : AppCompatActivity() {
             when (menuItem.itemId) {
                 R.id.fullscreenExampleItem -> {
                     startActivity(Intent(this@MainActivity, FullscreenActivity::class.java))
-                    true
                 }
                 R.id.menuExampleItem -> {
                     startActivity(Intent(this@MainActivity, MenuActivity::class.java))
-                    true
                 }
                 R.id.recyclerViewExampleItem -> {
                     startActivity(Intent(this@MainActivity, RecyclerViewActivity::class.java))
-                    true
                 }
                 R.id.originalControlsExampleItem -> {
                     startActivity(Intent(this@MainActivity, OriginalControlsActivity::class.java))
-                    true
                 }
             }
             false
@@ -61,21 +57,21 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupView() {
-        lifecycle.addObserver(binding.vimeoPlayer)
-        binding.vimeoPlayer.initialize(true, 59777392)
-        //vimeoPlayer.initialize(true, {YourPrivateVideoId}, "SettingsEmbeddedUrl")
-        //vimeoPlayer.initialize(true, {YourPrivateVideoId},"VideoHashKey", "SettingsEmbeddedUrl")
+        lifecycle.addObserver(binding.vimeoPlayerView)
+        binding.vimeoPlayerView.initialize(true, 59777392)
+        //vimeoPlayerView.initialize(true, {YourPrivateVideoId}, "SettingsEmbeddedUrl")
+        //vimeoPlayerView.initialize(true, {YourPrivateVideoId},"VideoHashKey", "SettingsEmbeddedUrl")
 
-        binding.vimeoPlayer.addTimeListener { second ->
+        binding.vimeoPlayerView.addTimeListener { second ->
             binding.playerCurrentTimeTextView.text =
                 getString(R.string.player_current_time, second.toString())
         }
 
-        binding.vimeoPlayer.addErrorListener { message, method, name ->
+        binding.vimeoPlayerView.addErrorListener { message, method, name ->
             Toast.makeText(this, message, Toast.LENGTH_LONG).show()
         }
 
-        binding.vimeoPlayer.addReadyListener(object : VimeoPlayerReadyListener {
+        binding.vimeoPlayerView.addReadyListener(object : VimeoPlayerReadyListener {
             override fun onReady(
                 title: String?,
                 duration: Float,
@@ -89,7 +85,7 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-        binding.vimeoPlayer.addStateListener(object : VimeoPlayerStateListener {
+        binding.vimeoPlayerView.addStateListener(object : VimeoPlayerStateListener {
             override fun onPlaying(duration: Float) {
                 binding.playerStateTextView.text = getString(R.string.player_state, "onPlaying")
             }
@@ -107,7 +103,7 @@ class MainActivity : AppCompatActivity() {
         binding.volumeSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 var volume = progress.toFloat() / 100
-                binding.vimeoPlayer.setVolume(volume)
+                binding.vimeoPlayerView.setVolume(volume)
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {
@@ -117,16 +113,16 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-        binding.vimeoPlayer.addVolumeListener { volume ->
+        binding.vimeoPlayerView.addVolumeListener { volume ->
             binding.playerVolumeTextView.text = getString(R.string.player_volume, volume.toString())
         }
 
         binding.playButton.setOnClickListener {
-            binding.vimeoPlayer.play()
+            binding.vimeoPlayerView.play()
         }
 
         binding.pauseButton.setOnClickListener {
-            binding.vimeoPlayer.pause()
+            binding.vimeoPlayerView.pause()
         }
 
         binding.getCurrentTimeButton.setOnClickListener {
@@ -134,18 +130,18 @@ class MainActivity : AppCompatActivity() {
                 this,
                 getString(
                     R.string.player_current_time,
-                    binding.vimeoPlayer.currentTimeSeconds.toString()
+                    binding.vimeoPlayerView.currentTimeSeconds.toString()
                 ),
                 Toast.LENGTH_LONG
             ).show()
         }
 
         binding.loadVideoButton.setOnClickListener {
-            binding.vimeoPlayer.loadVideo(19231868)
+            binding.vimeoPlayerView.loadVideo(19231868)
         }
 
         binding.colorButton.setOnClickListener {
-            binding.vimeoPlayer.topicColor = Color.GREEN
+            binding.vimeoPlayerView.topicColor = Color.GREEN
         }
     }
 }

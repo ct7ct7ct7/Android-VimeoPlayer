@@ -13,7 +13,7 @@ class TestRecyclerViewAdapter(val lifecycle: Lifecycle, val items: ArrayList<Int
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding =
             ItemRecyclerviewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        lifecycle.addObserver(binding.vimeoPlayer)
+        lifecycle.addObserver(binding.vimeoPlayerView)
         return ViewHolder(binding)
     }
 
@@ -21,7 +21,7 @@ class TestRecyclerViewAdapter(val lifecycle: Lifecycle, val items: ArrayList<Int
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val id = items[position]
-        holder.binding.vimeoPlayer.initialize(true, id)
+        holder.binding.vimeoPlayerView.initialize(true, id)
     }
 
     inner class ViewHolder(val binding: ItemRecyclerviewBinding) :

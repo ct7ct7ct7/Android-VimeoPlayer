@@ -29,26 +29,26 @@ class MenuActivity : AppCompatActivity() {
     }
 
     private fun setupView() {
-        lifecycle.addObserver(binding.vimeoPlayer)
-        binding.vimeoPlayer.initialize(true, 59777392)
+        lifecycle.addObserver(binding.vimeoPlayerView)
+        binding.vimeoPlayerView.initialize(true, 59777392)
 
-        binding.vimeoPlayer.setMenuVisibility(true)
-        binding.vimeoPlayer.addMenuItem(
+        binding.vimeoPlayerView.setMenuVisibility(true)
+        binding.vimeoPlayerView.addMenuItem(
             ViemoMenuItem(
                 "settings",
                 R.drawable.ic_settings,
                 View.OnClickListener {
                     Toast.makeText(this, "settings clicked", Toast.LENGTH_SHORT).show()
-                    binding.vimeoPlayer.dismissMenuItem()
+                    binding.vimeoPlayerView.dismissMenuItem()
                 })
         )
-        binding.vimeoPlayer.addMenuItem(
+        binding.vimeoPlayerView.addMenuItem(
             ViemoMenuItem(
                 "star",
                 R.drawable.ic_star,
                 View.OnClickListener {
                     Toast.makeText(this, "star clicked", Toast.LENGTH_SHORT).show()
-                    binding.vimeoPlayer.dismissMenuItem()
+                    binding.vimeoPlayerView.dismissMenuItem()
                 })
         )
     }
