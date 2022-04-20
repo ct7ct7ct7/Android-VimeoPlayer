@@ -66,10 +66,10 @@ Usage
 lifecycle.addObserver(vimeoPlayerView)
 vimeoPlayerView.initialize(true, 59777392)
 
-//If video is open. but limit playing at embedded.
+// video background settings is OPEN and limit playing at embedded.
 vimeoPlayerView.initialize(true, {YourPrivateVideoId}, "SettingsEmbeddedUrl")
 
-//If video is pirvate.
+//video background settings is PRIVATE.
 vimeoPlayerView.initialize(true, {YourPrivateVideoId},"VideoHashKey", "SettingsEmbeddedUrl")
 
 
