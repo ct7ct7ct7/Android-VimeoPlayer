@@ -31,13 +31,13 @@ class FullscreenActivity : AppCompatActivity() {
     }
 
     private fun setupView() {
-        lifecycle.addObserver(binding.vimeoPlayer)
-        binding.vimeoPlayer.initialize(true, 59777392)
-        binding.vimeoPlayer.setFullscreenVisibility(true)
+        lifecycle.addObserver(binding.vimeoPlayerView)
+        binding.vimeoPlayerView.initialize(true, 59777392)
+        binding.vimeoPlayerView.setFullscreenVisibility(true)
 
-        binding.vimeoPlayer.setFullscreenClickListener {
+        binding.vimeoPlayerView.setFullscreenClickListener {
             var requestOrientation = VimeoPlayerActivity.REQUEST_ORIENTATION_AUTO
-            startActivityForResult(VimeoPlayerActivity.createIntent(this, requestOrientation, binding.vimeoPlayer), REQUEST_CODE)
+            startActivityForResult(VimeoPlayerActivity.createIntent(this, requestOrientation, binding.vimeoPlayerView), REQUEST_CODE)
         }
     }
 
@@ -47,12 +47,12 @@ class FullscreenActivity : AppCompatActivity() {
 
         if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE) {
             var playAt = data!!.getFloatExtra(VimeoPlayerActivity.RESULT_STATE_VIDEO_PLAY_AT, 0f)
-            binding.vimeoPlayer.seekTo(playAt)
+            binding.vimeoPlayerView.seekTo(playAt)
 
             var playerState = PlayerState.valueOf(data!!.getStringExtra(VimeoPlayerActivity.RESULT_STATE_PLAYER_STATE)!!)
             when (playerState) {
-                PlayerState.PLAYING -> binding.vimeoPlayer.play()
-                PlayerState.PAUSED -> binding.vimeoPlayer.pause()
+                PlayerState.PLAYING -> binding.vimeoPlayerView.play()
+                PlayerState.PAUSED -> binding.vimeoPlayerView.pause()
             }
         }
     }

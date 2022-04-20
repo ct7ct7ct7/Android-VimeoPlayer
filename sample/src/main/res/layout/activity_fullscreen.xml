@@ -23,7 +23,7 @@
     </FrameLayout>
 
     <com.ct7ct7ct7.androidvimeoplayer.view.VimeoPlayerView
-        android:id="@+id/vimeoPlayer"
+        android:id="@+id/vimeoPlayerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:autoPlay="true"
