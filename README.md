@@ -8,15 +8,34 @@ Unofficial Vimeo video player library for Android.
 
 ![screenshot](/screenshot.gif)
 
-### **Gradle**
+Gradle
+------------
 
-```
+
+##### AndroidX
+```groovy
+repositories {
+    maven { url 'https://jitpack.io' }
+}
+
 dependencies {
-    implementation 'com.ct7ct7ct7.androidvimeoplayer:library:{latest version}'
+    implementation 'com.ct7ct7ct7.androidvimeoplayer:library:2.1'
+}
+
+
+android.useAndroidX=true
+android.enableJetifier=true
+```
+
+##### Android Support Library
+```groovy
+dependencies {
+    implementation 'com.ct7ct7ct7.androidvimeoplayer:library:1.2.2'
 }
 ```
 
-### **Usage**
+Usage
+------------
 ```
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -26,7 +45,7 @@ dependencies {
     android:orientation="vertical">
     
         <com.ct7ct7ct7.androidvimeoplayer.view.VimeoPlayerView
-            android:id="@+id/vimeoPlayer"
+            android:id="@+id/vimeoPlayerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:autoPlay="false"
@@ -44,19 +63,20 @@ dependencies {
 ```
 
 ```
-lifecycle.addObserver(vimeoPlayer)
-vimeoPlayer.initialize(true, 59777392)
+lifecycle.addObserver(vimeoPlayerView)
+vimeoPlayerView.initialize(true, 59777392)
 
 //If video is open. but limit playing at embedded.
-vimeoPlayer.initialize(true, {YourPrivateVideoId}, "SettingsEmbeddedUrl")
+vimeoPlayerView.initialize(true, {YourPrivateVideoId}, "SettingsEmbeddedUrl")
 
 //If video is pirvate.
-vimeoPlayer.initialize(true, {YourPrivateVideoId},"VideoHashKey", "SettingsEmbeddedUrl")
+vimeoPlayerView.initialize(true, {YourPrivateVideoId},"VideoHashKey", "SettingsEmbeddedUrl")
 
 
 ```
 
-### **Properties**
+Properties
+------------
 
 * `app:topicColor` (default : 00adef) Specify the color of the video controls.
 * `app:backgroundColor` (default : 000000) Specify the color of the video background.
@@ -72,28 +92,29 @@ vimeoPlayer.initialize(true, {YourPrivateVideoId},"VideoHashKey", "SettingsEmbed
 
 
 
-### **Menu options**
+Menu options
+------------
 ```
 //show the menu option
-vimeoPlayer.setMenuVisibility(true)
+vimeoPlayerView.setMenuVisibility(true)
 
 //add item
-vimeoPlayer.addMenuItem(ViemoMenuItem("Item 1",R.drawable.icon, View.OnClickListener {
+vimeoPlayerView.addMenuItem(ViemoMenuItem("Item 1",R.drawable.icon, View.OnClickListener {
     //TODO
-    vimeoPlayer.dismissMenuItem()
+    vimeoPlayerView.dismissMenuItem()
 }))
 
 //override menu click listener
-vimeoPlayer.setMenuClickListener { 
+vimeoPlayerView.setMenuClickListener { 
     //TODO
 }
 ```
 
-
-### **Fullscreen options**
+Fullscreen options
+------------
 ```
 //show the fullscreen option
-vimeoPlayer.setFullscreenVisibility(true)
+vimeoPlayerView.setFullscreenVisibility(true)
 
 
 
@@ -107,7 +128,7 @@ vimeoPlayer.setFullscreenClickListener {
     //define the orientation
     var requestOrientation = VimeoPlayerActivity.REQUEST_ORIENTATION_AUTO
     
-    startActivityForResult(VimeoPlayerActivity.createIntent(this, requestOrientation, vimeoPlayer), REQUEST_CODE)
+    startActivityForResult(VimeoPlayerActivity.createIntent(this, requestOrientation, vimeoPlayerView), REQUEST_CODE)
 }
 .
 .
@@ -117,41 +138,44 @@ override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) 
     super.onActivityResult(requestCode, resultCode, data)
     if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE) {
         var playAt = data!!.getFloatExtra(VimeoPlayerActivity.RESULT_STATE_VIDEO_PLAY_AT, 0f)
-        vimeoPlayer.seekTo(playAt)
+        vimeoPlayerView.seekTo(playAt)
 
         var playerState = PlayerState.valueOf(data!!.getStringExtra(VimeoPlayerActivity.RESULT_STATE_PLAYER_STATE))
         when (playerState) {
-            PlayerState.PLAYING -> vimeoPlayer.play()
-            PlayerState.PAUSED -> vimeoPlayer.pause()
+            PlayerState.PLAYING -> vimeoPlayerView.play()
+            PlayerState.PAUSED -> vimeoPlayerView.pause()
         }
     }
 }
 
 ```
 
-### **Methods**
+
+Methods
+------------
 ```
-val videoId: Int = vimeoPlayer.videoId
-val baseUrl: String? = vimeoPlayer.baseUrl
-val hashKey: String? = vimeoPlayer.hashKey
-val playerState: PlayerState = vimeoPlayer.playerState
-val currentTime: Float = vimeoPlayer.currentTimeSeconds
-vimeoPlayer.setCaptions("en") //only supported original controls.
-vimeoPlayer.disableCaptions() //only supported original controls.
-vimeoPlayer.seekTo(0.0f)
-vimeoPlayer.loop = true
-vimeoPlayer.topicColor = Color.RED
-vimeoPlayer.setVolume(0.5f)
-vimeoPlayer.setPlaybackRate(0.5f)
-vimeoPlayer.play()
-vimeoPlayer.pause()
-vimeoPlayer.loadVideo(19231868)
-vimeoPlayer.recycle()
-vimeoPlayer.clearCache()
+val videoId: Int = vimeoPlayerView.videoId
+val baseUrl: String? = vimeoPlayerView.baseUrl
+val hashKey: String? = vimeoPlayerView.hashKey
+val playerState: PlayerState = vimeoPlayerView.playerState
+val currentTime: Float = vimeoPlayerView.currentTimeSeconds
+vimeoPlayerView.setCaptions("en") //only supported original controls.
+vimeoPlayerView.disableCaptions() //only supported original controls.
+vimeoPlayerView.seekTo(0.0f)
+vimeoPlayerView.loop = true
+vimeoPlayerView.topicColor = Color.RED
+vimeoPlayerView.setVolume(0.5f)
+vimeoPlayerView.setPlaybackRate(0.5f)
+vimeoPlayerView.play()
+vimeoPlayerView.pause()
+vimeoPlayerView.loadVideo(19231868)
+vimeoPlayerView.recycle()
+vimeoPlayerView.clearCache()
 ```
 
 
-### **Listeners**
+Listeners
+------------
 * `VimeoPlayerReadyListener`
 * `VimeoPlayerStateListener`
 * `VimeoPlayerTimeListener`
@@ -160,7 +184,7 @@ vimeoPlayer.clearCache()
 * `VimeoPlayerErrorListener`
 
 ```
-vimeoPlayer.addReadyListener(object : VimeoPlayerReadyListener {
+vimeoPlayerView.addReadyListener(object : VimeoPlayerReadyListener {
     override fun onReady(title: String?, duration: Float, textTrackArray: Array<TextTrack>) {
         //TODO
     }
@@ -172,7 +196,7 @@ vimeoPlayer.addReadyListener(object : VimeoPlayerReadyListener {
 ```
 
 ```
-vimeoPlayer.addStateListener(object : VimeoPlayerStateListener {
+vimeoPlayerView.addStateListener(object : VimeoPlayerStateListener {
     override fun onPlaying(duration: Float) {
         //TODO
     }
@@ -188,25 +212,25 @@ vimeoPlayer.addStateListener(object : VimeoPlayerStateListener {
 ```
 
 ```
-vimeoPlayer.addTimeListener { second: Float ->
+vimeoPlayerView.addTimeListener { second: Float ->
     //TODO
 }
 ```
 
 ```
-vimeoPlayer.addTextTrackListener { kind: String, label: String, language: String ->
+vimeoPlayerView.addTextTrackListener { kind: String, label: String, language: String ->
     //TODO
 }
 ```
 
 ```
-vimeoPlayer.addVolumeListener { volume: Float ->
+vimeoPlayerView.addVolumeListener { volume: Float ->
     //TODO
 }
 ```
 
 ```
-vimeoPlayer.addErrorListener { message: String, method: String, name: String ->
+vimeoPlayerView.addErrorListener { message: String, method: String, name: String ->
     //TODO
 }
 ```
