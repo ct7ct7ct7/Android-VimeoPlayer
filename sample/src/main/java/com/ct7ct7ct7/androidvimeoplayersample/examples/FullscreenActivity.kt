@@ -7,33 +7,37 @@ import android.support.v7.app.AppCompatActivity
 import com.ct7ct7ct7.androidvimeoplayer.model.PlayerState
 import com.ct7ct7ct7.androidvimeoplayer.view.VimeoPlayerActivity
 import com.ct7ct7ct7.androidvimeoplayersample.R
-import kotlinx.android.synthetic.main.activity_fullscreen.*
+import com.ct7ct7ct7.androidvimeoplayersample.databinding.ActivityFullscreenBinding
 
 class FullscreenActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityFullscreenBinding
+
     var REQUEST_CODE = 1234
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_fullscreen)
+        binding = ActivityFullscreenBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         setupToolbar()
         setupView()
     }
 
     private fun setupToolbar() {
-        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white)
-        toolbar.setNavigationOnClickListener {
+        binding.toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white)
+        binding.toolbar.setNavigationOnClickListener {
             onBackPressed()
         }
     }
 
     private fun setupView() {
-        lifecycle.addObserver(vimeoPlayer)
-        vimeoPlayer.initialize(true, 59777392)
-        vimeoPlayer.setFullscreenVisibility(true)
+        lifecycle.addObserver(binding.vimeoPlayer)
+        binding.vimeoPlayer.initialize(true, 59777392)
+        binding.vimeoPlayer.setFullscreenVisibility(true)
 
-        vimeoPlayer.setFullscreenClickListener {
+        binding.vimeoPlayer.setFullscreenClickListener {
             var requestOrientation = VimeoPlayerActivity.REQUEST_ORIENTATION_AUTO
-            startActivityForResult(VimeoPlayerActivity.createIntent(this, requestOrientation, vimeoPlayer), REQUEST_CODE)
+            startActivityForResult(VimeoPlayerActivity.createIntent(this, requestOrientation, binding.vimeoPlayer), REQUEST_CODE)
         }
     }
 
@@ -42,12 +46,12 @@ class FullscreenActivity : AppCompatActivity() {
 
         if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE) {
             var playAt = data!!.getFloatExtra(VimeoPlayerActivity.RESULT_STATE_VIDEO_PLAY_AT, 0f)
-            vimeoPlayer.seekTo(playAt)
+            binding.vimeoPlayer.seekTo(playAt)
 
             var playerState = PlayerState.valueOf(data!!.getStringExtra(VimeoPlayerActivity.RESULT_STATE_PLAYER_STATE))
             when (playerState) {
-                PlayerState.PLAYING -> vimeoPlayer.play()
-                PlayerState.PAUSED -> vimeoPlayer.pause()
+                PlayerState.PLAYING -> binding.vimeoPlayer.play()
+                PlayerState.PAUSED -> binding.vimeoPlayer.pause()
             }
         }
     }
