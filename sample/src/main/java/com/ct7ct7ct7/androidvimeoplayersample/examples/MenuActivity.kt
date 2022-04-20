@@ -1,9 +1,9 @@
 package com.ct7ct7ct7.androidvimeoplayersample.examples
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.ct7ct7ct7.androidvimeoplayer.view.menu.ViemoMenuItem
 import com.ct7ct7ct7.androidvimeoplayersample.R
 import com.ct7ct7ct7.androidvimeoplayersample.databinding.ActivityMenuBinding
@@ -33,13 +33,23 @@ class MenuActivity : AppCompatActivity() {
         binding.vimeoPlayer.initialize(true, 59777392)
 
         binding.vimeoPlayer.setMenuVisibility(true)
-        binding.vimeoPlayer.addMenuItem(ViemoMenuItem("settings", R.drawable.ic_settings, View.OnClickListener {
-            Toast.makeText(this, "settings clicked", Toast.LENGTH_SHORT).show()
-            binding.vimeoPlayer.dismissMenuItem()
-        }))
-        binding.vimeoPlayer.addMenuItem(ViemoMenuItem("star", R.drawable.ic_star, View.OnClickListener {
-            Toast.makeText(this, "star clicked", Toast.LENGTH_SHORT).show()
-            binding.vimeoPlayer.dismissMenuItem()
-        }))
+        binding.vimeoPlayer.addMenuItem(
+            ViemoMenuItem(
+                "settings",
+                R.drawable.ic_settings,
+                View.OnClickListener {
+                    Toast.makeText(this, "settings clicked", Toast.LENGTH_SHORT).show()
+                    binding.vimeoPlayer.dismissMenuItem()
+                })
+        )
+        binding.vimeoPlayer.addMenuItem(
+            ViemoMenuItem(
+                "star",
+                R.drawable.ic_star,
+                View.OnClickListener {
+                    Toast.makeText(this, "star clicked", Toast.LENGTH_SHORT).show()
+                    binding.vimeoPlayer.dismissMenuItem()
+                })
+        )
     }
 }

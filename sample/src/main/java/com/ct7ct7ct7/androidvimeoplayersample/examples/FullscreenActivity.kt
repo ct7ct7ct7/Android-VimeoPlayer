@@ -3,7 +3,7 @@ package com.ct7ct7ct7.androidvimeoplayersample.examples
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import com.ct7ct7ct7.androidvimeoplayer.model.PlayerState
 import com.ct7ct7ct7.androidvimeoplayer.view.VimeoPlayerActivity
 import com.ct7ct7ct7.androidvimeoplayersample.R
@@ -41,6 +41,7 @@ class FullscreenActivity : AppCompatActivity() {
         }
     }
 
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -48,7 +49,7 @@ class FullscreenActivity : AppCompatActivity() {
             var playAt = data!!.getFloatExtra(VimeoPlayerActivity.RESULT_STATE_VIDEO_PLAY_AT, 0f)
             binding.vimeoPlayer.seekTo(playAt)
 
-            var playerState = PlayerState.valueOf(data!!.getStringExtra(VimeoPlayerActivity.RESULT_STATE_PLAYER_STATE))
+            var playerState = PlayerState.valueOf(data!!.getStringExtra(VimeoPlayerActivity.RESULT_STATE_PLAYER_STATE)!!)
             when (playerState) {
                 PlayerState.PLAYING -> binding.vimeoPlayer.play()
                 PlayerState.PAUSED -> binding.vimeoPlayer.pause()

@@ -3,9 +3,9 @@ package com.ct7ct7ct7.androidvimeoplayersample
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.widget.SeekBar
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.ct7ct7ct7.androidvimeoplayer.listeners.VimeoPlayerReadyListener
 import com.ct7ct7ct7.androidvimeoplayer.listeners.VimeoPlayerStateListener
 import com.ct7ct7ct7.androidvimeoplayer.model.TextTrack
@@ -67,7 +67,8 @@ class MainActivity : AppCompatActivity() {
         //vimeoPlayer.initialize(true, {YourPrivateVideoId},"VideoHashKey", "SettingsEmbeddedUrl")
 
         binding.vimeoPlayer.addTimeListener { second ->
-            binding.playerCurrentTimeTextView.text = getString(R.string.player_current_time, second.toString())
+            binding.playerCurrentTimeTextView.text =
+                getString(R.string.player_current_time, second.toString())
         }
 
         binding.vimeoPlayer.addErrorListener { message, method, name ->
@@ -75,7 +76,11 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.vimeoPlayer.addReadyListener(object : VimeoPlayerReadyListener {
-            override fun onReady(title: String?, duration: Float, textTrackArray: Array<TextTrack>) {
+            override fun onReady(
+                title: String?,
+                duration: Float,
+                textTrackArray: Array<TextTrack>
+            ) {
                 binding.playerStateTextView.text = getString(R.string.player_state, "onReady")
             }
 
@@ -125,7 +130,14 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.getCurrentTimeButton.setOnClickListener {
-            Toast.makeText(this, getString(R.string.player_current_time, binding.vimeoPlayer.currentTimeSeconds.toString()), Toast.LENGTH_LONG).show()
+            Toast.makeText(
+                this,
+                getString(
+                    R.string.player_current_time,
+                    binding.vimeoPlayer.currentTimeSeconds.toString()
+                ),
+                Toast.LENGTH_LONG
+            ).show()
         }
 
         binding.loadVideoButton.setOnClickListener {
