@@ -7,14 +7,15 @@ import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.ct7ct7ct7.androidvimeoplayer.R;
 import com.ct7ct7ct7.androidvimeoplayer.listeners.VimeoPlayerReadyListener;
 import com.ct7ct7ct7.androidvimeoplayer.listeners.VimeoPlayerTimeListener;
 import com.ct7ct7ct7.androidvimeoplayer.model.TextTrack;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class VimeoPlayerActivity extends AppCompatActivity {
     public static final String RESULT_STATE_VIDEO_ID = "RESULT_STATE_VIDEO_ID";
