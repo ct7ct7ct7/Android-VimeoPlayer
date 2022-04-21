@@ -1,7 +1,6 @@
 package com.ct7ct7ct7.androidvimeoplayersample.examples
 
 import android.os.Bundle
-import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.ct7ct7ct7.androidvimeoplayer.view.menu.ViemoMenuItem
@@ -34,22 +33,16 @@ class MenuActivity : AppCompatActivity() {
 
         binding.vimeoPlayerView.setMenuVisibility(true)
         binding.vimeoPlayerView.addMenuItem(
-            ViemoMenuItem(
-                "settings",
-                R.drawable.ic_settings,
-                View.OnClickListener {
-                    Toast.makeText(this, "settings clicked", Toast.LENGTH_SHORT).show()
-                    binding.vimeoPlayerView.dismissMenuItem()
-                })
+            ViemoMenuItem("settings", R.drawable.ic_settings) {
+                Toast.makeText(this, "settings clicked", Toast.LENGTH_SHORT).show()
+                binding.vimeoPlayerView.dismissMenuItem()
+            }
         )
         binding.vimeoPlayerView.addMenuItem(
-            ViemoMenuItem(
-                "star",
-                R.drawable.ic_star,
-                View.OnClickListener {
-                    Toast.makeText(this, "star clicked", Toast.LENGTH_SHORT).show()
-                    binding.vimeoPlayerView.dismissMenuItem()
-                })
+            ViemoMenuItem("star", R.drawable.ic_star) {
+                Toast.makeText(this, "star clicked", Toast.LENGTH_SHORT).show()
+                binding.vimeoPlayerView.dismissMenuItem()
+            }
         )
     }
 }

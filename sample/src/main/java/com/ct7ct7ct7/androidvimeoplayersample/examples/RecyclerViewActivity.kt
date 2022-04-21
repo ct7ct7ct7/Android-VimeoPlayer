@@ -36,7 +36,7 @@ class RecyclerViewActivity : AppCompatActivity() {
         ids.add(315632203)
         ids.add(19231868)
 
-        val adapter = TestRecyclerViewAdapter(lifecycle, ids)
+        val adapter = ExampleRecyclerViewAdapter(lifecycle, ids)
         binding.recyclerView.layoutManager = LinearLayoutManager(this@RecyclerViewActivity)
         binding.recyclerView.adapter = adapter
     }

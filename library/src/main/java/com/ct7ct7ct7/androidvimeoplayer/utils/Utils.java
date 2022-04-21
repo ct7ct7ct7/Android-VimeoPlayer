@@ -4,7 +4,7 @@ import android.annotation.SuppressLint;
 
 public class Utils {
     public static String colorToHex(int color) {
-        return String.format("%06X", (0xFFFFFF & color));
+        return "#"+String.format("%06X", (0xFFFFFF & color));
     }
 
     @SuppressLint("DefaultLocale")
