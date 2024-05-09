@@ -19,7 +19,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.ct7ct7ct7.androidvimeoplayer:library:2.1'
+    implementation 'com.ct7ct7ct7.androidvimeoplayer:library:2.2'
 }
 
 
