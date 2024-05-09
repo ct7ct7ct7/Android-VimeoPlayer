@@ -58,7 +58,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupView() {
         lifecycle.addObserver(binding.vimeoPlayerView)
-        binding.vimeoPlayerView.initialize(true, 59777392)
+        binding.vimeoPlayerView.initialize(true, 830288008)
         //vimeoPlayerView.initialize(true, {YourPrivateVideoId}, "SettingsEmbeddedUrl")
         //vimeoPlayerView.initialize(true, {YourPrivateVideoId},"VideoHashKey", "SettingsEmbeddedUrl")
 
